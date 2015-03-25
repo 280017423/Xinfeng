@@ -5,6 +5,7 @@ public class Global {
 	public static String SSID = "INOVAFITNESS2";
 
 	public static String PASSWORD = "82868288";
+	public static int SERVER_PORT = 5000;
 
 	public static String INT_SERVER_FAIL = "INTSERVER_FAIL";
 
