@@ -12,9 +12,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.zjhbkj.xinfen.model.MsgInfo;
 import com.zjhbkj.xinfen.udp.UDPServer;
@@ -24,9 +23,6 @@ import com.zjhbkj.xinfen.wifihot.Global;
 import com.zjhbkj.xinfen.wifihot.WifiHotAdmin;
 
 public class MainActivity extends Activity implements OnClickListener {
-	private static final String TAG = "MainActivity";
-	private EditText etContent;
-	private Button btnSend;
 	private List<MsgInfo> msgList = new ArrayList<MsgInfo>();
 	private Handler handler;
 	private static final String KEY_WHAT = "what";
@@ -50,10 +46,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void initViews() {
-		// 获取消息内容编辑框
-		etContent = (EditText) findViewById(R.id.et_content);
-		// 获取发送按钮
-		btnSend = (Button) findViewById(R.id.btn_send);
 		// 获取消息列表控件
 		listview = (ListView) findViewById(R.id.listView1);
 		// 新建消息显示适配器
@@ -72,35 +64,34 @@ public class MainActivity extends Activity implements OnClickListener {
 			public void onRecv(MsgInfo info) {
 				sendMsgToHandler(info);
 			}
-		});
-		exec.execute(server);
-		// 发送消息
-		btnSend.setOnClickListener(new OnClickListener() {
+		}, new ClientMsgListener() {
 
 			@Override
-			public void onClick(View v) {
-				new Thread(new Runnable() {
+			public void handlerHotMsg(final String hotMsg) {
+				Log.d("aaa", hotMsg);
+				MainActivity.this.runOnUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						server.send(etContent.getText().toString().trim().getBytes(), new ClientMsgListener() {
-
-							@Override
-							public void handlerErorMsg(String errorMsg) {
-								Log.d("aaa", errorMsg);
-							}
-
-							@Override
-							public void handlerHotMsg(String hotMsg) {
-								Log.d("aaa", hotMsg);
-							}
-						});
+						Toast.makeText(MainActivity.this, hotMsg, Toast.LENGTH_LONG).show();
 					}
-				}).start();
+				});
+			}
 
+			@Override
+			public void handlerErorMsg(final String errorMsg) {
+				Log.d("aaa", errorMsg);
+				MainActivity.this.runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						Toast.makeText(MainActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+					}
+				});
 			}
 		});
-		this.initHandler();
+		exec.execute(server);
+		initHandler();
 	}
 
 	/**
@@ -137,9 +128,18 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-
+			case R.id.btn_send:
 			default:
 				break;
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (null != server) {
+			server.stopAcceptMessage();
+			server.closeConnection();
+		}
+		super.onDestroy();
 	}
 }
