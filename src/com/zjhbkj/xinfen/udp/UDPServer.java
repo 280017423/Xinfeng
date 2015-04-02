@@ -3,12 +3,14 @@ package com.zjhbkj.xinfen.udp;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.SocketException;
 
+import android.util.Log;
+
+import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.model.MsgInfo;
 import com.zjhbkj.xinfen.util.CommandUtil;
-import com.zjhbkj.xinfen.wifihot.Global;
 
 /**
  * UDP服务器类
@@ -17,8 +19,9 @@ public class UDPServer implements Runnable {
 	private byte[] msg = new byte[19];
 	private boolean onGoinglistner = true;
 	private DataRecvListener mDataRecvListener;
-	private DatagramSocket dSocket;
 	private ClientMsgListener mClientMsgListener;
+	private DatagramSocket mReceiveSocket;
+	private DatagramSocket mSendSocket;
 
 	public UDPServer(DataRecvListener listener, ClientMsgListener clientMsgListener) {
 		mDataRecvListener = listener;
@@ -28,26 +31,28 @@ public class UDPServer implements Runnable {
 
 	private void init() {
 		try {
-			dSocket = new DatagramSocket(Global.PORT);
-		} catch (SocketException e) {
-			e.printStackTrace();
+			if (mReceiveSocket == null) {
+				mReceiveSocket = new DatagramSocket(null);
+				mReceiveSocket.setReuseAddress(true);
+				mReceiveSocket.bind(new InetSocketAddress(Global.DEVICE_PORT));
+			}
+			mSendSocket = new DatagramSocket();
+		} catch (SocketException e1) {
+			Log.d("aaa", e1.toString());
+			e1.printStackTrace();
 		}
 	}
 
 	public void run() {
-
-		DatagramPacket dPacket = new DatagramPacket(msg, msg.length);
+		DatagramPacket datagramPacket = new DatagramPacket(msg, msg.length);
 		while (onGoinglistner) {
 			try {
-				if (null == dSocket) {
-					init();
-				}
-				dSocket.receive(dPacket);
-				MsgInfo info = new MsgInfo(CommandUtil.bytesToHexString(dPacket.getData()));
-				info.setName(dPacket.getAddress().getHostAddress() + ":" + dPacket.getPort());
+				mReceiveSocket.receive(datagramPacket);
+				MsgInfo info = new MsgInfo(CommandUtil.bytesToHexString(datagramPacket.getData()));
+				info.setName(datagramPacket.getAddress().getHostAddress() + ":" + datagramPacket.getPort());
 				mDataRecvListener.onRecv(info);
-				dPacket.setLength(msg.length); // 重设数据包的长度
-				send(dPacket);
+				datagramPacket.setLength(msg.length); // 重设数据包的长度
+				send(datagramPacket);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -62,30 +67,27 @@ public class UDPServer implements Runnable {
 	/**
 	 * 发送信息到服务器
 	 */
-	public void send(DatagramPacket dPacket) {
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
-		InetAddress ipCliente = dPacket.getAddress();
-		int portaCliente = dPacket.getPort();
-
+	public void send(DatagramPacket datagramPacket) {
 		byte[] commands = getCommand();
-		DatagramPacket sendPacket = new DatagramPacket(commands, commands.length, ipCliente, portaCliente);
+		DatagramPacket sendPacket = new DatagramPacket(
+				commands, commands.length, datagramPacket.getAddress(), datagramPacket.getPort());
 		try {
-			dSocket.send(sendPacket);
-			mClientMsgListener.handlerHotMsg("消息发送成功" + ipCliente + ":" + portaCliente);
+			mSendSocket.send(sendPacket);
+			mClientMsgListener.handlerHotMsg("消息发送成功" + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
 		} catch (IOException e) {
 			e.printStackTrace();
-			mClientMsgListener.handlerErorMsg("消息发送失败.");
+			mClientMsgListener.handlerErorMsg("消息发送失败." + e.toString());
 		}
 	}
 
 	public void closeConnection() {
-		if (dSocket != null) {
-			dSocket.close();
-			dSocket = null;
+		if (mReceiveSocket != null) {
+			mReceiveSocket.close();
+			mReceiveSocket = null;
+		}
+		if (mSendSocket != null) {
+			mSendSocket.close();
+			mSendSocket = null;
 		}
 	}
 

@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Xinfeng</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">中嘉新风</string>
+    <string name="bottom_tab_home">主页</string>
+    <string name="bottom_tab_setting">设置</string>
+    <string name="bottom_tab_more">更多</string>
+    <string name="button_text_tips">提示</string>
+    <string name="exit_dialog_title">您的操作将会退出</string>
+    <string name="button_text_no">取消</string>
+    <string name="button_text_yes">好的</string>
 
 </resources>

@@ -1,20 +1,17 @@
-package com.zjhbkj.xinfen.wifihot;
+package com.zjhbkj.xinfen.util;
 
-public abstract class MyTimerCheck {
-	private int mCount = 0;
+import com.zjhbkj.xinfen.listener.TimerCheckListener;
+
+public class TimerCheckUtil {
+	private int mCount;
 	private int mTimeOutCount = 1;
 	private int mSleepTime = 1000; // 1s
-	private boolean mExitFlag = false;
-	private Thread mThread = null;
+	private boolean mExitFlag;
+	private Thread mThread;
+	private TimerCheckListener mTimerCheckListener;
 
-	/**
-	 * Do not process UI work in this.
-	 */
-	public abstract void doTimerCheckWork();
-
-	public abstract void doTimeOutWork();
-
-	public MyTimerCheck() {
+	public TimerCheckUtil(TimerCheckListener listener) {
+		mTimerCheckListener = listener;
 		mThread = new Thread(new Runnable() {
 
 			@Override
@@ -22,7 +19,12 @@ public abstract class MyTimerCheck {
 				while (!mExitFlag) {
 					mCount++;
 					if (mCount < mTimeOutCount) {
-						doTimerCheckWork();
+						if (null != mTimerCheckListener) {
+							boolean needExit = mTimerCheckListener.doTimerCheckWork();
+							if (needExit) {
+								exit();
+							}
+						}
 						try {
 							Thread.sleep(mSleepTime);
 						} catch (InterruptedException e) {
@@ -30,7 +32,10 @@ public abstract class MyTimerCheck {
 							exit();
 						}
 					} else {
-						doTimeOutWork();
+						if (null != mTimerCheckListener) {
+							mTimerCheckListener.doTimeOutWork();
+						}
+						exit();
 					}
 				}
 			}
@@ -48,7 +53,6 @@ public abstract class MyTimerCheck {
 	public void start(int timeOutCount, int sleepTime) {
 		mTimeOutCount = timeOutCount;
 		mSleepTime = sleepTime;
-
 		mThread.start();
 	}
 
