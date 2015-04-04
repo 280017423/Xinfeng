@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
 
@@ -33,7 +34,8 @@ public class SettingFragment extends FragmentBase implements OnClickListener {
 	}
 
 	private void initViews(View layout) {
-
+		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
+		tvTitle.setText(R.string.bottom_tab_setting);
 	}
 
 	@Override

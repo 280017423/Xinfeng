@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zjhbkj.xinfen.R;
@@ -67,6 +68,8 @@ public class HomeFragment extends FragmentBase {
 	}
 
 	private void initViews(View layout) {
+		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
+		tvTitle.setText(R.string.title_home);
 		mLvCommands = (ListView) layout.findViewById(R.id.lv_receive_command);
 		mLvCommands.setAdapter(mMsginfoAdapter);
 		mLvCommands.setCacheColorHint(0);

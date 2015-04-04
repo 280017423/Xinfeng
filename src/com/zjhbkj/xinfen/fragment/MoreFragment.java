@@ -5,10 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
 
 public class MoreFragment extends FragmentBase implements OnClickListener {
+
+	private View mViewCheck;
+	private View mViewHelp;
+	private View mViewAbout;
 
 	public static final MoreFragment newInstance() {
 		MoreFragment fragment = new MoreFragment();
@@ -29,16 +34,40 @@ public class MoreFragment extends FragmentBase implements OnClickListener {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View layout = inflater.inflate(R.layout.activity_more, container, false);
 		initViews(layout);
+		setListener();
 		return layout;
 	}
 
-	private void initViews(View layout) {
+	private void setListener() {
+		mViewCheck.setOnClickListener(this);
+		mViewHelp.setOnClickListener(this);
+		mViewAbout.setOnClickListener(this);
+	}
 
+	private void initViews(View layout) {
+		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
+		tvTitle.setText(R.string.bottom_tab_more);
+		mViewCheck = layout.findViewById(R.id.rl_check_new_version);
+		mViewHelp = layout.findViewById(R.id.rl_help);
+		mViewAbout = layout.findViewById(R.id.rl_about);
 	}
 
 	@Override
 	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.rl_check_new_version:
+				toast("开发中...");
+				break;
+			case R.id.rl_help:
+				toast("开发中...");
+				break;
+			case R.id.rl_about:
+				toast("开发中...");
+				break;
 
+			default:
+				break;
+		}
 	}
 
 }

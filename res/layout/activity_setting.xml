@@ -1,17 +1,223 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white" >
+    android:background="@color/white"
+    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tv_logo_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="10dp"
-        android:text="setting"
-        android:textColor="#999999"
-        android:textSize="@dimen/size_1" />
+    <include layout="@layout/title_with_back_btn_wrap" />
 
-</RelativeLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginTop="15dp"
+        android:background="#e0e0e0" />
+
+    <RelativeLayout
+        android:id="@+id/rl_set_report_interval"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tongyong_button_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="设置上报间隔"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:background="#e0e0e0" />
+
+    <RelativeLayout
+        android:id="@+id/rl_set_mode"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tongyong_button_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="设置模式"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:background="#e0e0e0" />
+
+    <RelativeLayout
+        android:id="@+id/rl_set_frequency"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tongyong_button_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="设置频率"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:background="#e0e0e0" />
+
+    <RelativeLayout
+        android:id="@+id/rl_set_functional_switch"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tongyong_button_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="设置功能开关"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:background="#e0e0e0" />
+
+    <RelativeLayout
+        android:id="@+id/rl_set_time"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tongyong_button_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="设置时间"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:background="#e0e0e0" />
+
+    <RelativeLayout
+        android:id="@+id/rl_set_start_up_time"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tongyong_button_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="设置开机时间"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:background="#e0e0e0" />
+
+    <RelativeLayout
+        android:id="@+id/rl_set_shut_down_time"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tongyong_button_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="设置关机时间"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:background="#e0e0e0" />
+
+    <RelativeLayout
+        android:id="@+id/rl_set_shut_down_start_up"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tongyong_button_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="设置开/关机"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:background="#e0e0e0" />
+
+    <RelativeLayout
+        android:id="@+id/rl_set_pm2.5"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tongyong_button_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="设置户外PM2.5"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:background="#e0e0e0" />
+
+</LinearLayout>

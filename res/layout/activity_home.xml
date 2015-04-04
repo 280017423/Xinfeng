@@ -1,16 +1,19 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/title_with_back_btn_wrap" />
 
     <ListView
         android:id="@+id/lv_receive_command"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
         android:cacheColorHint="#00ffffff"
         android:divider="#DD4610"
         android:dividerHeight="0.7dp" >
     </ListView>
 
-</RelativeLayout>
+</LinearLayout>
