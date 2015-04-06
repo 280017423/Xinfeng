@@ -3,11 +3,23 @@
 
     <item android:state_enabled="false"><shape>
             <solid android:color="@color/white" />
+
+            <corners android:radius="3dp" />
+
+            <stroke android:width="0.7dp" android:color="@color/defalut_bg" />
         </shape></item>
     <item android:state_pressed="true"><shape>
+            <stroke android:width="0.7dp" android:color="@color/defalut_bg" />
+
+            <corners android:radius="3dp" />
+
             <solid android:color="@color/defalut_bg" />
         </shape></item>
     <item android:state_pressed="false"><shape>
+            <stroke android:width="0.7dp" android:color="@color/defalut_bg" />
+
+            <corners android:radius="3dp" />
+
             <solid android:color="@color/white" />
         </shape></item>
 

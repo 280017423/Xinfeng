@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SlipButton">
+        <attr name="slip_button_on_bg" format="reference" />
+        <attr name="slip_button_off_bg" format="reference" />
+        <attr name="slip_button_thumb" format="reference" />
+    </declare-styleable>
+
+</resources>

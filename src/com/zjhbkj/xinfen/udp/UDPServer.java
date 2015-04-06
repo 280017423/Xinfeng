@@ -16,7 +16,7 @@ import com.zjhbkj.xinfen.util.CommandUtil;
  * UDP服务器类
  */
 public class UDPServer implements Runnable {
-	private byte[] msg = new byte[19];
+	private byte[] msg = new byte[22];
 	private boolean onGoinglistner = true;
 	private DataRecvListener mDataRecvListener;
 	private ClientMsgListener mClientMsgListener;
@@ -60,7 +60,7 @@ public class UDPServer implements Runnable {
 	}
 
 	private byte[] getCommand() {
-		String command = "AA EA 02 28 01 01 03 04 05 06 07 11 12 13 14 01 78 BA AB";
+		String command = "AA EA 02 28 01 01 03 04 05 06 07 11 12 13 14 01 78 00 00 00 BA AB";
 		return CommandUtil.getCommand(command);
 	}
 

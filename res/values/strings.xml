@@ -10,5 +10,6 @@
     <string name="exit_dialog_title">您的操作将会退出</string>
     <string name="button_text_no">取消</string>
     <string name="button_text_yes">好的</string>
+    <string name="network_is_not_available">当前网络不给力\n建议检查网络状态</string>
 
 </resources>

@@ -21,7 +21,44 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-         android:theme="@style/ThemeActivity" >
+        android:theme="@style/ThemeActivity" >
+        <meta-data
+            android:name="db_version"
+            android:value="1" />
+        <meta-data
+            android:name="db_name"
+            android:value="xinfeng.db" />
+        <meta-data
+            android:name="crash_log_path"
+            android:value="/sdcard/xinfeng/crash/" />
+        <meta-data
+            android:name="crash_report_ext"
+            android:value=".log" />
+        <meta-data
+            android:name="image_dir"
+            android:value="xinfeng/com.zjhbkj.xinfen/image" />
+        <meta-data
+            android:name="http_cache_dir"
+            android:value="xinfeng/com.zjhbkj.xinfen/cache" />
+        <meta-data
+            android:name="status_ok_value"
+            android:value="1" />
+        <meta-data
+            android:name="email_log_enable"
+            android:value="true" />
+        <meta-data
+            android:name="error_log_enable"
+            android:value="true" />
+        <meta-data
+            android:name="debug_log_enable"
+            android:value="true" />
+        <meta-data
+            android:name="is_developing"
+            android:value="true" />
+        <meta-data
+            android:name="appSign"
+            android:value="xinfeng" />
+
         <activity
             android:name=".activity.LoadingActivity"
             android:configChanges="orientation|keyboardHidden"
