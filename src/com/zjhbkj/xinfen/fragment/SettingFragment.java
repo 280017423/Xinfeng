@@ -11,6 +11,9 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
+import com.zjhbkj.xinfen.util.ActionSheetUtil;
+import com.zjhbkj.xinfen.util.WheelViewUtil;
+import com.zjhbkj.xinfen.widget.ActionSheet.ActionSheetClickListener;
 import com.zjhbkj.xinfen.widget.SlipButton;
 import com.zjhbkj.xinfen.widget.SlipButton.OnChangedListener;
 
@@ -23,10 +26,16 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private RadioGroup mRgMode;
 	private SlipButton mSbtnSetFunction;
 	private View mViewHz;
-	private int mReportTime;
-	private int mHz;
-	private int mMode = 3;
+	private View mViewSetStartShut;
+	private View mViewSetPm2dot5;
+	private TextView mTvSetStartShut;
+	private TextView mTvSetPm2dot5;
+	private int mReportTime; // 上报时间
+	private int mHz; // 设置频率
+	private int mMode; // 功能模式
+	private int mStartShut; // 开关机模式
 	private int mFunctionSwitch;
+	private int mPm2dot5;
 
 	public static final SettingFragment newInstance() {
 		SettingFragment fragment = new SettingFragment();
@@ -44,6 +53,8 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mHz = 30;
 		mMode = 2;
 		mFunctionSwitch = 1;
+		mStartShut = 2;
+		mPm2dot5 = 100;
 	}
 
 	@Override
@@ -59,6 +70,8 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mBtnAddHz.setOnClickListener(this);
 		mBtnSubHz.setOnClickListener(this);
 		mRgMode.setOnCheckedChangeListener(this);
+		mViewSetStartShut.setOnClickListener(this);
+		mViewSetPm2dot5.setOnClickListener(this);
 		mSbtnSetFunction.setOnChangedListener(new OnChangedListener() {
 
 			@Override
@@ -81,11 +94,17 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mBtnAddHz = (Button) layout.findViewById(R.id.btn_add_hz);
 		mBtnSubHz = (Button) layout.findViewById(R.id.btn_sub_hz);
 		mSbtnSetFunction = (SlipButton) layout.findViewById(R.id.sb_set_functional_switch);
+		mTvSetPm2dot5 = (TextView) layout.findViewById(R.id.tv_set_pm_2_5);
 		mViewHz = layout.findViewById(R.id.rl_set_frequency);
+		mViewSetStartShut = layout.findViewById(R.id.rl_set_shut_down_start_up);
+		mViewSetPm2dot5 = layout.findViewById(R.id.rl_set_pm2_5);
+		mTvSetStartShut = (TextView) layout.findViewById(R.id.tv_set_shut_down_start_up);
 		tvTitle.setText(R.string.bottom_tab_setting);
 		mTvReportTime.setText(String.format("%ds", mReportTime));
 		mTvHz.setText("" + mHz);
+		mTvSetPm2dot5.setText("" + mPm2dot5);
 		refreashHzView();
+		refreashStartShut(mStartShut);
 		mSbtnSetFunction.setCheck(1 == mFunctionSwitch);
 	}
 
@@ -97,6 +116,25 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				break;
 			case R.id.btn_sub_hz:
 				changeHz(false);
+				break;
+			case R.id.rl_set_pm2_5:
+				WheelViewUtil.showWheelview(getActivity(), mPm2dot5 - 50, this);
+				break;
+			case R.id.btn_ok:
+				mPm2dot5 = (Integer) v.getTag();
+				mTvSetPm2dot5.setText("" + mPm2dot5);
+				break;
+			case R.id.rl_set_shut_down_start_up:
+				ActionSheetUtil.showActionSheet(getActivity(), new ActionSheetClickListener() {
+
+					@Override
+					public void onItemClick(int itemPosition) {
+						if (-1 != mStartShut) {
+							mStartShut = itemPosition;
+						}
+						refreashStartShut(itemPosition);
+					}
+				});
 				break;
 
 			default:
@@ -146,6 +184,26 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		} else if (3 == mMode) {
 			mViewHz.setVisibility(View.GONE);
 			mRgMode.check(R.id.rbtn_sleep);
+		}
+	}
+
+	private void refreashStartShut(int value) {
+		switch (value) {
+			case 0:
+				mTvSetStartShut.setText("开机");
+				break;
+			case 1:
+				mTvSetStartShut.setText("关机");
+				break;
+			case 2:
+				mTvSetStartShut.setText("内网");
+				break;
+			case 3:
+				mTvSetStartShut.setText("外网");
+				break;
+
+			default:
+				break;
 		}
 	}
 }

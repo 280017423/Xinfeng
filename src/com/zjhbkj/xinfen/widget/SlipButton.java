@@ -24,7 +24,6 @@ import com.zjhbkj.xinfen.util.ImageUtil;
  * 
  */
 public class SlipButton extends View implements OnTouchListener {
-	private static final String TAG = "SlipButton";
 
 	// 记录当前按钮是否打开,true为打开,flase为关闭
 	private boolean mNowChoose;

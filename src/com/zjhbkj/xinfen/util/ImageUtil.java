@@ -16,10 +16,6 @@ import android.net.Uri;
 import android.os.Environment;
 
 public class ImageUtil {
-	private static final String TAG = "ImageUtil";
-
-	private ImageUtil() {
-	}
 
 	public static void saveBitmap2Jpg(Context context, Bitmap bitmap) throws IOException {
 		File photoFile = getOwnCacheDirectory(context);

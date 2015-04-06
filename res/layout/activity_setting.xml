@@ -225,7 +225,7 @@
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:background="@drawable/tongyong_button_bg"
-        android:clickable="false"
+        android:clickable="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
 
@@ -240,6 +240,50 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="设置时间"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+
+        <TextView
+            android:id="@+id/tv_set_time"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:text="18:30"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_set_date"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tongyong_button_bg"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:layout_alignParentTop="true"
+            android:background="#e0e0e0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="设置日期"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+
+        <TextView
+            android:id="@+id/tv_set_date"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:text="2015-04-06"
             android:textColor="@color/text_color"
             android:textSize="@dimen/size_2" />
     </RelativeLayout>
@@ -314,6 +358,15 @@
             android:text="设置开/关机"
             android:textColor="@color/text_color"
             android:textSize="@dimen/size_2" />
+
+        <TextView
+            android:id="@+id/tv_set_shut_down_start_up"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -336,6 +389,15 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="设置户外PM2.5"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+
+        <TextView
+            android:id="@+id/tv_set_pm_2_5"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
             android:textColor="@color/text_color"
             android:textSize="@dimen/size_2" />
 
