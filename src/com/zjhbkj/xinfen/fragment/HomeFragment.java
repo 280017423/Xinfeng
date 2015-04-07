@@ -8,7 +8,6 @@ import java.util.concurrent.Executors;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,9 @@ import com.zjhbkj.xinfen.R;
 import com.zjhbkj.xinfen.adapter.MsginfoAdapter;
 import com.zjhbkj.xinfen.model.MsgInfo;
 import com.zjhbkj.xinfen.udp.UDPServer;
-import com.zjhbkj.xinfen.udp.UDPServer.ClientMsgListener;
 import com.zjhbkj.xinfen.udp.UDPServer.DataRecvListener;
+
+import de.greenrobot.event.EventBus;
 
 public class HomeFragment extends FragmentBase {
 
@@ -55,6 +55,7 @@ public class HomeFragment extends FragmentBase {
 	}
 
 	private void initVariables() {
+		EventBus.getDefault().register(this);
 		mCommands = new ArrayList<MsgInfo>();
 		mMsginfoAdapter = new MsginfoAdapter(getActivity(), mCommands);
 	}
@@ -79,31 +80,6 @@ public class HomeFragment extends FragmentBase {
 			public void onRecv(MsgInfo info) {
 				sendMsgToHandler(info);
 			}
-		}, new ClientMsgListener() {
-
-			@Override
-			public void handlerHotMsg(final String hotMsg) {
-				Log.d("aaa", hotMsg);
-				getActivity().runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						Toast.makeText(getActivity(), hotMsg, Toast.LENGTH_LONG).show();
-					}
-				});
-			}
-
-			@Override
-			public void handlerErorMsg(final String errorMsg) {
-				Log.d("aaa", errorMsg);
-				getActivity().runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						Toast.makeText(getActivity(), errorMsg, Toast.LENGTH_LONG).show();
-					}
-				});
-			}
 		});
 		exec.execute(mUdpServer);
 	}
@@ -113,11 +89,19 @@ public class HomeFragment extends FragmentBase {
 		mHandler.sendMessage(msg);
 	}
 
+	public void onEventMainThread(String info) {
+		Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
+	}
+
 	@Override
 	public void onDestroy() {
 		if (null != mUdpServer) {
 			mUdpServer.stopAcceptMessage();
 			mUdpServer.closeConnection();
+		}
+		try {
+			EventBus.getDefault().unregister(this);
+		} catch (Exception e) {
 		}
 		super.onDestroy();
 	}

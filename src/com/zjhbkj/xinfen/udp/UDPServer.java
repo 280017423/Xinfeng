@@ -12,6 +12,8 @@ import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.model.MsgInfo;
 import com.zjhbkj.xinfen.util.CommandUtil;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * UDP服务器类
  */
@@ -19,13 +21,11 @@ public class UDPServer implements Runnable {
 	private byte[] msg = new byte[22];
 	private boolean onGoinglistner = true;
 	private DataRecvListener mDataRecvListener;
-	private ClientMsgListener mClientMsgListener;
 	private DatagramSocket mReceiveSocket;
 	private DatagramSocket mSendSocket;
 
-	public UDPServer(DataRecvListener listener, ClientMsgListener clientMsgListener) {
+	public UDPServer(DataRecvListener listener) {
 		mDataRecvListener = listener;
-		mClientMsgListener = clientMsgListener;
 		init();
 	}
 
@@ -73,10 +73,10 @@ public class UDPServer implements Runnable {
 				commands, commands.length, datagramPacket.getAddress(), datagramPacket.getPort());
 		try {
 			mSendSocket.send(sendPacket);
-			mClientMsgListener.handlerHotMsg("消息发送成功" + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
+			EventBus.getDefault().post("消息发送成功" + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
 		} catch (IOException e) {
 			e.printStackTrace();
-			mClientMsgListener.handlerErorMsg("消息发送失败." + e.toString());
+			EventBus.getDefault().post("消息发送失败." + e.toString());
 		}
 	}
 
@@ -97,13 +97,5 @@ public class UDPServer implements Runnable {
 
 	public void stopAcceptMessage() {
 		onGoinglistner = false;
-	}
-
-	public static interface ClientMsgListener {
-
-		public void handlerErorMsg(String errorMsg);
-
-		public void handlerHotMsg(String hotMsg);
-
 	}
 }
