@@ -27,6 +27,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private SlipButton mSbtnSetFunction;
 	private View mViewHz;
 	private View mViewSetStartShut;
+	private View mViewSetDate;
 	private View mViewSetPm2dot5;
 	private TextView mTvSetStartShut;
 	private TextView mTvSetPm2dot5;
@@ -36,6 +37,9 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private int mStartShut; // 开关机模式
 	private int mFunctionSwitch;
 	private int mPm2dot5;
+	private int mYear;
+	private int mMonth;
+	private int mDay;
 
 	public static final SettingFragment newInstance() {
 		SettingFragment fragment = new SettingFragment();
@@ -55,6 +59,9 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mFunctionSwitch = 1;
 		mStartShut = 2;
 		mPm2dot5 = 100;
+		mYear = 2016;
+		mMonth = 2;
+		mDay = 15;
 	}
 
 	@Override
@@ -72,6 +79,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mRgMode.setOnCheckedChangeListener(this);
 		mViewSetStartShut.setOnClickListener(this);
 		mViewSetPm2dot5.setOnClickListener(this);
+		mViewSetDate.setOnClickListener(this);
 		mSbtnSetFunction.setOnChangedListener(new OnChangedListener() {
 
 			@Override
@@ -98,6 +106,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mViewHz = layout.findViewById(R.id.rl_set_frequency);
 		mViewSetStartShut = layout.findViewById(R.id.rl_set_shut_down_start_up);
 		mViewSetPm2dot5 = layout.findViewById(R.id.rl_set_pm2_5);
+		mViewSetDate = layout.findViewById(R.id.rl_set_date);
 		mTvSetStartShut = (TextView) layout.findViewById(R.id.tv_set_shut_down_start_up);
 		tvTitle.setText(R.string.bottom_tab_setting);
 		mTvReportTime.setText(String.format("%ds", mReportTime));
@@ -119,6 +128,9 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				break;
 			case R.id.rl_set_pm2_5:
 				WheelViewUtil.showWheelview(getActivity(), mPm2dot5 - 50, this);
+				break;
+			case R.id.rl_set_date:
+				WheelViewUtil.initWheelView(getActivity(), mYear, mMonth, mDay);
 				break;
 			case R.id.btn_ok:
 				mPm2dot5 = (Integer) v.getTag();
