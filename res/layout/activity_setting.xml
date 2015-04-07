@@ -249,7 +249,6 @@
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
-            android:text="18:30"
             android:textColor="@color/text_color"
             android:textSize="@dimen/size_2" />
     </RelativeLayout>
@@ -283,7 +282,6 @@
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
-            android:text="2015-04-06"
             android:textColor="@color/text_color"
             android:textSize="@dimen/size_2" />
     </RelativeLayout>
@@ -310,6 +308,15 @@
             android:text="设置开机时间"
             android:textColor="@color/text_color"
             android:textSize="@dimen/size_2" />
+
+        <TextView
+            android:id="@+id/tv_set_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -332,6 +339,15 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="设置关机时间"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+        
+        <TextView
+            android:id="@+id/tv_set_shut_time"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
             android:textColor="@color/text_color"
             android:textSize="@dimen/size_2" />
     </RelativeLayout>

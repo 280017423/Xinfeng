@@ -1,6 +1,8 @@
 package com.zjhbkj.xinfen.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +21,10 @@ import com.zjhbkj.xinfen.widget.SlipButton.OnChangedListener;
 
 public class SettingFragment extends FragmentBase implements OnClickListener, OnCheckedChangeListener {
 
+	public static final int CODE_GET_DATE = 100;
+	public static final int CODE_GET_TIME = 101;
+	public static final int CODE_GET_START_TIME = 102;
+	public static final int CODE_GET_SHUT_TIME = 103;
 	private TextView mTvReportTime;
 	private TextView mTvHz;
 	private Button mBtnAddHz;
@@ -28,9 +34,16 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private View mViewHz;
 	private View mViewSetStartShut;
 	private View mViewSetDate;
+	private View mViewSetTime;
+	private View mViewSetStartTime;
+	private View mViewSetShutTime;
 	private View mViewSetPm2dot5;
 	private TextView mTvSetStartShut;
 	private TextView mTvSetPm2dot5;
+	private TextView mTvDate;
+	private TextView mTvTime;
+	private TextView mTvStartTime;
+	private TextView mTvShutTime;
 	private int mReportTime; // 上报时间
 	private int mHz; // 设置频率
 	private int mMode; // 功能模式
@@ -40,6 +53,60 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private int mYear;
 	private int mMonth;
 	private int mDay;
+	private int mHour;
+	private int mMinu;
+	private int mStartHour;
+	private int mStartMinu;
+	private int mShutHour;
+	private int mShutMinu;
+	private Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case CODE_GET_DATE:
+					String result = (String) msg.obj;
+					mTvDate.setText(result);
+					String[] date = result.split("-");
+					if (null != date && 3 == date.length) {
+						mYear = Integer.parseInt(date[0]);
+						mMonth = Integer.parseInt(date[1]);
+						mDay = Integer.parseInt(date[2]);
+					}
+					break;
+				case CODE_GET_TIME:
+					String time = (String) msg.obj;
+					mTvTime.setText(time);
+					String[] tiems = time.split(":");
+					if (null != tiems && 2 == tiems.length) {
+						mHour = Integer.parseInt(tiems[0]);
+						mMinu = Integer.parseInt(tiems[1]);
+					}
+					break;
+				case CODE_GET_START_TIME:
+					String startTime = (String) msg.obj;
+					mTvStartTime.setText(startTime);
+					String[] startTiems = startTime.split(":");
+					if (null != startTiems && 2 == startTiems.length) {
+						mStartHour = Integer.parseInt(startTiems[0]);
+						mStartMinu = Integer.parseInt(startTiems[1]);
+					}
+					break;
+				case CODE_GET_SHUT_TIME:
+					String shutTime = (String) msg.obj;
+					mTvShutTime.setText(shutTime);
+					String[] shutTiems = shutTime.split(":");
+					if (null != shutTiems && 2 == shutTiems.length) {
+						mShutHour = Integer.parseInt(shutTiems[0]);
+						mShutMinu = Integer.parseInt(shutTiems[1]);
+					}
+					break;
+				default:
+					break;
+			}
+			super.handleMessage(msg);
+		}
+	};
 
 	public static final SettingFragment newInstance() {
 		SettingFragment fragment = new SettingFragment();
@@ -62,6 +129,12 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mYear = 2016;
 		mMonth = 2;
 		mDay = 15;
+		mHour = 12;
+		mMinu = 15;
+		mStartHour = 14;
+		mStartMinu = 19;
+		mShutHour = 20;
+		mShutMinu = 30;
 	}
 
 	@Override
@@ -79,6 +152,9 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mRgMode.setOnCheckedChangeListener(this);
 		mViewSetStartShut.setOnClickListener(this);
 		mViewSetPm2dot5.setOnClickListener(this);
+		mViewSetTime.setOnClickListener(this);
+		mViewSetStartTime.setOnClickListener(this);
+		mViewSetShutTime.setOnClickListener(this);
 		mViewSetDate.setOnClickListener(this);
 		mSbtnSetFunction.setOnChangedListener(new OnChangedListener() {
 
@@ -103,15 +179,26 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mBtnSubHz = (Button) layout.findViewById(R.id.btn_sub_hz);
 		mSbtnSetFunction = (SlipButton) layout.findViewById(R.id.sb_set_functional_switch);
 		mTvSetPm2dot5 = (TextView) layout.findViewById(R.id.tv_set_pm_2_5);
+		mTvDate = (TextView) layout.findViewById(R.id.tv_set_date);
 		mViewHz = layout.findViewById(R.id.rl_set_frequency);
 		mViewSetStartShut = layout.findViewById(R.id.rl_set_shut_down_start_up);
 		mViewSetPm2dot5 = layout.findViewById(R.id.rl_set_pm2_5);
 		mViewSetDate = layout.findViewById(R.id.rl_set_date);
+		mViewSetStartTime = layout.findViewById(R.id.rl_set_start_up_time);
+		mViewSetShutTime = layout.findViewById(R.id.rl_set_shut_down_time);
+		mViewSetTime = layout.findViewById(R.id.rl_set_time);
+		mTvTime = (TextView) layout.findViewById(R.id.tv_set_time);
+		mTvStartTime = (TextView) layout.findViewById(R.id.tv_set_start_time);
+		mTvShutTime = (TextView) layout.findViewById(R.id.tv_set_shut_time);
 		mTvSetStartShut = (TextView) layout.findViewById(R.id.tv_set_shut_down_start_up);
 		tvTitle.setText(R.string.bottom_tab_setting);
 		mTvReportTime.setText(String.format("%ds", mReportTime));
 		mTvHz.setText("" + mHz);
 		mTvSetPm2dot5.setText("" + mPm2dot5);
+		mTvDate.setText(mYear + "-" + mMonth + "-" + mDay);
+		mTvTime.setText(mHour + ":" + mMinu);
+		mTvStartTime.setText(mStartHour + ":" + mStartMinu);
+		mTvShutTime.setText(mShutHour + ":" + mShutMinu);
 		refreashHzView();
 		refreashStartShut(mStartShut);
 		mSbtnSetFunction.setCheck(1 == mFunctionSwitch);
@@ -127,10 +214,19 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				changeHz(false);
 				break;
 			case R.id.rl_set_pm2_5:
-				WheelViewUtil.showWheelview(getActivity(), mPm2dot5 - 50, this);
+				WheelViewUtil.showPm2dot5(getActivity(), mPm2dot5 - 50, this);
+				break;
+			case R.id.rl_set_time:
+				WheelViewUtil.showTime(getActivity(), mHour, mMinu, mHandler, CODE_GET_TIME);
+				break;
+			case R.id.rl_set_start_up_time:
+				WheelViewUtil.showTime(getActivity(), mStartHour, mStartMinu, mHandler, CODE_GET_START_TIME);
+				break;
+			case R.id.rl_set_shut_down_time:
+				WheelViewUtil.showTime(getActivity(), mShutHour, mShutMinu, mHandler, CODE_GET_SHUT_TIME);
 				break;
 			case R.id.rl_set_date:
-				WheelViewUtil.initWheelView(getActivity(), mYear, mMonth, mDay);
+				WheelViewUtil.showDate(getActivity(), mYear, mMonth, mDay, mHandler);
 				break;
 			case R.id.btn_ok:
 				mPm2dot5 = (Integer) v.getTag();

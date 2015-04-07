@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
+import com.zjhbkj.xinfen.fragment.SettingFragment;
 import com.zjhbkj.xinfen.widget.wheelview.OnWheelChangedListener;
 import com.zjhbkj.xinfen.widget.wheelview.WheelView;
 import com.zjhbkj.xinfen.widget.wheelview.adapters.ArrayWheelAdapter;
@@ -20,7 +23,7 @@ import com.zjhbkj.xinfen.widget.wheelview.adapters.NumericWheelAdapter;
 
 public class WheelViewUtil {
 
-	public static void showWheelview(Context context, int current, final OnClickListener listener) {
+	public static void showPm2dot5(Context context, int current, final OnClickListener listener) {
 		View contentView = View.inflate(context, R.layout.view_wheelview_pop, null);
 		final PopupWindow mPopupWindow = new PopupWindow(
 				contentView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -57,9 +60,9 @@ public class WheelViewUtil {
 		});
 	}
 
-	public static void initWheelView(final Context context, int year, int month, int day) {
+	public static void showDate(final Context context, int year, int month, int day, final Handler handler) {
 		Calendar cal = Calendar.getInstance();
-		int startYear = cal.get(Calendar.YEAR);
+		final int startYear = cal.get(Calendar.YEAR);
 		int endYear = 2099;
 		final String[] years = new String[endYear - startYear + 1];
 		for (int i = startYear; i <= endYear; i++) {
@@ -70,6 +73,9 @@ public class WheelViewUtil {
 			months[i - 1] = i + "月";
 		}
 		final View contentView = View.inflate(context, R.layout.view_wheelview_pop, null);
+		final TextView title = (TextView) contentView.findViewById(R.id.tv_pop_title);
+		Button btnOk = (Button) contentView.findViewById(R.id.btn_ok);
+		title.setText("选择日期");
 		final WheelView wvYear = (WheelView) contentView.findViewById(R.id.wv_item_1);
 		final WheelView wvMonth = (WheelView) contentView.findViewById(R.id.wv_item_2);
 		final WheelView wvDay = (WheelView) contentView.findViewById(R.id.wv_item_3);
@@ -84,6 +90,16 @@ public class WheelViewUtil {
 				mPopupWindow.dismiss();
 			}
 		});
+		btnOk.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mPopupWindow.dismiss();
+				String result = (startYear + wvYear.getCurrentItem()) + "-" + (1 + wvMonth.getCurrentItem()) + "-"
+						+ (1 + wvDay.getCurrentItem());
+				sendMessageToHandler(SettingFragment.CODE_GET_DATE, result, handler);
+			}
+		});
 		OnWheelChangedListener listener = new OnWheelChangedListener() {
 
 			@Override
@@ -96,8 +112,6 @@ public class WheelViewUtil {
 					case R.id.wv_item_2:
 						refreashDayWheelView(context, wvDay, wvYear.getCurrentItem(), wvMonth.getCurrentItem(),
 								wvDay.getCurrentItem());
-						break;
-					case R.id.wv_item_3:
 						break;
 					default:
 						break;
@@ -115,7 +129,7 @@ public class WheelViewUtil {
 		wvMonth.setVisibleItems(5);
 		wvYear.setCyclic(true);
 		wvMonth.setCyclic(true);
-		wvYear.setCurrentItem(year - 1900);
+		wvYear.setCurrentItem(year - startYear);
 		wvMonth.setCurrentItem(month - 1);
 
 		refreashDayWheelView(context, wvDay, wvYear.getCurrentItem(), wvMonth.getCurrentItem(), day - 1);
@@ -136,5 +150,58 @@ public class WheelViewUtil {
 		wvDay.setCyclic(true);
 		wvDay.setCurrentItem(current);
 		wvDay.setViewAdapter(mDayAdapter);
+	}
+
+	public static void showTime(final Context context, int hour, int mins, final Handler handler, final int what) {
+		String[] hours = new String[24];
+		for (int i = 0; i < hours.length; i++) {
+			hours[i] = i + "时";
+		}
+		String[] minutes = new String[60];
+		for (int i = 0; i < minutes.length; i++) {
+			minutes[i] = i + "分";
+		}
+		final View contentView = View.inflate(context, R.layout.view_wheelview_pop, null);
+		final TextView title = (TextView) contentView.findViewById(R.id.tv_pop_title);
+		Button btnOk = (Button) contentView.findViewById(R.id.btn_ok);
+		title.setText("选择时间");
+		final WheelView wvHour = (WheelView) contentView.findViewById(R.id.wv_item_1);
+		final WheelView wvMins = (WheelView) contentView.findViewById(R.id.wv_item_2);
+		wvMins.setVisibility(View.VISIBLE);
+		final PopupWindow mPopupWindow = new PopupWindow(
+				contentView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		contentView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mPopupWindow.dismiss();
+			}
+		});
+		btnOk.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mPopupWindow.dismiss();
+				String result = wvHour.getCurrentItem() + ":" + wvMins.getCurrentItem();
+				sendMessageToHandler(what, result, handler);
+			}
+		});
+		ArrayWheelAdapter<String> mHourAdapter = new ArrayWheelAdapter<String>(context, hours);
+		ArrayWheelAdapter<String> mMinuAdapter = new ArrayWheelAdapter<String>(context, minutes);
+		wvHour.setViewAdapter(mHourAdapter);
+		wvMins.setViewAdapter(mMinuAdapter);
+		wvHour.setVisibleItems(5);
+		wvMins.setVisibleItems(5);
+		wvHour.setCyclic(true);
+		wvMins.setCyclic(true);
+		wvHour.setCurrentItem(hour);
+		wvMins.setCurrentItem(mins);
+		mPopupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+	}
+
+	private static void sendMessageToHandler(int what, String result, Handler handler) {
+		Message msg = handler.obtainMessage(what);
+		msg.obj = result;
+		handler.sendMessage(msg);
 	}
 }
