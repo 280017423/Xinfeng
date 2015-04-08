@@ -1,6 +1,8 @@
 package com.zjhbkj.xinfen.model;
 
+import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.orm.BaseModel;
+import com.zjhbkj.xinfen.util.CommandUtil;
 
 /**
  * APP->设备
@@ -8,8 +10,8 @@ import com.zjhbkj.xinfen.orm.BaseModel;
 public class SendComsModel extends BaseModel {
 
 	private static final long serialVersionUID = 5745366813639864256L;
-	private String msgHeader; // 报文头 APP->设备：AA
-	private String commandNum; // 指令号 APP->设备：EA
+	private String msgHeader = "AA"; // 报文头 APP->设备：AA
+	private String commandNum = "EA"; // 指令号 APP->设备：EA
 	private String command1; // 指令1 设置上报间隔 单位：秒
 	private String command2; // 指令2 设置频率 单位: Hz（只对手动有效）
 	private String command3; // 指令3 设置模式1 自动：2 手动：3睡眠：
@@ -25,27 +27,11 @@ public class SendComsModel extends BaseModel {
 	private String command13; // 指令13 设置关机小时
 	private String command14; // 指令14 设置开/关机0:开机1：关机2：链接内网3：链接外网
 	private String command15; // 指令15 设置自动模式静电除尘开启的户外PM2.5
-	private String command16; // 指令16 地址字节的最低位
-	private String command17; // 指令17 地址字节的中间位
-	private String command18; // 指令18 地址字节的最高位
+	private String command16 = "2"; // 指令16 地址字节的最低位
+	private String command17 = "2"; // 指令17 地址字节的中间位
+	private String command18 = "3"; // 指令18 地址字节的最高位
 	private String checkSum; // 校验和 数据1+…数据18 和取一个字节
-	private String msgTrailer; // 报文尾 AB
-
-	public String getMsgHeader() {
-		return msgHeader;
-	}
-
-	public void setMsgHeader(String msgHeader) {
-		this.msgHeader = msgHeader;
-	}
-
-	public String getCommandNum() {
-		return commandNum;
-	}
-
-	public void setCommandNum(String commandNum) {
-		this.commandNum = commandNum;
-	}
+	private String msgTrailer = "AB"; // 报文尾 AB
 
 	public String getCommand1() {
 		return command1;
@@ -167,30 +153,6 @@ public class SendComsModel extends BaseModel {
 		this.command15 = command15;
 	}
 
-	public String getCommand16() {
-		return command16;
-	}
-
-	public void setCommand16(String command16) {
-		this.command16 = command16;
-	}
-
-	public String getCommand17() {
-		return command17;
-	}
-
-	public void setCommand17(String command17) {
-		this.command17 = command17;
-	}
-
-	public String getCommand18() {
-		return command18;
-	}
-
-	public void setCommand18(String command18) {
-		this.command18 = command18;
-	}
-
 	public String getCheckSum() {
 		return checkSum;
 	}
@@ -205,6 +167,22 @@ public class SendComsModel extends BaseModel {
 
 	public void setMsgTrailer(String msgTrailer) {
 		this.msgTrailer = msgTrailer;
+	}
+
+	public void send() {
+		this.checkSum = CommandUtil.getCheckSum(command1 + " " + command2 + " " + command3 + " " + command4 + " "
+				+ command5 + " " + command6 + " " + command7 + " " + command8 + " " + command9 + " " + command10 + " "
+				+ command11 + " " + command12 + " " + command13 + " " + command14 + " " + command15 + " " + command16
+				+ " " + command17 + " " + command18);
+		DBMgr.saveModel(this);
+	}
+
+	@Override
+	public String toString() {
+		return msgHeader + " " + commandNum + " " + command1 + " " + command2 + " " + command3 + " " + command4 + " "
+				+ command5 + " " + command6 + " " + command7 + " " + command8 + " " + command9 + " " + command10 + " "
+				+ command11 + " " + command12 + " " + command13 + " " + command14 + " " + command15 + " " + command16
+				+ " " + command17 + " " + command18 + " " + checkSum + " " + msgTrailer;
 	}
 
 }

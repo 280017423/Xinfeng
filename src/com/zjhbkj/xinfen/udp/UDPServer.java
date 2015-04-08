@@ -9,8 +9,12 @@ import java.net.SocketException;
 import android.util.Log;
 
 import com.zjhbkj.xinfen.commom.Global;
+import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.model.MsgInfo;
+import com.zjhbkj.xinfen.model.RcvComsModel;
+import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
+import com.zjhbkj.xinfen.util.EvtLog;
 
 import de.greenrobot.event.EventBus;
 
@@ -18,14 +22,12 @@ import de.greenrobot.event.EventBus;
  * UDP服务器类
  */
 public class UDPServer implements Runnable {
-	private byte[] msg = new byte[22];
+	private byte[] msg = new byte[Global.COMMAND_LENGTH];
 	private boolean onGoinglistner = true;
-	private DataRecvListener mDataRecvListener;
 	private DatagramSocket mReceiveSocket;
 	private DatagramSocket mSendSocket;
 
-	public UDPServer(DataRecvListener listener) {
-		mDataRecvListener = listener;
+	public UDPServer() {
 		init();
 	}
 
@@ -48,9 +50,10 @@ public class UDPServer implements Runnable {
 		while (onGoinglistner) {
 			try {
 				mReceiveSocket.receive(datagramPacket);
-				MsgInfo info = new MsgInfo(CommandUtil.bytesToHexString(datagramPacket.getData()));
-				info.setName(datagramPacket.getAddress().getHostAddress() + ":" + datagramPacket.getPort());
-				mDataRecvListener.onRecv(info);
+				RcvComsModel model = new RcvComsModel();
+				model.receiveCommand(datagramPacket.getData());
+				DBMgr.saveModel(model);
+				EventBus.getDefault().post(model);
 				datagramPacket.setLength(msg.length); // 重设数据包的长度
 				send(datagramPacket);
 			} catch (IOException e) {
@@ -59,24 +62,23 @@ public class UDPServer implements Runnable {
 		}
 	}
 
-	private byte[] getCommand() {
-		String command = "AA EA 02 28 01 01 03 04 05 06 07 11 12 13 14 01 78 00 00 00 BA AB";
-		return CommandUtil.getCommand(command);
-	}
-
 	/**
 	 * 发送信息到服务器
 	 */
 	public void send(DatagramPacket datagramPacket) {
-		byte[] commands = getCommand();
-		DatagramPacket sendPacket = new DatagramPacket(
-				commands, commands.length, datagramPacket.getAddress(), datagramPacket.getPort());
-		try {
-			mSendSocket.send(sendPacket);
-			EventBus.getDefault().post("消息发送成功" + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
-		} catch (IOException e) {
-			e.printStackTrace();
-			EventBus.getDefault().post("消息发送失败." + e.toString());
+		SendComsModel model = DBMgr.getHistoryData(SendComsModel.class, "EA");
+		if (null != model) {
+			EvtLog.d("aaa", model.toString());
+			byte[] commands = CommandUtil.getCommand(model.toString());
+			DatagramPacket sendPacket = new DatagramPacket(
+					commands, commands.length, datagramPacket.getAddress(), datagramPacket.getPort());
+			try {
+				mSendSocket.send(sendPacket);
+				EventBus.getDefault().post("消息发送成功" + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
+			} catch (IOException e) {
+				e.printStackTrace();
+				EventBus.getDefault().post("消息发送失败." + e.toString());
+			}
 		}
 	}
 

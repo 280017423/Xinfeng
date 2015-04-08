@@ -7,13 +7,465 @@
 
     <include layout="@layout/title_with_back_btn_wrap" />
 
-    <ListView
-        android:id="@+id/lv_receive_command"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:cacheColorHint="#00ffffff"
-        android:divider="#DD4610"
-        android:dividerHeight="0.7dp" >
-    </ListView>
+        android:layout_height="wrap_content"
+        android:fadingEdge="none"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="甲醛ppm"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_ppm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="模式"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="模式开关"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_mode_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="pm2.5室外低"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_pm_2dot5_out_low"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="pm2.5室外高"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_pm_2dot5_out_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="pm2.5室内低"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_pm_2dot5_in_low"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="pm2.5室内高"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_pm_2dot5_in_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="CO2:ppm低"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_co2_low"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="CO2:ppm高"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_co2_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="室内进风温度"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_in_in_wind_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="室内出风温度"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_in_out_wind_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="室外进风温度"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_out_in_wind_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="室外出风温度"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_out_out_wind_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/tongyong_button_bg"
+                android:clickable="false"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.7dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#e0e0e0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:text="湿度"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+
+                <TextView
+                    android:id="@+id/tv_humidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/size_2" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

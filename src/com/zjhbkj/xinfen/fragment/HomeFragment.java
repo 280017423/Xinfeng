@@ -1,47 +1,40 @@
 package com.zjhbkj.xinfen.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zjhbkj.xinfen.R;
-import com.zjhbkj.xinfen.adapter.MsginfoAdapter;
-import com.zjhbkj.xinfen.model.MsgInfo;
+import com.zjhbkj.xinfen.db.DBMgr;
+import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.udp.UDPServer;
-import com.zjhbkj.xinfen.udp.UDPServer.DataRecvListener;
+import com.zjhbkj.xinfen.util.CommandUtil;
 
 import de.greenrobot.event.EventBus;
 
 public class HomeFragment extends FragmentBase {
 
-	private static final int KEY_RECEIVE_COMMAND_WHAT = 1;
 	private UDPServer mUdpServer;
-	private ListView mLvCommands;
-	private MsginfoAdapter mMsginfoAdapter;
-	private List<MsgInfo> mCommands;
-	private Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case KEY_RECEIVE_COMMAND_WHAT:
-					mCommands.add((MsgInfo) msg.obj);
-					mMsginfoAdapter.notifyDataSetChanged();
-					mLvCommands.setSelection(mCommands.size() - 1);
-					break;
-			}
-		}
-	};
+	private TextView mTvPpm;
+	private TextView mTvMode;
+	private TextView mTvModeSwitch;
+	private TextView mTvPm2dot5OutLow;
+	private TextView mTvPm2dot5OutHeight;
+	private TextView mTvPm2dot5InLow;
+	private TextView mTvPm2dot5InHeight;
+	private TextView mTvCo2Low;
+	private TextView mTvCo2Height;
+	private TextView mTvInInTemp;
+	private TextView mTvInOutTemp;
+	private TextView mTvOutInTemp;
+	private TextView mTvOutOutTemp;
+	private TextView mTvHumidity;
 
 	public static final HomeFragment newInstance() {
 		HomeFragment fragment = new HomeFragment();
@@ -56,8 +49,9 @@ public class HomeFragment extends FragmentBase {
 
 	private void initVariables() {
 		EventBus.getDefault().register(this);
-		mCommands = new ArrayList<MsgInfo>();
-		mMsginfoAdapter = new MsginfoAdapter(getActivity(), mCommands);
+		ExecutorService exec = Executors.newCachedThreadPool();
+		mUdpServer = new UDPServer();
+		exec.execute(mUdpServer);
 	}
 
 	@Override
@@ -71,26 +65,78 @@ public class HomeFragment extends FragmentBase {
 	private void initViews(View layout) {
 		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
 		tvTitle.setText(R.string.title_home);
-		mLvCommands = (ListView) layout.findViewById(R.id.lv_receive_command);
-		mLvCommands.setAdapter(mMsginfoAdapter);
-		mLvCommands.setCacheColorHint(0);
-		ExecutorService exec = Executors.newCachedThreadPool();
-		mUdpServer = new UDPServer(new DataRecvListener() {
-			// 接收到消息
-			public void onRecv(MsgInfo info) {
-				sendMsgToHandler(info);
-			}
-		});
-		exec.execute(mUdpServer);
+		mTvPpm = (TextView) layout.findViewById(R.id.tv_ppm);
+		mTvMode = (TextView) layout.findViewById(R.id.tv_mode);
+		mTvModeSwitch = (TextView) layout.findViewById(R.id.tv_mode_switch);
+		mTvPm2dot5OutLow = (TextView) layout.findViewById(R.id.tv_pm_2dot5_out_low);
+		mTvPm2dot5OutHeight = (TextView) layout.findViewById(R.id.tv_pm_2dot5_out_height);
+		mTvPm2dot5InLow = (TextView) layout.findViewById(R.id.tv_pm_2dot5_in_low);
+		mTvPm2dot5InHeight = (TextView) layout.findViewById(R.id.tv_pm_2dot5_in_height);
+		mTvCo2Low = (TextView) layout.findViewById(R.id.tv_co2_low);
+		mTvCo2Height = (TextView) layout.findViewById(R.id.tv_co2_height);
+		mTvInInTemp = (TextView) layout.findViewById(R.id.tv_in_in_wind_temp);
+		mTvInOutTemp = (TextView) layout.findViewById(R.id.tv_in_out_wind_temp);
+		mTvOutInTemp = (TextView) layout.findViewById(R.id.tv_out_in_wind_temp);
+		mTvOutOutTemp = (TextView) layout.findViewById(R.id.tv_out_out_wind_temp);
+		mTvHumidity = (TextView) layout.findViewById(R.id.tv_humidity);
 	}
 
-	private void sendMsgToHandler(MsgInfo info) {
-		Message msg = mHandler.obtainMessage(KEY_RECEIVE_COMMAND_WHAT, info);
-		mHandler.sendMessage(msg);
+	@Override
+	public void onResume() {
+		RcvComsModel model = DBMgr.getHistoryData(RcvComsModel.class, "DA");
+		refreashUi(model);
+		super.onResume();
+	}
+
+	private void refreashUi(RcvComsModel model) {
+		if (null == model) {
+			return;
+		}
+		mTvPpm.setText("" + CommandUtil.hexStringToInt(model.getCommand2()));
+		int mode = CommandUtil.hexStringToInt(model.getCommand3());
+		switch (mode) {
+			case 1:
+				mTvMode.setText("自动");
+				break;
+			case 2:
+				mTvMode.setText("手动");
+				break;
+			case 3:
+				mTvMode.setText("睡眠");
+				break;
+			default:
+				break;
+		}
+		mTvModeSwitch.setText(1 == CommandUtil.hexStringToInt(model.getCommand4()) ? "开" : "关");
+
+		mTvPm2dot5OutLow.setText("" + CommandUtil.hexStringToInt(model.getCommand5()));
+		mTvPm2dot5OutHeight.setText("" + CommandUtil.hexStringToInt(model.getCommand6()));
+		mTvPm2dot5InLow.setText("" + CommandUtil.hexStringToInt(model.getCommand7()));
+		mTvPm2dot5InHeight.setText("" + CommandUtil.hexStringToInt(model.getCommand8()));
+
+		mTvCo2Low.setText("" + CommandUtil.hexStringToInt(model.getCommand9()));
+		mTvCo2Height.setText("" + CommandUtil.hexStringToInt(model.getCommand10()));
+
+		mTvInInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand11()));
+		mTvInOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand12()));
+		mTvOutInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand13()));
+		mTvOutOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand14()));
+
+		mTvHumidity.setText("" + CommandUtil.hexStringToInt(model.getCommand15()));
 	}
 
 	public void onEventMainThread(String info) {
 		Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
+	}
+
+	/**
+	 * 收到指令方法
+	 * 
+	 * @param model
+	 *            指令数据
+	 */
+	public void onEventMainThread(RcvComsModel model) {
+		refreashUi(model);
 	}
 
 	@Override

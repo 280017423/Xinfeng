@@ -1,6 +1,9 @@
 package com.zjhbkj.xinfen.model;
 
+import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.orm.BaseModel;
+import com.zjhbkj.xinfen.util.CommandUtil;
+import com.zjhbkj.xinfen.util.EvtLog;
 
 /**
  * 设备->APP
@@ -204,6 +207,50 @@ public class RcvComsModel extends BaseModel {
 
 	public void setMsgTrailer(String msgTrailer) {
 		this.msgTrailer = msgTrailer;
+	}
+
+	public void receiveCommand(byte[] data) {
+		if (null == data || Global.COMMAND_LENGTH != data.length) {
+			return;
+		}
+		// TODO 检验checkSum值
+
+		msgHeader = CommandUtil.bytesToHexString(data[0]); // 报文头 AA
+		commandNum = CommandUtil.bytesToHexString(data[1]); // 指令号 DA
+		command1 = CommandUtil.bytesToHexString(data[2]); // 指令1
+		command2 = CommandUtil.bytesToHexString(data[3]); // 指令2 甲醛ppm一个字节
+		command3 = CommandUtil.bytesToHexString(data[4]); // 指令3 模式1 自动：2
+															// 手动：3睡眠：
+		command4 = CommandUtil.bytesToHexString(data[5]); // 指令4 模式开关 开：1 关：2
+		command5 = CommandUtil.bytesToHexString(data[6]); // 指令5 pm2.5室外 低字节
+		command6 = CommandUtil.bytesToHexString(data[7]); // 指令6 pm2.5室外 高字节
+		command7 = CommandUtil.bytesToHexString(data[8]); // 指令7 pm2.5室内低
+		command8 = CommandUtil.bytesToHexString(data[9]); // 指令8 pm2.5室内高
+		command9 = CommandUtil.bytesToHexString(data[10]); // 指令9 CO2:ppm 低
+		command10 = CommandUtil.bytesToHexString(data[11]); // 指令10 CO2:ppm 高
+		command11 = CommandUtil.bytesToHexString(data[12]); // 指令11 室内进风温度
+		command12 = CommandUtil.bytesToHexString(data[13]); // 指令12 室内出风温度
+		command13 = CommandUtil.bytesToHexString(data[14]); // 指令13 室外进风温度
+		command14 = CommandUtil.bytesToHexString(data[15]); // 指令14 室外出风温度
+		command15 = CommandUtil.bytesToHexString(data[16]); // 指令15 湿度
+		command16 = CommandUtil.bytesToHexString(data[17]); // 指令16 地址字节的最低位
+		command17 = CommandUtil.bytesToHexString(data[18]); // 指令17 地址字节的中间位
+		command18 = CommandUtil.bytesToHexString(data[19]); // 指令18 地址字节的最高位
+		checkSum = CommandUtil.bytesToHexString(data[20]); // 校验和 数据1+…数据18
+															// 和取一个字节
+		msgTrailer = CommandUtil.bytesToHexString(data[21]); // 报文尾 AB
+		EvtLog.d("aaa", toString());
+	}
+
+	@Override
+	public String toString() {
+		return "RcvComsModel [msgHeader=" + msgHeader + ", commandNum=" + commandNum + ", command1=" + command1
+				+ ", command2=" + command2 + ", command3=" + command3 + ", command4=" + command4 + ", command5="
+				+ command5 + ", command6=" + command6 + ", command7=" + command7 + ", command8=" + command8
+				+ ", command9=" + command9 + ", command10=" + command10 + ", command11=" + command11 + ", command12="
+				+ command12 + ", command13=" + command13 + ", command14=" + command14 + ", command15=" + command15
+				+ ", command16=" + command16 + ", command17=" + command17 + ", command18=" + command18 + ", checkSum="
+				+ checkSum + ", msgTrailer=" + msgTrailer + "]";
 	}
 
 }

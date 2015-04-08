@@ -13,7 +13,11 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
+import com.zjhbkj.xinfen.db.DBMgr;
+import com.zjhbkj.xinfen.model.RcvComsModel;
+import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.util.ActionSheetUtil;
+import com.zjhbkj.xinfen.util.CommandUtil;
 import com.zjhbkj.xinfen.util.WheelViewUtil;
 import com.zjhbkj.xinfen.widget.ActionSheet.ActionSheetClickListener;
 import com.zjhbkj.xinfen.widget.SlipButton;
@@ -59,6 +63,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private int mStartMinu;
 	private int mShutHour;
 	private int mShutMinu;
+	private SendComsModel mSendComsModel;
 	private Handler mHandler = new Handler() {
 
 		@Override
@@ -120,21 +125,44 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	}
 
 	private void initVariables() {
+		// 第一次进来拿到设备发过来的初始数据，初始化设置界面
+		RcvComsModel model = DBMgr.getHistoryData(RcvComsModel.class, "DA");
+		mSendComsModel = new SendComsModel();
 		mReportTime = 3; // 上报时间为3秒
-		mHz = 30;
-		mMode = 2;
-		mFunctionSwitch = 1;
+		mHz = 0;
+		mMode = CommandUtil.hexStringToInt(model.getCommand3());
+		mFunctionSwitch = CommandUtil.hexStringToInt(model.getCommand4());
+
+		mMinu = 15;
+		mHour = 12;
+		mDay = 15;
+		mMonth = 2;
+		mYear = 2016;
+
+		mStartMinu = 19;
+		mStartHour = 14;
+		mShutMinu = 30;
+		mShutHour = 20;
+
 		mStartShut = 2;
 		mPm2dot5 = 100;
-		mYear = 2016;
-		mMonth = 2;
-		mDay = 15;
-		mHour = 12;
-		mMinu = 15;
-		mStartHour = 14;
-		mStartMinu = 19;
-		mShutHour = 20;
-		mShutMinu = 30;
+
+		mSendComsModel.setCommand1(Integer.toHexString(mReportTime));
+		mSendComsModel.setCommand2(Integer.toHexString(mHz));
+		mSendComsModel.setCommand3(Integer.toHexString(mMode));
+		mSendComsModel.setCommand4(Integer.toHexString(mFunctionSwitch));
+		mSendComsModel.setCommand5(Integer.toHexString(mMinu));
+		mSendComsModel.setCommand6(Integer.toHexString(mHour));
+		mSendComsModel.setCommand7(Integer.toHexString(mDay));
+		mSendComsModel.setCommand8(Integer.toHexString(mMonth));
+		mSendComsModel.setCommand9(Integer.toHexString(mYear));
+		mSendComsModel.setCommand10(Integer.toHexString(mStartMinu));
+		mSendComsModel.setCommand11(Integer.toHexString(mStartHour));
+		mSendComsModel.setCommand12(Integer.toHexString(mShutMinu));
+		mSendComsModel.setCommand13(Integer.toHexString(mShutHour));
+		mSendComsModel.setCommand14(Integer.toHexString(mStartShut));
+		mSendComsModel.setCommand15(Integer.toHexString(mPm2dot5));
+		mSendComsModel.send();
 	}
 
 	@Override
@@ -144,6 +172,44 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		initViews(layout);
 		setListener();
 		return layout;
+	}
+
+	private void initViews(View layout) {
+		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
+		tvTitle.setText(R.string.bottom_tab_setting);
+		mRgMode = (RadioGroup) layout.findViewById(R.id.rg_mode);
+		mTvReportTime = (TextView) layout.findViewById(R.id.tv_report_time);
+		mTvHz = (TextView) layout.findViewById(R.id.tv_hz);
+		mBtnAddHz = (Button) layout.findViewById(R.id.btn_add_hz);
+		mBtnSubHz = (Button) layout.findViewById(R.id.btn_sub_hz);
+		mSbtnSetFunction = (SlipButton) layout.findViewById(R.id.sb_set_functional_switch);
+		mTvSetPm2dot5 = (TextView) layout.findViewById(R.id.tv_set_pm_2_5);
+		mTvDate = (TextView) layout.findViewById(R.id.tv_set_date);
+		mViewHz = layout.findViewById(R.id.rl_set_frequency);
+		mViewSetStartShut = layout.findViewById(R.id.rl_set_shut_down_start_up);
+		mViewSetPm2dot5 = layout.findViewById(R.id.rl_set_pm2_5);
+		mViewSetDate = layout.findViewById(R.id.rl_set_date);
+		mViewSetStartTime = layout.findViewById(R.id.rl_set_start_up_time);
+		mViewSetShutTime = layout.findViewById(R.id.rl_set_shut_down_time);
+		mViewSetTime = layout.findViewById(R.id.rl_set_time);
+		mTvTime = (TextView) layout.findViewById(R.id.tv_set_time);
+		mTvStartTime = (TextView) layout.findViewById(R.id.tv_set_start_time);
+		mTvShutTime = (TextView) layout.findViewById(R.id.tv_set_shut_time);
+		mTvSetStartShut = (TextView) layout.findViewById(R.id.tv_set_shut_down_start_up);
+		refreashUi();
+	}
+
+	private void refreashUi() {
+		mTvReportTime.setText(String.format("%ds", mReportTime));
+		mTvHz.setText("" + mHz);
+		mTvSetPm2dot5.setText("" + mPm2dot5);
+		mTvDate.setText(mYear + "-" + mMonth + "-" + mDay);
+		mTvTime.setText(mHour + ":" + mMinu);
+		mTvStartTime.setText(mStartHour + ":" + mStartMinu);
+		mTvShutTime.setText(mShutHour + ":" + mShutMinu);
+		refreashHzView();
+		refreashStartShut(mStartShut);
+		mSbtnSetFunction.setCheck(1 == mFunctionSwitch);
 	}
 
 	private void setListener() {
@@ -168,40 +234,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				mSbtnSetFunction.setCheck(1 == mFunctionSwitch);
 			}
 		});
-	}
-
-	private void initViews(View layout) {
-		mRgMode = (RadioGroup) layout.findViewById(R.id.rg_mode);
-		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
-		mTvReportTime = (TextView) layout.findViewById(R.id.tv_report_time);
-		mTvHz = (TextView) layout.findViewById(R.id.tv_hz);
-		mBtnAddHz = (Button) layout.findViewById(R.id.btn_add_hz);
-		mBtnSubHz = (Button) layout.findViewById(R.id.btn_sub_hz);
-		mSbtnSetFunction = (SlipButton) layout.findViewById(R.id.sb_set_functional_switch);
-		mTvSetPm2dot5 = (TextView) layout.findViewById(R.id.tv_set_pm_2_5);
-		mTvDate = (TextView) layout.findViewById(R.id.tv_set_date);
-		mViewHz = layout.findViewById(R.id.rl_set_frequency);
-		mViewSetStartShut = layout.findViewById(R.id.rl_set_shut_down_start_up);
-		mViewSetPm2dot5 = layout.findViewById(R.id.rl_set_pm2_5);
-		mViewSetDate = layout.findViewById(R.id.rl_set_date);
-		mViewSetStartTime = layout.findViewById(R.id.rl_set_start_up_time);
-		mViewSetShutTime = layout.findViewById(R.id.rl_set_shut_down_time);
-		mViewSetTime = layout.findViewById(R.id.rl_set_time);
-		mTvTime = (TextView) layout.findViewById(R.id.tv_set_time);
-		mTvStartTime = (TextView) layout.findViewById(R.id.tv_set_start_time);
-		mTvShutTime = (TextView) layout.findViewById(R.id.tv_set_shut_time);
-		mTvSetStartShut = (TextView) layout.findViewById(R.id.tv_set_shut_down_start_up);
-		tvTitle.setText(R.string.bottom_tab_setting);
-		mTvReportTime.setText(String.format("%ds", mReportTime));
-		mTvHz.setText("" + mHz);
-		mTvSetPm2dot5.setText("" + mPm2dot5);
-		mTvDate.setText(mYear + "-" + mMonth + "-" + mDay);
-		mTvTime.setText(mHour + ":" + mMinu);
-		mTvStartTime.setText(mStartHour + ":" + mStartMinu);
-		mTvShutTime.setText(mShutHour + ":" + mShutMinu);
-		refreashHzView();
-		refreashStartShut(mStartShut);
-		mSbtnSetFunction.setCheck(1 == mFunctionSwitch);
 	}
 
 	@Override
