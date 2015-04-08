@@ -6,5 +6,6 @@ public class Global {
 
 	public static String PASSWORD = "987654321";
 	public static int DEVICE_PORT = 5000;
+	public static int COMMAND_LENGTH = 22;
 
 }

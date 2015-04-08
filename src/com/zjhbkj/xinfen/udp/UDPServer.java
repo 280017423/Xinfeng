@@ -9,7 +9,9 @@ import java.net.SocketException;
 import android.util.Log;
 
 import com.zjhbkj.xinfen.commom.Global;
+import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.model.MsgInfo;
+import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
 
 import de.greenrobot.event.EventBus;
@@ -18,14 +20,12 @@ import de.greenrobot.event.EventBus;
  * UDP服务器类
  */
 public class UDPServer implements Runnable {
-	private byte[] msg = new byte[22];
+	private byte[] msg = new byte[Global.COMMAND_LENGTH];
 	private boolean onGoinglistner = true;
-	private DataRecvListener mDataRecvListener;
 	private DatagramSocket mReceiveSocket;
 	private DatagramSocket mSendSocket;
 
-	public UDPServer(DataRecvListener listener) {
-		mDataRecvListener = listener;
+	public UDPServer() {
 		init();
 	}
 
@@ -48,9 +48,15 @@ public class UDPServer implements Runnable {
 		while (onGoinglistner) {
 			try {
 				mReceiveSocket.receive(datagramPacket);
-				MsgInfo info = new MsgInfo(CommandUtil.bytesToHexString(datagramPacket.getData()));
-				info.setName(datagramPacket.getAddress().getHostAddress() + ":" + datagramPacket.getPort());
-				mDataRecvListener.onRecv(info);
+				RcvComsModel model = new RcvComsModel();
+				model.receiveCommand(datagramPacket.getData());
+				DBMgr.saveModel(model);
+				// MsgInfo info = new
+				// MsgInfo(CommandUtil.bytesToHexString(datagramPacket.getData()));
+				// info.setName(datagramPacket.getAddress().getHostAddress() +
+				// ":" + datagramPacket.getPort());
+				// mDataRecvListener.onRecv(info);
+				EventBus.getDefault().post(model);
 				datagramPacket.setLength(msg.length); // 重设数据包的长度
 				send(datagramPacket);
 			} catch (IOException e) {

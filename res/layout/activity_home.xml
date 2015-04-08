@@ -7,13 +7,9 @@
 
     <include layout="@layout/title_with_back_btn_wrap" />
 
-    <ListView
-        android:id="@+id/lv_receive_command"
+    <TextView
+        android:id="@+id/tv_receive_command"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:cacheColorHint="#00ffffff"
-        android:divider="#DD4610"
-        android:dividerHeight="0.7dp" >
-    </ListView>
+        android:layout_height="fill_parent" />
 
 </LinearLayout>

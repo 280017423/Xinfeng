@@ -1,47 +1,26 @@
 package com.zjhbkj.xinfen.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zjhbkj.xinfen.R;
-import com.zjhbkj.xinfen.adapter.MsginfoAdapter;
-import com.zjhbkj.xinfen.model.MsgInfo;
+import com.zjhbkj.xinfen.db.DBMgr;
+import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.udp.UDPServer;
-import com.zjhbkj.xinfen.udp.UDPServer.DataRecvListener;
 
 import de.greenrobot.event.EventBus;
 
 public class HomeFragment extends FragmentBase {
 
-	private static final int KEY_RECEIVE_COMMAND_WHAT = 1;
 	private UDPServer mUdpServer;
-	private ListView mLvCommands;
-	private MsginfoAdapter mMsginfoAdapter;
-	private List<MsgInfo> mCommands;
-	private Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case KEY_RECEIVE_COMMAND_WHAT:
-					mCommands.add((MsgInfo) msg.obj);
-					mMsginfoAdapter.notifyDataSetChanged();
-					mLvCommands.setSelection(mCommands.size() - 1);
-					break;
-			}
-		}
-	};
+	private TextView mTvCommands;
 
 	public static final HomeFragment newInstance() {
 		HomeFragment fragment = new HomeFragment();
@@ -56,8 +35,6 @@ public class HomeFragment extends FragmentBase {
 
 	private void initVariables() {
 		EventBus.getDefault().register(this);
-		mCommands = new ArrayList<MsgInfo>();
-		mMsginfoAdapter = new MsginfoAdapter(getActivity(), mCommands);
 	}
 
 	@Override
@@ -71,26 +48,32 @@ public class HomeFragment extends FragmentBase {
 	private void initViews(View layout) {
 		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
 		tvTitle.setText(R.string.title_home);
-		mLvCommands = (ListView) layout.findViewById(R.id.lv_receive_command);
-		mLvCommands.setAdapter(mMsginfoAdapter);
-		mLvCommands.setCacheColorHint(0);
+		mTvCommands = (TextView) layout.findViewById(R.id.tv_receive_command);
 		ExecutorService exec = Executors.newCachedThreadPool();
-		mUdpServer = new UDPServer(new DataRecvListener() {
-			// 接收到消息
-			public void onRecv(MsgInfo info) {
-				sendMsgToHandler(info);
-			}
-		});
+		mUdpServer = new UDPServer();
 		exec.execute(mUdpServer);
 	}
 
-	private void sendMsgToHandler(MsgInfo info) {
-		Message msg = mHandler.obtainMessage(KEY_RECEIVE_COMMAND_WHAT, info);
-		mHandler.sendMessage(msg);
+	@Override
+	public void onResume() {
+		RcvComsModel model = DBMgr.getHistoryData(RcvComsModel.class, "DA");
+		// TODO 开始刷新
+		super.onResume();
 	}
 
 	public void onEventMainThread(String info) {
 		Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
+	}
+
+	/**
+	 * 收到指令方法
+	 * 
+	 * @param model
+	 *            指令数据
+	 */
+	public void onEventMainThread(RcvComsModel model) {
+		mTvCommands.setText(model.toString());
+		// TODO 开始刷新
 	}
 
 	@Override
