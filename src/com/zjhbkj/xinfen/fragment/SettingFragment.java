@@ -48,21 +48,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private TextView mTvTime;
 	private TextView mTvStartTime;
 	private TextView mTvShutTime;
-	private int mReportTime; // 上报时间
-	private int mHz; // 设置频率
-	private int mMode; // 功能模式
-	private int mStartShut; // 开关机模式
-	private int mFunctionSwitch;
-	private int mPm2dot5;
-	private int mYear;
-	private int mMonth;
-	private int mDay;
-	private int mHour;
-	private int mMinu;
-	private int mStartHour;
-	private int mStartMinu;
-	private int mShutHour;
-	private int mShutMinu;
 	private SendComsModel mSendComsModel;
 	private Handler mHandler = new Handler() {
 
@@ -74,9 +59,10 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					mTvDate.setText(result);
 					String[] date = result.split("-");
 					if (null != date && 3 == date.length) {
-						mYear = Integer.parseInt(date[0]);
-						mMonth = Integer.parseInt(date[1]);
-						mDay = Integer.parseInt(date[2]);
+						mSendComsModel.setCommand7(Integer.toHexString(Integer.parseInt(date[2])));
+						mSendComsModel.setCommand8(Integer.toHexString(Integer.parseInt(date[1])));
+						mSendComsModel.setCommand9(Integer.toHexString(Integer.parseInt(date[0]) - 2000));
+						mSendComsModel.send();
 					}
 					break;
 				case CODE_GET_TIME:
@@ -84,8 +70,9 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					mTvTime.setText(time);
 					String[] tiems = time.split(":");
 					if (null != tiems && 2 == tiems.length) {
-						mHour = Integer.parseInt(tiems[0]);
-						mMinu = Integer.parseInt(tiems[1]);
+						mSendComsModel.setCommand5(Integer.toHexString(Integer.parseInt(tiems[1])));
+						mSendComsModel.setCommand6(Integer.toHexString(Integer.parseInt(tiems[0])));
+						mSendComsModel.send();
 					}
 					break;
 				case CODE_GET_START_TIME:
@@ -93,8 +80,9 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					mTvStartTime.setText(startTime);
 					String[] startTiems = startTime.split(":");
 					if (null != startTiems && 2 == startTiems.length) {
-						mStartHour = Integer.parseInt(startTiems[0]);
-						mStartMinu = Integer.parseInt(startTiems[1]);
+						mSendComsModel.setCommand10(Integer.toHexString(Integer.parseInt(startTiems[1])));
+						mSendComsModel.setCommand11(Integer.toHexString(Integer.parseInt(startTiems[0])));
+						mSendComsModel.send();
 					}
 					break;
 				case CODE_GET_SHUT_TIME:
@@ -102,8 +90,9 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					mTvShutTime.setText(shutTime);
 					String[] shutTiems = shutTime.split(":");
 					if (null != shutTiems && 2 == shutTiems.length) {
-						mShutHour = Integer.parseInt(shutTiems[0]);
-						mShutMinu = Integer.parseInt(shutTiems[1]);
+						mSendComsModel.setCommand12(Integer.toHexString(Integer.parseInt(shutTiems[1])));
+						mSendComsModel.setCommand13(Integer.toHexString(Integer.parseInt(shutTiems[0])));
+						mSendComsModel.send();
 					}
 					break;
 				default:
@@ -126,43 +115,32 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 
 	private void initVariables() {
 		// 第一次进来拿到设备发过来的初始数据，初始化设置界面
-		RcvComsModel model = DBMgr.getHistoryData(RcvComsModel.class, "DA");
-		mSendComsModel = new SendComsModel();
-		mReportTime = 3; // 上报时间为3秒
-		mHz = 0;
-		mMode = CommandUtil.hexStringToInt(model.getCommand3());
-		mFunctionSwitch = CommandUtil.hexStringToInt(model.getCommand4());
-
-		mMinu = 15;
-		mHour = 12;
-		mDay = 15;
-		mMonth = 2;
-		mYear = 2016;
-
-		mStartMinu = 19;
-		mStartHour = 14;
-		mShutMinu = 30;
-		mShutHour = 20;
-
-		mStartShut = 2;
-		mPm2dot5 = 100;
-
-		mSendComsModel.setCommand1(Integer.toHexString(mReportTime));
-		mSendComsModel.setCommand2(Integer.toHexString(mHz));
-		mSendComsModel.setCommand3(Integer.toHexString(mMode));
-		mSendComsModel.setCommand4(Integer.toHexString(mFunctionSwitch));
-		mSendComsModel.setCommand5(Integer.toHexString(mMinu));
-		mSendComsModel.setCommand6(Integer.toHexString(mHour));
-		mSendComsModel.setCommand7(Integer.toHexString(mDay));
-		mSendComsModel.setCommand8(Integer.toHexString(mMonth));
-		mSendComsModel.setCommand9(Integer.toHexString(mYear));
-		mSendComsModel.setCommand10(Integer.toHexString(mStartMinu));
-		mSendComsModel.setCommand11(Integer.toHexString(mStartHour));
-		mSendComsModel.setCommand12(Integer.toHexString(mShutMinu));
-		mSendComsModel.setCommand13(Integer.toHexString(mShutHour));
-		mSendComsModel.setCommand14(Integer.toHexString(mStartShut));
-		mSendComsModel.setCommand15(Integer.toHexString(mPm2dot5));
-		mSendComsModel.send();
+		mSendComsModel = DBMgr.getHistoryData(SendComsModel.class, "EA");
+		if (null == mSendComsModel) {
+			mSendComsModel = new SendComsModel();
+			RcvComsModel model = DBMgr.getHistoryData(RcvComsModel.class, "DA");
+			mSendComsModel.setCommand1(Integer.toHexString(3)); // 上报时间为3秒
+			mSendComsModel.setCommand2(Integer.toHexString(0));
+			mSendComsModel.setCommand3(Integer.toHexString(1));
+			mSendComsModel.setCommand4(Integer.toHexString(1));
+			if (null != model) {
+				mSendComsModel.setCommand3(model.getCommand3());
+				mSendComsModel.setCommand4(model.getCommand4());
+				// CommandUtil.hexStringToInt();
+			}
+			mSendComsModel.setCommand5(Integer.toHexString(15));
+			mSendComsModel.setCommand6(Integer.toHexString(12));
+			mSendComsModel.setCommand7(Integer.toHexString(15));
+			mSendComsModel.setCommand8(Integer.toHexString(02));
+			mSendComsModel.setCommand9(Integer.toHexString(2016 - 2000));
+			mSendComsModel.setCommand10(Integer.toHexString(19));
+			mSendComsModel.setCommand11(Integer.toHexString(14));
+			mSendComsModel.setCommand12(Integer.toHexString(30));
+			mSendComsModel.setCommand13(Integer.toHexString(20));
+			mSendComsModel.setCommand14(Integer.toHexString(02));
+			mSendComsModel.setCommand15(Integer.toHexString(100));
+			mSendComsModel.send();
+		}
 	}
 
 	@Override
@@ -200,16 +178,21 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	}
 
 	private void refreashUi() {
-		mTvReportTime.setText(String.format("%ds", mReportTime));
-		mTvHz.setText("" + mHz);
-		mTvSetPm2dot5.setText("" + mPm2dot5);
-		mTvDate.setText(mYear + "-" + mMonth + "-" + mDay);
-		mTvTime.setText(mHour + ":" + mMinu);
-		mTvStartTime.setText(mStartHour + ":" + mStartMinu);
-		mTvShutTime.setText(mShutHour + ":" + mShutMinu);
+		mTvReportTime.setText(String.format("%ds", CommandUtil.hexStringToInt(mSendComsModel.getCommand1())));
+		mTvHz.setText("" + CommandUtil.hexStringToInt(mSendComsModel.getCommand2()));
+		mTvSetPm2dot5.setText("" + CommandUtil.hexStringToInt(mSendComsModel.getCommand15()));
+		mTvDate.setText("20" + CommandUtil.hexStringToInt(mSendComsModel.getCommand9()) + "-"
+				+ CommandUtil.hexStringToInt(mSendComsModel.getCommand8()) + "-"
+				+ CommandUtil.hexStringToInt(mSendComsModel.getCommand7()));
+		mTvTime.setText(CommandUtil.hexStringToInt(mSendComsModel.getCommand6()) + ":"
+				+ CommandUtil.hexStringToInt(mSendComsModel.getCommand5()));
+		mTvStartTime.setText(CommandUtil.hexStringToInt(mSendComsModel.getCommand11()) + ":"
+				+ CommandUtil.hexStringToInt(mSendComsModel.getCommand10()));
+		mTvShutTime.setText(CommandUtil.hexStringToInt(mSendComsModel.getCommand13()) + ":"
+				+ CommandUtil.hexStringToInt(mSendComsModel.getCommand12()));
 		refreashHzView();
-		refreashStartShut(mStartShut);
-		mSbtnSetFunction.setCheck(1 == mFunctionSwitch);
+		refreashStartShut(CommandUtil.hexStringToInt(mSendComsModel.getCommand14()));
+		mSbtnSetFunction.setCheck(1 == CommandUtil.hexStringToInt(mSendComsModel.getCommand4()));
 	}
 
 	private void setListener() {
@@ -227,11 +210,12 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			@Override
 			public void onChanged(View view, boolean checkState) {
 				if (checkState) {
-					mFunctionSwitch = 1;
+					mSendComsModel.setCommand4(Integer.toHexString(1));
 				} else {
-					mFunctionSwitch = 2;
+					mSendComsModel.setCommand4(Integer.toHexString(2));
 				}
-				mSbtnSetFunction.setCheck(1 == mFunctionSwitch);
+				mSendComsModel.send();
+				mSbtnSetFunction.setCheck(1 == CommandUtil.hexStringToInt(mSendComsModel.getCommand4()));
 			}
 		});
 	}
@@ -246,33 +230,41 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				changeHz(false);
 				break;
 			case R.id.rl_set_pm2_5:
-				WheelViewUtil.showPm2dot5(getActivity(), mPm2dot5 - 50, this);
+				WheelViewUtil.showPm2dot5(getActivity(),
+						CommandUtil.hexStringToInt(mSendComsModel.getCommand15()) - 50, this);
 				break;
 			case R.id.rl_set_time:
-				WheelViewUtil.showTime(getActivity(), mHour, mMinu, mHandler, CODE_GET_TIME);
+				WheelViewUtil.showTime(getActivity(), CommandUtil.hexStringToInt(mSendComsModel.getCommand6()),
+						CommandUtil.hexStringToInt(mSendComsModel.getCommand5()), mHandler, CODE_GET_TIME);
 				break;
 			case R.id.rl_set_start_up_time:
-				WheelViewUtil.showTime(getActivity(), mStartHour, mStartMinu, mHandler, CODE_GET_START_TIME);
+				WheelViewUtil.showTime(getActivity(), CommandUtil.hexStringToInt(mSendComsModel.getCommand11()),
+						CommandUtil.hexStringToInt(mSendComsModel.getCommand10()), mHandler, CODE_GET_START_TIME);
 				break;
 			case R.id.rl_set_shut_down_time:
-				WheelViewUtil.showTime(getActivity(), mShutHour, mShutMinu, mHandler, CODE_GET_SHUT_TIME);
+				WheelViewUtil.showTime(getActivity(), CommandUtil.hexStringToInt(mSendComsModel.getCommand13()),
+						CommandUtil.hexStringToInt(mSendComsModel.getCommand12()), mHandler, CODE_GET_SHUT_TIME);
 				break;
 			case R.id.rl_set_date:
-				WheelViewUtil.showDate(getActivity(), mYear, mMonth, mDay, mHandler);
+				WheelViewUtil.showDate(getActivity(), 2000 + CommandUtil.hexStringToInt(mSendComsModel.getCommand9()),
+						CommandUtil.hexStringToInt(mSendComsModel.getCommand8()),
+						CommandUtil.hexStringToInt(mSendComsModel.getCommand7()), mHandler);
 				break;
 			case R.id.btn_ok:
-				mPm2dot5 = (Integer) v.getTag();
-				mTvSetPm2dot5.setText("" + mPm2dot5);
+				mSendComsModel.setCommand15(Integer.toHexString((Integer) v.getTag()));
+				mTvSetPm2dot5.setText("" + (Integer) v.getTag());
+				mSendComsModel.send();
 				break;
 			case R.id.rl_set_shut_down_start_up:
 				ActionSheetUtil.showActionSheet(getActivity(), new ActionSheetClickListener() {
 
 					@Override
 					public void onItemClick(int itemPosition) {
-						if (-1 != mStartShut) {
-							mStartShut = itemPosition;
+						if (-1 != itemPosition) {
+							refreashStartShut(itemPosition);
+							mSendComsModel.setCommand14(Integer.toHexString(itemPosition));
+							mSendComsModel.send();
 						}
-						refreashStartShut(itemPosition);
 					}
 				});
 				break;
@@ -283,6 +275,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	}
 
 	private void changeHz(boolean isAdd) {
+		int mHz = CommandUtil.hexStringToInt(mSendComsModel.getCommand2());
 		if (isAdd && 60 == mHz || !isAdd && 0 == mHz) {
 			return;
 		}
@@ -292,36 +285,39 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			mHz--;
 		}
 		mTvHz.setText("" + mHz);
-		// TODO 修改数据库，发送指令
+		mSendComsModel.setCommand2(Integer.toHexString(mHz));
+		mSendComsModel.send();
 	}
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		switch (checkedId) {
 			case R.id.rbtn_auto:
-				mMode = 1;
+				mSendComsModel.setCommand3(Integer.toHexString(1));
 				break;
 			case R.id.rbtn_manual:
-				mMode = 2;
+				mSendComsModel.setCommand3(Integer.toHexString(2));
 				break;
 			case R.id.rbtn_sleep:
-				mMode = 3;
+				mSendComsModel.setCommand3(Integer.toHexString(3));
 				break;
 
 			default:
 				break;
 		}
 		refreashHzView();
+		mSendComsModel.send();
 	}
 
 	private void refreashHzView() {
-		if (1 == mMode) {
+		int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand3());
+		if (1 == mode) {
 			mViewHz.setVisibility(View.GONE);
 			mRgMode.check(R.id.rbtn_auto);
-		} else if (2 == mMode) {
+		} else if (2 == mode) {
 			mViewHz.setVisibility(View.VISIBLE);
 			mRgMode.check(R.id.rbtn_manual);
-		} else if (3 == mMode) {
+		} else if (3 == mode) {
 			mViewHz.setVisibility(View.GONE);
 			mRgMode.check(R.id.rbtn_sleep);
 		}

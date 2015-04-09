@@ -3,6 +3,7 @@ package com.zjhbkj.xinfen.model;
 import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.orm.BaseModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
+import com.zjhbkj.xinfen.util.EvtLog;
 
 /**
  * APP->设备
@@ -174,7 +175,7 @@ public class SendComsModel extends BaseModel {
 				+ command5 + " " + command6 + " " + command7 + " " + command8 + " " + command9 + " " + command10 + " "
 				+ command11 + " " + command12 + " " + command13 + " " + command14 + " " + command15 + " " + command16
 				+ " " + command17 + " " + command18);
-		DBMgr.saveModel(this);
+		DBMgr.saveModel(this, "COMMAND_NUM = ?", "EA");
 	}
 
 	@Override

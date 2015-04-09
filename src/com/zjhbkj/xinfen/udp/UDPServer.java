@@ -14,7 +14,6 @@ import com.zjhbkj.xinfen.model.MsgInfo;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
-import com.zjhbkj.xinfen.util.EvtLog;
 
 import de.greenrobot.event.EventBus;
 
@@ -68,7 +67,6 @@ public class UDPServer implements Runnable {
 	public void send(DatagramPacket datagramPacket) {
 		SendComsModel model = DBMgr.getHistoryData(SendComsModel.class, "EA");
 		if (null != model) {
-			EvtLog.d("aaa", model.toString());
 			byte[] commands = CommandUtil.getCommand(model.toString());
 			DatagramPacket sendPacket = new DatagramPacket(
 					commands, commands.length, datagramPacket.getAddress(), datagramPacket.getPort());
