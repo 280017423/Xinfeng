@@ -50,11 +50,13 @@ public class UDPServer implements Runnable {
 			try {
 				mReceiveSocket.receive(datagramPacket);
 				RcvComsModel model = new RcvComsModel();
-				model.receiveCommand(datagramPacket.getData());
-				DBMgr.saveModel(model);
-				EventBus.getDefault().post(model);
+				boolean isValid = model.receiveCommand(datagramPacket.getData());
 				datagramPacket.setLength(msg.length); // 重设数据包的长度
-				send(datagramPacket);
+				if (isValid) {
+					DBMgr.saveModel(model);
+					EventBus.getDefault().post(model);
+					send(datagramPacket);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

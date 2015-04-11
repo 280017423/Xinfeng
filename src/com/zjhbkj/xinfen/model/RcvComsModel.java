@@ -5,6 +5,8 @@ import com.zjhbkj.xinfen.orm.BaseModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
 import com.zjhbkj.xinfen.util.EvtLog;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * 设备->APP
  */
@@ -209,11 +211,10 @@ public class RcvComsModel extends BaseModel {
 		this.msgTrailer = msgTrailer;
 	}
 
-	public void receiveCommand(byte[] data) {
+	public boolean receiveCommand(byte[] data) {
 		if (null == data || Global.COMMAND_LENGTH != data.length) {
-			return;
+			return false;
 		}
-		// TODO 检验checkSum值
 
 		msgHeader = CommandUtil.bytesToHexString(data[0]); // 报文头 AA
 		commandNum = CommandUtil.bytesToHexString(data[1]); // 指令号 DA
@@ -239,7 +240,22 @@ public class RcvComsModel extends BaseModel {
 		checkSum = CommandUtil.bytesToHexString(data[20]); // 校验和 数据1+…数据18
 															// 和取一个字节
 		msgTrailer = CommandUtil.bytesToHexString(data[21]); // 报文尾 AB
-		EvtLog.d("aaa", toString());
+
+		// 检验checkSum值
+		String calcCheckSum = CommandUtil.getCheckSum(getCheckSumString());
+		if (!checkSum.equals(calcCheckSum)) {
+			EventBus.getDefault().post("checkSum不一致" + checkSum + "====" + calcCheckSum);
+			return false;
+		}
+		EventBus.getDefault().post("checkSum通过");
+		return true;
+	}
+
+	private String getCheckSumString() {
+		return command1 + " " + command2 + " " + command3 + " " + command4 + " " + command5 + " " + command6 + " "
+				+ command7 + " " + command8 + " " + command9 + " " + command10 + " " + command11 + " " + command12
+				+ " " + command13 + " " + command14 + " " + command15 + " " + command16 + " " + command17 + " "
+				+ command18;
 	}
 
 	@Override
