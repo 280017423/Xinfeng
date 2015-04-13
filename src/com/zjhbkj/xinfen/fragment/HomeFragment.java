@@ -21,6 +21,7 @@ import de.greenrobot.event.EventBus;
 public class HomeFragment extends FragmentBase {
 
 	private UDPServer mUdpServer;
+	private TextView mTvFrequency;
 	private TextView mTvPpm;
 	private TextView mTvMode;
 	private TextView mTvModeSwitch;
@@ -62,6 +63,7 @@ public class HomeFragment extends FragmentBase {
 	private void initViews(View layout) {
 		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
 		tvTitle.setText(R.string.title_home);
+		mTvFrequency = (TextView) layout.findViewById(R.id.tv_frequency);
 		mTvPpm = (TextView) layout.findViewById(R.id.tv_ppm);
 		mTvMode = (TextView) layout.findViewById(R.id.tv_mode);
 		mTvModeSwitch = (TextView) layout.findViewById(R.id.tv_mode_switch);
@@ -86,6 +88,7 @@ public class HomeFragment extends FragmentBase {
 		if (null == model) {
 			return;
 		}
+		mTvFrequency.setText("" + CommandUtil.hexStringToInt(model.getCommand1()));
 		mTvPpm.setText("" + CommandUtil.hexStringToInt(model.getCommand2()) / 100.0);
 		int mode = CommandUtil.hexStringToInt(model.getCommand3());
 		switch (mode) {
