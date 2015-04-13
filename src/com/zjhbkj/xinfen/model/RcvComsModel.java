@@ -3,7 +3,6 @@ package com.zjhbkj.xinfen.model;
 import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.orm.BaseModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
-import com.zjhbkj.xinfen.util.EvtLog;
 
 import de.greenrobot.event.EventBus;
 
@@ -243,7 +242,7 @@ public class RcvComsModel extends BaseModel {
 
 		// 检验checkSum值
 		String calcCheckSum = CommandUtil.getCheckSum(getCheckSumString());
-		if (!checkSum.equals(calcCheckSum)) {
+		if (!checkSum.equalsIgnoreCase(calcCheckSum)) {
 			EventBus.getDefault().post("checkSum不一致" + checkSum + "====" + calcCheckSum);
 			return false;
 		}
@@ -267,6 +266,21 @@ public class RcvComsModel extends BaseModel {
 				+ command12 + ", command13=" + command13 + ", command14=" + command14 + ", command15=" + command15
 				+ ", command16=" + command16 + ", command17=" + command17 + ", command18=" + command18 + ", checkSum="
 				+ checkSum + ", msgTrailer=" + msgTrailer + "]";
+	}
+
+	public String getDisplayPm2dotOut() {
+		int pm2dot = CommandUtil.hexStringToInt(command5) + CommandUtil.hexStringToInt(command6) * 256;
+		return pm2dot + "";
+	}
+
+	public String getDisplayPm2dotIn() {
+		int pm2dot = CommandUtil.hexStringToInt(command7) + CommandUtil.hexStringToInt(command8) * 256;
+		return pm2dot + "";
+	}
+
+	public String getDisplayCo2() {
+		int pm2dot = CommandUtil.hexStringToInt(command9) + CommandUtil.hexStringToInt(command10) * 256;
+		return pm2dot + "";
 	}
 
 }

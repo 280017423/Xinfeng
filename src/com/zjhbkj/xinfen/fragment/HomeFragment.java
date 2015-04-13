@@ -24,12 +24,9 @@ public class HomeFragment extends FragmentBase {
 	private TextView mTvPpm;
 	private TextView mTvMode;
 	private TextView mTvModeSwitch;
-	private TextView mTvPm2dot5OutLow;
-	private TextView mTvPm2dot5OutHeight;
-	private TextView mTvPm2dot5InLow;
-	private TextView mTvPm2dot5InHeight;
-	private TextView mTvCo2Low;
-	private TextView mTvCo2Height;
+	private TextView mTvPm2dot5Out;
+	private TextView mTvPm2dot5In;
+	private TextView mTvCo2;
 	private TextView mTvInInTemp;
 	private TextView mTvInOutTemp;
 	private TextView mTvOutInTemp;
@@ -68,12 +65,9 @@ public class HomeFragment extends FragmentBase {
 		mTvPpm = (TextView) layout.findViewById(R.id.tv_ppm);
 		mTvMode = (TextView) layout.findViewById(R.id.tv_mode);
 		mTvModeSwitch = (TextView) layout.findViewById(R.id.tv_mode_switch);
-		mTvPm2dot5OutLow = (TextView) layout.findViewById(R.id.tv_pm_2dot5_out_low);
-		mTvPm2dot5OutHeight = (TextView) layout.findViewById(R.id.tv_pm_2dot5_out_height);
-		mTvPm2dot5InLow = (TextView) layout.findViewById(R.id.tv_pm_2dot5_in_low);
-		mTvPm2dot5InHeight = (TextView) layout.findViewById(R.id.tv_pm_2dot5_in_height);
-		mTvCo2Low = (TextView) layout.findViewById(R.id.tv_co2_low);
-		mTvCo2Height = (TextView) layout.findViewById(R.id.tv_co2_height);
+		mTvPm2dot5Out = (TextView) layout.findViewById(R.id.tv_pm_2dot5_out_low);
+		mTvPm2dot5In = (TextView) layout.findViewById(R.id.tv_pm_2dot5_in_low);
+		mTvCo2 = (TextView) layout.findViewById(R.id.tv_co2_low);
 		mTvInInTemp = (TextView) layout.findViewById(R.id.tv_in_in_wind_temp);
 		mTvInOutTemp = (TextView) layout.findViewById(R.id.tv_in_out_wind_temp);
 		mTvOutInTemp = (TextView) layout.findViewById(R.id.tv_out_in_wind_temp);
@@ -92,7 +86,7 @@ public class HomeFragment extends FragmentBase {
 		if (null == model) {
 			return;
 		}
-		mTvPpm.setText("" + CommandUtil.hexStringToInt(model.getCommand2()));
+		mTvPpm.setText("" + CommandUtil.hexStringToInt(model.getCommand2()) / 100.0);
 		int mode = CommandUtil.hexStringToInt(model.getCommand3());
 		switch (mode) {
 			case 1:
@@ -108,15 +102,9 @@ public class HomeFragment extends FragmentBase {
 				break;
 		}
 		mTvModeSwitch.setText(1 == CommandUtil.hexStringToInt(model.getCommand4()) ? "开" : "关");
-
-		mTvPm2dot5OutLow.setText("" + CommandUtil.hexStringToInt(model.getCommand5()));
-		mTvPm2dot5OutHeight.setText("" + CommandUtil.hexStringToInt(model.getCommand6()));
-		mTvPm2dot5InLow.setText("" + CommandUtil.hexStringToInt(model.getCommand7()));
-		mTvPm2dot5InHeight.setText("" + CommandUtil.hexStringToInt(model.getCommand8()));
-
-		mTvCo2Low.setText("" + CommandUtil.hexStringToInt(model.getCommand9()));
-		mTvCo2Height.setText("" + CommandUtil.hexStringToInt(model.getCommand10()));
-
+		mTvPm2dot5Out.setText(model.getDisplayPm2dotOut());
+		mTvPm2dot5In.setText(model.getDisplayPm2dotIn());
+		mTvCo2.setText(model.getDisplayCo2());
 		mTvInInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand11()));
 		mTvInOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand12()));
 		mTvOutInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand13()));
