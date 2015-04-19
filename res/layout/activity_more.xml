@@ -14,7 +14,7 @@
         android:background="#e0e0e0" />
 
     <RelativeLayout
-        android:id="@+id/rl_check_new_version"
+        android:id="@+id/rl_config"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:background="@drawable/tongyong_button_bg"
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
-            android:text="检查新版本"
+            android:text="配置"
             android:textColor="@color/text_color"
             android:textSize="@dimen/size_2" />
 
@@ -46,7 +46,7 @@
         android:background="#e0e0e0" />
 
     <RelativeLayout
-        android:id="@+id/rl_help"
+        android:id="@+id/rl_check_new_version"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:background="@drawable/tongyong_button_bg"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
-            android:text="帮助"
+            android:text="检查新版本"
             android:textColor="@color/text_color"
             android:textSize="@dimen/size_2" />
 

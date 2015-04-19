@@ -37,15 +37,11 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private SlipButton mSbtnSetFunction;
 	private View mViewHz;
 	private View mViewSetStartShut;
-	private View mViewSetDate;
-	private View mViewSetTime;
 	private View mViewSetStartTime;
 	private View mViewSetShutTime;
 	private View mViewSetPm2dot5;
 	private TextView mTvSetStartShut;
 	private TextView mTvSetPm2dot5;
-	private TextView mTvDate;
-	private TextView mTvTime;
 	private TextView mTvStartTime;
 	private TextView mTvShutTime;
 	private SendComsModel mSendComsModel;
@@ -54,27 +50,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-				case CODE_GET_DATE:
-					String result = (String) msg.obj;
-					mTvDate.setText(result);
-					String[] date = result.split("-");
-					if (null != date && 3 == date.length) {
-						mSendComsModel.setCommand7(Integer.toHexString(Integer.parseInt(date[2])));
-						mSendComsModel.setCommand8(Integer.toHexString(Integer.parseInt(date[1])));
-						mSendComsModel.setCommand9(Integer.toHexString(Integer.parseInt(date[0]) - 2000));
-						mSendComsModel.send();
-					}
-					break;
-				case CODE_GET_TIME:
-					String time = (String) msg.obj;
-					mTvTime.setText(time);
-					String[] tiems = time.split(":");
-					if (null != tiems && 2 == tiems.length) {
-						mSendComsModel.setCommand5(Integer.toHexString(Integer.parseInt(tiems[1])));
-						mSendComsModel.setCommand6(Integer.toHexString(Integer.parseInt(tiems[0])));
-						mSendComsModel.send();
-					}
-					break;
 				case CODE_GET_START_TIME:
 					String startTime = (String) msg.obj;
 					mTvStartTime.setText(startTime);
@@ -120,19 +95,13 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			mSendComsModel = new SendComsModel();
 			RcvComsModel model = DBMgr.getHistoryData(RcvComsModel.class, "DA");
 			mSendComsModel.setCommand1(Integer.toHexString(3)); // 上报时间为3秒
-			mSendComsModel.setCommand2(Integer.toHexString(0));
+			mSendComsModel.setCommand2(Integer.toHexString(10));
 			mSendComsModel.setCommand3(Integer.toHexString(1));
 			mSendComsModel.setCommand4(Integer.toHexString(1));
 			if (null != model) {
 				mSendComsModel.setCommand3(model.getCommand3());
 				mSendComsModel.setCommand4(model.getCommand4());
-				// CommandUtil.hexStringToInt();
 			}
-			mSendComsModel.setCommand5(Integer.toHexString(15));
-			mSendComsModel.setCommand6(Integer.toHexString(12));
-			mSendComsModel.setCommand7(Integer.toHexString(15));
-			mSendComsModel.setCommand8(Integer.toHexString(02));
-			mSendComsModel.setCommand9(Integer.toHexString(2016 - 2000));
 			mSendComsModel.setCommand10(Integer.toHexString(19));
 			mSendComsModel.setCommand11(Integer.toHexString(14));
 			mSendComsModel.setCommand12(Integer.toHexString(30));
@@ -162,15 +131,11 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mBtnSubHz = (Button) layout.findViewById(R.id.btn_sub_hz);
 		mSbtnSetFunction = (SlipButton) layout.findViewById(R.id.sb_set_functional_switch);
 		mTvSetPm2dot5 = (TextView) layout.findViewById(R.id.tv_set_pm_2_5);
-		mTvDate = (TextView) layout.findViewById(R.id.tv_set_date);
 		mViewHz = layout.findViewById(R.id.rl_set_frequency);
 		mViewSetStartShut = layout.findViewById(R.id.rl_set_shut_down_start_up);
 		mViewSetPm2dot5 = layout.findViewById(R.id.rl_set_pm2_5);
-		mViewSetDate = layout.findViewById(R.id.rl_set_date);
 		mViewSetStartTime = layout.findViewById(R.id.rl_set_start_up_time);
 		mViewSetShutTime = layout.findViewById(R.id.rl_set_shut_down_time);
-		mViewSetTime = layout.findViewById(R.id.rl_set_time);
-		mTvTime = (TextView) layout.findViewById(R.id.tv_set_time);
 		mTvStartTime = (TextView) layout.findViewById(R.id.tv_set_start_time);
 		mTvShutTime = (TextView) layout.findViewById(R.id.tv_set_shut_time);
 		mTvSetStartShut = (TextView) layout.findViewById(R.id.tv_set_shut_down_start_up);
@@ -181,11 +146,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mTvReportTime.setText(String.format("%ds", CommandUtil.hexStringToInt(mSendComsModel.getCommand1())));
 		mTvHz.setText("" + CommandUtil.hexStringToInt(mSendComsModel.getCommand2()));
 		mTvSetPm2dot5.setText("" + CommandUtil.hexStringToInt(mSendComsModel.getCommand15()));
-		mTvDate.setText("20" + CommandUtil.hexStringToInt(mSendComsModel.getCommand9()) + "-"
-				+ CommandUtil.hexStringToInt(mSendComsModel.getCommand8()) + "-"
-				+ CommandUtil.hexStringToInt(mSendComsModel.getCommand7()));
-		mTvTime.setText(CommandUtil.hexStringToInt(mSendComsModel.getCommand6()) + ":"
-				+ CommandUtil.hexStringToInt(mSendComsModel.getCommand5()));
 		mTvStartTime.setText(CommandUtil.hexStringToInt(mSendComsModel.getCommand11()) + ":"
 				+ CommandUtil.hexStringToInt(mSendComsModel.getCommand10()));
 		mTvShutTime.setText(CommandUtil.hexStringToInt(mSendComsModel.getCommand13()) + ":"
@@ -201,10 +161,8 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mRgMode.setOnCheckedChangeListener(this);
 		mViewSetStartShut.setOnClickListener(this);
 		mViewSetPm2dot5.setOnClickListener(this);
-		mViewSetTime.setOnClickListener(this);
 		mViewSetStartTime.setOnClickListener(this);
 		mViewSetShutTime.setOnClickListener(this);
-		mViewSetDate.setOnClickListener(this);
 		mSbtnSetFunction.setOnChangedListener(new OnChangedListener() {
 
 			@Override
@@ -233,10 +191,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				WheelViewUtil.showPm2dot5(getActivity(),
 						CommandUtil.hexStringToInt(mSendComsModel.getCommand15()) - 50, this);
 				break;
-			case R.id.rl_set_time:
-				WheelViewUtil.showTime(getActivity(), CommandUtil.hexStringToInt(mSendComsModel.getCommand6()),
-						CommandUtil.hexStringToInt(mSendComsModel.getCommand5()), mHandler, CODE_GET_TIME);
-				break;
 			case R.id.rl_set_start_up_time:
 				WheelViewUtil.showTime(getActivity(), CommandUtil.hexStringToInt(mSendComsModel.getCommand11()),
 						CommandUtil.hexStringToInt(mSendComsModel.getCommand10()), mHandler, CODE_GET_START_TIME);
@@ -244,11 +198,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			case R.id.rl_set_shut_down_time:
 				WheelViewUtil.showTime(getActivity(), CommandUtil.hexStringToInt(mSendComsModel.getCommand13()),
 						CommandUtil.hexStringToInt(mSendComsModel.getCommand12()), mHandler, CODE_GET_SHUT_TIME);
-				break;
-			case R.id.rl_set_date:
-				WheelViewUtil.showDate(getActivity(), 2000 + CommandUtil.hexStringToInt(mSendComsModel.getCommand9()),
-						CommandUtil.hexStringToInt(mSendComsModel.getCommand8()),
-						CommandUtil.hexStringToInt(mSendComsModel.getCommand7()), mHandler);
 				break;
 			case R.id.btn_ok:
 				mSendComsModel.setCommand15(Integer.toHexString((Integer) v.getTag()));
@@ -276,7 +225,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 
 	private void changeHz(boolean isAdd) {
 		int mHz = CommandUtil.hexStringToInt(mSendComsModel.getCommand2());
-		if (isAdd && 60 == mHz || !isAdd && 0 == mHz) {
+		if (isAdd && 60 == mHz || !isAdd && 10 == mHz) {
 			return;
 		}
 		if (isAdd) {

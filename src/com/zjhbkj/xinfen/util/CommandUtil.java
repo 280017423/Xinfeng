@@ -74,4 +74,14 @@ public class CommandUtil {
 		}
 		return result;
 	}
+	
+	public static String toHexString(String s) {
+		String str = "";
+		for (int i = 0; i < s.length(); i++) {
+			int ch = (int) s.charAt(i);
+			String s4 = Integer.toHexString(ch);
+			str += s4 + " ";
+		}
+		return str.trim();
+	}
 }

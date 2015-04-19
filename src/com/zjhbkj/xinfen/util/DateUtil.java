@@ -1,10 +1,11 @@
 package com.zjhbkj.xinfen.util;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class DateUtil {
-	
+
 	public static int getDayNum(int year, int month) {
 		String[] big_months = { "1", "3", "5", "7", "8", "10", "12" };
 		String[] little_months = { "4", "6", "9", "11" };
@@ -25,4 +26,21 @@ public class DateUtil {
 		}
 	}
 
+	public static int getDateTime(int filed) {
+		Calendar calendar = Calendar.getInstance();
+		switch (filed) {
+			case Calendar.YEAR:
+				return calendar.get(Calendar.YEAR) - 2000;
+			case Calendar.MONTH:
+				return calendar.get(Calendar.MONTH) + 1;
+			case Calendar.DAY_OF_MONTH:
+				return calendar.get(Calendar.DAY_OF_MONTH);
+			case Calendar.HOUR_OF_DAY:
+				return calendar.get(Calendar.HOUR_OF_DAY);
+			case Calendar.MINUTE:
+				return calendar.get(Calendar.MINUTE);
+			default:
+				return 0;
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package com.zjhbkj.xinfen.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
+import com.zjhbkj.xinfen.activity.ConfigActivity;
 
 public class MoreFragment extends FragmentBase implements OnClickListener {
 
@@ -48,17 +50,17 @@ public class MoreFragment extends FragmentBase implements OnClickListener {
 		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
 		tvTitle.setText(R.string.bottom_tab_more);
 		mViewCheck = layout.findViewById(R.id.rl_check_new_version);
-		mViewHelp = layout.findViewById(R.id.rl_help);
+		mViewHelp = layout.findViewById(R.id.rl_config);
 		mViewAbout = layout.findViewById(R.id.rl_about);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.rl_check_new_version:
-				toast("开发中...");
+			case R.id.rl_config:
+				startActivity(new Intent(getActivity(), ConfigActivity.class));
 				break;
-			case R.id.rl_help:
+			case R.id.rl_check_new_version:
 				toast("开发中...");
 				break;
 			case R.id.rl_about:

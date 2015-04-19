@@ -114,7 +114,7 @@ public class ActionSheet extends Dialog implements OnClickListener {
 		mBg = new View(mContext);
 		mBg.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		mBg.setBackgroundColor(Color.argb(136, 0, 0, 0));
-		mBg.setId(BG_VIEW_ID);
+		mBg.setId(CANCEL_BUTTON_ID);
 		mBg.setOnClickListener(this);
 
 		mPanel = new LinearLayout(mContext);

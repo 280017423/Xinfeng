@@ -15,9 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
+import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.fragment.HomeFragment;
 import com.zjhbkj.xinfen.fragment.MoreFragment;
 import com.zjhbkj.xinfen.fragment.SettingFragment;
+import com.zjhbkj.xinfen.model.RcvComsModel;
+import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.util.WifiApUtil;
 
 public class MainActivity extends BaseFragmentActivity implements OnClickListener {
@@ -40,6 +43,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	}
 
 	private void initVariables() {
+		initSendData();
 		fragmentManager = getSupportFragmentManager();
 	}
 
@@ -226,6 +230,30 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 				break;
 		}
 		super.onNegativeBtnClick(id, dialog, which);
+	}
+
+	private void initSendData() {
+		// 第一次进来拿到设备发过来的初始数据，初始化设置界面
+		SendComsModel mSendComsModel = DBMgr.getHistoryData(SendComsModel.class, "EA");
+		if (null == mSendComsModel) {
+			mSendComsModel = new SendComsModel();
+			RcvComsModel model = DBMgr.getHistoryData(RcvComsModel.class, "DA");
+			mSendComsModel.setCommand1(Integer.toHexString(3)); // 上报时间为3秒
+			mSendComsModel.setCommand2(Integer.toHexString(10));
+			mSendComsModel.setCommand3(Integer.toHexString(1));
+			mSendComsModel.setCommand4(Integer.toHexString(1));
+			if (null != model) {
+				mSendComsModel.setCommand3(model.getCommand3());
+				mSendComsModel.setCommand4(model.getCommand4());
+			}
+			mSendComsModel.setCommand10(Integer.toHexString(19));
+			mSendComsModel.setCommand11(Integer.toHexString(14));
+			mSendComsModel.setCommand12(Integer.toHexString(30));
+			mSendComsModel.setCommand13(Integer.toHexString(20));
+			mSendComsModel.setCommand14(Integer.toHexString(02));
+			mSendComsModel.setCommand15(Integer.toHexString(100));
+			mSendComsModel.send();
+		}
 	}
 
 }

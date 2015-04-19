@@ -1,38 +1,31 @@
 package com.zjhbkj.xinfen.model;
 
-import java.util.Calendar;
-
-import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.orm.BaseModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
-import com.zjhbkj.xinfen.util.DateUtil;
 
-/**
- * APP->设备
- */
-public class SendComsModel extends BaseModel {
+public class SendConfigModel extends BaseModel {
 
 	private static final long serialVersionUID = 5745366813639864256L;
 	private String msgHeader = "AA"; // 报文头 APP->设备：AA
-	private String commandNum = "EA"; // 指令号 APP->设备：EA
-	private String command1; // 指令1 设置上报间隔 单位：秒
-	private String command2; // 指令2 设置频率 单位: Hz（只对手动有效）
-	private String command3; // 指令3 设置模式1 自动：2 手动：3睡眠：
-	private String command4; // 指令4 设置功能开关 开：1 关：2
-	private String command5; // 指令5 设置时间 分钟
-	private String command6; // 指令6 设置时间 小时
-	private String command7; // 指令7 设置时间 日
-	private String command8; // 指令8 设置时间 月
-	private String command9; // 指令9 设置时间 年
-	private String command10; // 指令10 设置开机 分钟
-	private String command11; // 指令11 设置开机小时
-	private String command12; // 指令12 设置关机分钟
-	private String command13; // 指令13 设置关机小时
-	private String command14; // 指令14 设置开/关机0:开机1：关机2：链接内网3：链接外网
-	private String command15; // 指令15 设置自动模式静电除尘开启的户外PM2.5
-	private String command16 = "2"; // 指令16 地址字节的最低位
-	private String command17 = "2"; // 指令17 地址字节的中间位
-	private String command18 = "3"; // 指令18 地址字节的最高位
+	private String commandNum = "BA"; // 指令号 APP->设备：BA
+	private String command1;
+	private String command2;
+	private String command3;
+	private String command4;
+	private String command5;
+	private String command6;
+	private String command7;
+	private String command8;
+	private String command9;
+	private String command10;
+	private String command11;
+	private String command12;
+	private String command13;
+	private String command14;
+	private String command15;
+	private String command16;
+	private String command17;
+	private String command18;
 	private String checkSum; // 校验和 数据1+…数据18 和取一个字节
 	private String msgTrailer = "AB"; // 报文尾 AB
 
@@ -156,6 +149,46 @@ public class SendComsModel extends BaseModel {
 		this.command15 = command15;
 	}
 
+	public String getMsgHeader() {
+		return msgHeader;
+	}
+
+	public void setMsgHeader(String msgHeader) {
+		this.msgHeader = msgHeader;
+	}
+
+	public String getCommandNum() {
+		return commandNum;
+	}
+
+	public void setCommandNum(String commandNum) {
+		this.commandNum = commandNum;
+	}
+
+	public String getCommand16() {
+		return command16;
+	}
+
+	public void setCommand16(String command16) {
+		this.command16 = command16;
+	}
+
+	public String getCommand17() {
+		return command17;
+	}
+
+	public void setCommand17(String command17) {
+		this.command17 = command17;
+	}
+
+	public String getCommand18() {
+		return command18;
+	}
+
+	public void setCommand18(String command18) {
+		this.command18 = command18;
+	}
+
 	public String getCheckSum() {
 		return checkSum;
 	}
@@ -172,21 +205,12 @@ public class SendComsModel extends BaseModel {
 		this.msgTrailer = msgTrailer;
 	}
 
-	public void send() {
-		DBMgr.saveModel(this, "COMMAND_NUM = ?", "EA");
-	}
-
 	@Override
 	public String toString() {
-		command5 = Integer.toHexString(DateUtil.getDateTime(Calendar.MINUTE));
-		command6 = Integer.toHexString(DateUtil.getDateTime(Calendar.HOUR_OF_DAY));
-		command7 = Integer.toHexString(DateUtil.getDateTime(Calendar.DAY_OF_MONTH));
-		command8 = Integer.toHexString(DateUtil.getDateTime(Calendar.MONTH));
-		command9 = Integer.toHexString(DateUtil.getDateTime(Calendar.YEAR));
-		checkSum = CommandUtil.getCheckSum(command1 + " " + command2 + " " + command3 + " " + command4 + " "
-				+ command5 + " " + command6 + " " + command7 + " " + command8 + " " + command9 + " " + command10 + " "
-				+ command11 + " " + command12 + " " + command13 + " " + command14 + " " + command15 + " " + command16
-				+ " " + command17 + " " + command18);
+		checkSum = CommandUtil.getCheckSum(command1 + " " + command2 + " " + command3 + " " + command4 + " " + command5
+				+ " " + command6 + " " + command7 + " " + command8 + " " + command9 + " " + command10 + " " + command11
+				+ " " + command12 + " " + command13 + " " + command14 + " " + command15 + " " + command16 + " "
+				+ command17 + " " + command18);
 		return msgHeader + " " + commandNum + " " + command1 + " " + command2 + " " + command3 + " " + command4 + " "
 				+ command5 + " " + command6 + " " + command7 + " " + command8 + " " + command9 + " " + command10 + " "
 				+ command11 + " " + command12 + " " + command13 + " " + command14 + " " + command15 + " " + command16

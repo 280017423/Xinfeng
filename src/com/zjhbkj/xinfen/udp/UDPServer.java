@@ -10,10 +10,12 @@ import android.util.Log;
 
 import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.db.DBMgr;
-import com.zjhbkj.xinfen.model.MsgInfo;
+import com.zjhbkj.xinfen.model.ConfigModel;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
+import com.zjhbkj.xinfen.model.SendConfigModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
+import com.zjhbkj.xinfen.util.StringUtil;
 
 import de.greenrobot.event.EventBus;
 
@@ -50,7 +52,12 @@ public class UDPServer implements Runnable {
 			try {
 				mReceiveSocket.receive(datagramPacket);
 				RcvComsModel model = new RcvComsModel();
-				boolean isValid = model.receiveCommand(datagramPacket.getData());
+				byte[] data = datagramPacket.getData();
+				if (null == data || Global.COMMAND_LENGTH != data.length) {
+					return;
+				}
+				// TODO 判断是什么数据
+				boolean isValid = model.receiveCommand(data);
 				datagramPacket.setLength(msg.length); // 重设数据包的长度
 				if (isValid) {
 					DBMgr.saveModel(model);
@@ -68,6 +75,7 @@ public class UDPServer implements Runnable {
 	 */
 	public void send(DatagramPacket datagramPacket) {
 		SendComsModel model = DBMgr.getHistoryData(SendComsModel.class, "EA");
+		ConfigModel configModel = DBMgr.getConfigModel("0");
 		if (null != model) {
 			byte[] commands = CommandUtil.getCommand(model.toString());
 			DatagramPacket sendPacket = new DatagramPacket(
@@ -79,6 +87,64 @@ public class UDPServer implements Runnable {
 				e.printStackTrace();
 				EventBus.getDefault().post("消息发送失败." + e.toString());
 			}
+		}
+		if (null != configModel && !StringUtil.isNullOrEmpty(configModel.getSsid())) {
+			String info = configModel.getSendInfio();
+			int left = info.length() % 17;
+			int count = info.length() / 17;
+			if (left > 0) {
+				count++;
+			}
+			char[] src = info.toCharArray();
+			char[] dest = new char[17 * count];
+			for (int i = 0; i < src.length; i++) {
+				dest[i] = src[i];
+			}
+			for (int i = 0; i < count; i++) {
+				SendConfigModel sendConfigModel = new SendConfigModel();
+				if (i == count - 1) {
+					sendConfigModel.setCommand1(Integer.toHexString(255));
+				} else {
+					sendConfigModel.setCommand1(Integer.toHexString(i));
+				}
+				sendConfigModel.setCommand2(Integer.toHexString(dest[i * 17 + 0]));
+				sendConfigModel.setCommand3(Integer.toHexString(dest[i * 17 + 1]));
+				sendConfigModel.setCommand4(Integer.toHexString(dest[i * 17 + 2]));
+				sendConfigModel.setCommand5(Integer.toHexString(dest[i * 17 + 3]));
+				sendConfigModel.setCommand6(Integer.toHexString(dest[i * 17 + 4]));
+				sendConfigModel.setCommand7(Integer.toHexString(dest[i * 17 + 5]));
+				sendConfigModel.setCommand8(Integer.toHexString(dest[i * 17 + 6]));
+				sendConfigModel.setCommand9(Integer.toHexString(dest[i * 17 + 7]));
+				sendConfigModel.setCommand10(Integer.toHexString(dest[i * 17 + 8]));
+				sendConfigModel.setCommand11(Integer.toHexString(dest[i * 17 + 9]));
+				sendConfigModel.setCommand12(Integer.toHexString(dest[i * 17 + 10]));
+				sendConfigModel.setCommand13(Integer.toHexString(dest[i * 17 + 11]));
+				sendConfigModel.setCommand14(Integer.toHexString(dest[i * 17 + 12]));
+				sendConfigModel.setCommand15(Integer.toHexString(dest[i * 17 + 13]));
+				sendConfigModel.setCommand16(Integer.toHexString(dest[i * 17 + 14]));
+				sendConfigModel.setCommand17(Integer.toHexString(dest[i * 17 + 15]));
+				sendConfigModel.setCommand18(Integer.toHexString(dest[i * 17 + 16]));
+				byte[] sendConfigCommands = CommandUtil.getCommand(sendConfigModel.toString());
+				DatagramPacket sendPacket = new DatagramPacket(
+						sendConfigCommands, sendConfigCommands.length, datagramPacket.getAddress(),
+						datagramPacket.getPort());
+				try {
+					mSendSocket.send(sendPacket);
+					EventBus.getDefault().post(
+							"发送配置信息成功" + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+					EventBus.getDefault().post("发送配置信息失败." + e.toString());
+				}
+			}
+			// 更新状态
+			configModel.setHasSent(1);
+			DBMgr.saveModel(configModel);
 		}
 	}
 
@@ -94,7 +160,7 @@ public class UDPServer implements Runnable {
 	}
 
 	public static interface DataRecvListener {
-		public void onRecv(MsgInfo info);
+		public void onRecv(ConfigModel info);
 	};
 
 	public void stopAcceptMessage() {

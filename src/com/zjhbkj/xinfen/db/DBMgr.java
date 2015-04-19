@@ -2,6 +2,7 @@ package com.zjhbkj.xinfen.db;
 
 import java.util.List;
 
+import com.zjhbkj.xinfen.model.ConfigModel;
 import com.zjhbkj.xinfen.orm.BaseModel;
 import com.zjhbkj.xinfen.orm.DataAccessException;
 import com.zjhbkj.xinfen.orm.DataManager;
@@ -99,24 +100,25 @@ public class DBMgr {
 		return results;
 	}
 
-	/**
-	 * 下拉刷新
-	 * 
-	 * @param type
-	 *            指定的model
-	 * @param <T>
-	 *            BaseModel的子类
-	 * @param key
-	 *            主键
-	 * @return List<T> 指定的model的缓存数据
-	 * 
-	 */
 	public static <T extends BaseModel> T getHistoryData(Class<T> type, String commandNum) {
 		T results = null;
 		DataManager dataManager = DBUtil.getDataManager();
 		dataManager.open();
 		try {
 			results = dataManager.get(type, "COMMAND_NUM = ?", new String[] { commandNum });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		dataManager.close();
+		return results;
+	}
+
+	public static ConfigModel getConfigModel(String hasSent) {
+		ConfigModel results = null;
+		DataManager dataManager = DBUtil.getDataManager();
+		dataManager.open();
+		try {
+			results = dataManager.get(ConfigModel.class, "HAS_SENT = ?", new String[] { hasSent });
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		}

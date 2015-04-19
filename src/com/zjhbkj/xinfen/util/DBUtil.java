@@ -3,6 +3,7 @@ package com.zjhbkj.xinfen.util;
 import android.content.Context;
 
 import com.zjhbkj.xinfen.app.XinfengApplication;
+import com.zjhbkj.xinfen.model.ConfigModel;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.orm.DataManager;
@@ -28,6 +29,7 @@ public class DBUtil {
 			DATABASE_BUILDER = new DatabaseBuilder(PackageUtil.getConfigString("db_name"));
 			DATABASE_BUILDER.addClass(SendComsModel.class);
 			DATABASE_BUILDER.addClass(RcvComsModel.class);
+			DATABASE_BUILDER.addClass(ConfigModel.class);
 		}
 	}
 
