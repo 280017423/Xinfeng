@@ -76,18 +76,6 @@ public class UDPServer implements Runnable {
 	public void send(DatagramPacket datagramPacket) {
 		SendComsModel model = DBMgr.getHistoryData(SendComsModel.class, "EA");
 		ConfigModel configModel = DBMgr.getConfigModel("0");
-		if (null != model) {
-			byte[] commands = CommandUtil.getCommand(model.toString());
-			DatagramPacket sendPacket = new DatagramPacket(
-					commands, commands.length, datagramPacket.getAddress(), datagramPacket.getPort());
-			try {
-				mSendSocket.send(sendPacket);
-				EventBus.getDefault().post("消息发送成功" + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
-			} catch (IOException e) {
-				e.printStackTrace();
-				EventBus.getDefault().post("消息发送失败." + e.toString());
-			}
-		}
 		if (null != configModel && !StringUtil.isNullOrEmpty(configModel.getSsid())) {
 			String info = configModel.getSendInfio();
 			int left = info.length() % 17;
@@ -133,7 +121,7 @@ public class UDPServer implements Runnable {
 					EventBus.getDefault().post(
 							"发送配置信息成功" + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
 					try {
-						Thread.sleep(50);
+						Thread.sleep(800);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -145,6 +133,17 @@ public class UDPServer implements Runnable {
 			// 更新状态
 			configModel.setHasSent(1);
 			DBMgr.saveModel(configModel);
+		} else if (null != model) {
+			byte[] commands = CommandUtil.getCommand(model.toString());
+			DatagramPacket sendPacket = new DatagramPacket(
+					commands, commands.length, datagramPacket.getAddress(), datagramPacket.getPort());
+			try {
+				mSendSocket.send(sendPacket);
+				EventBus.getDefault().post("消息发送成功" + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
+			} catch (IOException e) {
+				e.printStackTrace();
+				EventBus.getDefault().post("消息发送失败." + e.toString());
+			}
 		}
 	}
 
