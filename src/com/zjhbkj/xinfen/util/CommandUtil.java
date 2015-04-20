@@ -74,7 +74,7 @@ public class CommandUtil {
 		}
 		return result;
 	}
-	
+
 	public static String toHexString(String s) {
 		String str = "";
 		for (int i = 0; i < s.length(); i++) {
@@ -83,5 +83,20 @@ public class CommandUtil {
 			str += s4 + " ";
 		}
 		return str.trim();
+	}
+
+	/**
+	 * @Description 0x0870=2160 高字节是08 低字节是70
+	 * @param year
+	 * @return String[]
+	 */
+	public static String[] formateHexString(int year) {
+		String[] values = new String[2];
+		String temp = Integer.toHexString(year);
+		String str = String.format("%4s", temp);
+		str = str.replaceAll("\\s", "0");
+		values[0] = str.substring(2);
+		values[1] = str.substring(0, 2);
+		return values;
 	}
 }

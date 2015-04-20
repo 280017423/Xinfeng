@@ -10,11 +10,13 @@ import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
 import com.zjhbkj.xinfen.activity.ConfigActivity;
+import com.zjhbkj.xinfen.activity.StrainerConfigActivity;
 
 public class MoreFragment extends FragmentBase implements OnClickListener {
 
 	private View mViewCheck;
-	private View mViewHelp;
+	private View mViewStrainer;
+	private View mViewWifiConfig;
 	private View mViewAbout;
 
 	public static final MoreFragment newInstance() {
@@ -42,7 +44,8 @@ public class MoreFragment extends FragmentBase implements OnClickListener {
 
 	private void setListener() {
 		mViewCheck.setOnClickListener(this);
-		mViewHelp.setOnClickListener(this);
+		mViewWifiConfig.setOnClickListener(this);
+		mViewStrainer.setOnClickListener(this);
 		mViewAbout.setOnClickListener(this);
 	}
 
@@ -50,7 +53,8 @@ public class MoreFragment extends FragmentBase implements OnClickListener {
 		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
 		tvTitle.setText(R.string.bottom_tab_more);
 		mViewCheck = layout.findViewById(R.id.rl_check_new_version);
-		mViewHelp = layout.findViewById(R.id.rl_config);
+		mViewWifiConfig = layout.findViewById(R.id.rl_config);
+		mViewStrainer = layout.findViewById(R.id.rl_strainer_config);
 		mViewAbout = layout.findViewById(R.id.rl_about);
 	}
 
@@ -59,6 +63,9 @@ public class MoreFragment extends FragmentBase implements OnClickListener {
 		switch (v.getId()) {
 			case R.id.rl_config:
 				startActivity(new Intent(getActivity(), ConfigActivity.class));
+				break;
+			case R.id.rl_strainer_config:
+				startActivity(new Intent(getActivity(), StrainerConfigActivity.class));
 				break;
 			case R.id.rl_check_new_version:
 				toast("开发中...");

@@ -5,6 +5,7 @@
     <string name="title_home">中嘉环保</string>
     <string name="bottom_tab_setting">设置</string>
     <string name="title_config">配置</string>
+    <string name="title_strainer_config">滤网配置</string>
     <string name="bottom_tab_more">更多</string>
     <string name="button_text_tips">提示</string>
     <string name="exit_dialog_title">您的操作将会退出</string>

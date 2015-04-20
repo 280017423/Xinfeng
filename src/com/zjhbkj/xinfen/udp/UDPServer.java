@@ -14,6 +14,7 @@ import com.zjhbkj.xinfen.model.ConfigModel;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.model.SendConfigModel;
+import com.zjhbkj.xinfen.model.StrainerModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
 import com.zjhbkj.xinfen.util.StringUtil;
 
@@ -51,7 +52,6 @@ public class UDPServer implements Runnable {
 		while (onGoinglistner) {
 			try {
 				mReceiveSocket.receive(datagramPacket);
-				RcvComsModel model = new RcvComsModel();
 				byte[] data = datagramPacket.getData();
 				if (null == data || Global.COMMAND_LENGTH != data.length) {
 					EventBus.getDefault().post("非法数据");
@@ -74,18 +74,26 @@ public class UDPServer implements Runnable {
 				}
 				// TODO 判断收到的是什么数据
 				if (commandNum.equalsIgnoreCase(Global.COMMAND_NUM_HEART_BEATS)) {
-					boolean isValid = model.receiveCommand(data);
+					RcvComsModel rcvComsModel = new RcvComsModel();
+					boolean isValid = rcvComsModel.receiveCommand(data);
 					datagramPacket.setLength(msg.length); // 重设数据包的长度
 					if (isValid) {
-						DBMgr.saveModel(model);
-						EventBus.getDefault().post(model);
+						DBMgr.saveModel(rcvComsModel);
+						EventBus.getDefault().post(rcvComsModel);
 						if (!sendConfigData(datagramPacket)) {
 							// 没有配置信息发送才发心跳包
 							sendHeartBeats(datagramPacket);
 						}
 					}
 				} else if (commandNum.equalsIgnoreCase(Global.COMMAND_NUM_FILTER)) {
-
+					StrainerModel strainerModel = new StrainerModel();
+					boolean isValid = strainerModel.receiveCommand(data);
+					datagramPacket.setLength(msg.length); // 重设数据包的长度
+					if (isValid) {
+						// 数据有效，保存到数据库并且通知界面刷新
+						DBMgr.saveModel(strainerModel);
+						EventBus.getDefault().post(strainerModel);
+					}
 				} else if (commandNum.equalsIgnoreCase(Global.COMMAND_NUM_CONFIG)) {
 
 				} else {

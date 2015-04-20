@@ -1,0 +1,145 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/title_with_back_btn_wrap" />
+
+    <LinearLayout
+        android:id="@+id/ll_edit_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:layout_marginTop="15dp"
+            android:background="#e0e0e0" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/tongyong_button_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="right"
+                android:text="初效过滤寿命"
+                android:textColor="@color/text_color" />
+
+            <EditText
+                android:id="@+id/edt_chuxiao"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:background="@drawable/tongyong_edt_bg_shape"
+                android:inputType="text"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/text_color" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="#e0e0e0" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/tongyong_button_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="right"
+                android:text="静电除尘寿命"
+                android:textColor="@color/text_color" />
+
+            <EditText
+                android:id="@+id/edt_chuchen"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:background="@drawable/tongyong_edt_bg_shape"
+                android:inputType="text"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/text_color" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="#e0e0e0" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/tongyong_button_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="right"
+                android:text="高效过滤寿命"
+                android:textColor="@color/text_color" />
+
+            <EditText
+                android:id="@+id/edt_gaoxiao"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/tongyong_edt_bg_shape"
+                android:digits="1234567890."
+                android:ems="10"
+                android:inputType="number"
+                android:maxLines="15"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/text_color" >
+
+                <requestFocus />
+            </EditText>
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="#e0e0e0" />
+
+        <Button
+            android:id="@+id/btn_set_config_info"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="15dp"
+            android:background="@drawable/tongyong_button_bg_shape"
+            android:onClick="onClick"
+            android:text="保存"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/size_2" />
+    </LinearLayout>
+
+</LinearLayout>
