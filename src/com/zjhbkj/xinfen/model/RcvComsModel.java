@@ -1,9 +1,7 @@
 package com.zjhbkj.xinfen.model;
 
-import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.orm.BaseModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
-import com.zjhbkj.xinfen.util.StringUtil;
 
 import de.greenrobot.event.EventBus;
 
@@ -213,15 +211,7 @@ public class RcvComsModel extends BaseModel {
 
 	public boolean receiveCommand(byte[] data) {
 		msgHeader = CommandUtil.bytesToHexString(data[0]); // 报文头 40
-		if (StringUtil.isNullOrEmpty(msgHeader) || !msgHeader.equalsIgnoreCase("40")) {
-			EventBus.getDefault().post("报文头不一致" + msgHeader + "====" + "40");
-			return false;
-		}
 		commandNum = CommandUtil.bytesToHexString(data[1]); // 指令号 DA
-		if (StringUtil.isNullOrEmpty(commandNum) || !commandNum.equalsIgnoreCase("DA")) {
-			EventBus.getDefault().post("指令号不一致" + commandNum + "====" + "DA");
-			return false;
-		}
 		command1 = CommandUtil.bytesToHexString(data[2]); // 指令1
 		command2 = CommandUtil.bytesToHexString(data[3]); // 指令2 甲醛ppm一个字节
 		command3 = CommandUtil.bytesToHexString(data[4]); // 指令3 模式1 自动：2
@@ -244,17 +234,12 @@ public class RcvComsModel extends BaseModel {
 		checkSum = CommandUtil.bytesToHexString(data[20]); // 校验和 数据1+…数据18
 															// 和取一个字节
 		msgTrailer = CommandUtil.bytesToHexString(data[21]); // 报文尾 AB
-		if (StringUtil.isNullOrEmpty(msgTrailer) || !msgTrailer.equalsIgnoreCase("AB")) {
-			EventBus.getDefault().post("报文尾不一致" + msgTrailer + "====" + "AB");
-			return false;
-		}
 		// 检验checkSum值
 		String calcCheckSum = CommandUtil.getCheckSum(getCheckSumString());
 		if (!checkSum.equalsIgnoreCase(calcCheckSum)) {
 			EventBus.getDefault().post("checkSum不一致" + checkSum + "====" + calcCheckSum);
 			return false;
 		}
-		EventBus.getDefault().post("checkSum通过");
 		return true;
 	}
 
