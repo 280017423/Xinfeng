@@ -11,7 +11,8 @@
         android:id="@+id/ll_edit_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <View
             android:layout_width="fill_parent"
@@ -43,7 +44,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
                 android:background="@drawable/tongyong_edt_bg_shape"
-                android:inputType="text"
+                android:inputType="number"
+                android:maxLength="4"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/text_color" />
@@ -78,7 +80,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
                 android:background="@drawable/tongyong_edt_bg_shape"
-                android:inputType="text"
+                android:inputType="number"
+                android:maxLength="4"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/text_color" />
@@ -112,16 +115,11 @@
                 android:layout_height="fill_parent"
                 android:layout_margin="5dp"
                 android:background="@drawable/tongyong_edt_bg_shape"
-                android:digits="1234567890."
-                android:ems="10"
                 android:inputType="number"
-                android:maxLines="15"
+                android:maxLength="4"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/text_color" >
-
-                <requestFocus />
-            </EditText>
+                android:textColor="@color/text_color" />
         </LinearLayout>
 
         <View
@@ -140,6 +138,166 @@
             android:text="保存"
             android:textColor="@color/text_color"
             android:textSize="@dimen/size_2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_normal_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:layout_marginTop="15dp"
+            android:background="#e0e0e0" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tongyong_button_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
+
+            <TextView
+                android:id="@+id/tv_chuxiao_life"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="right"
+                android:textColor="@color/text_color" />
+
+            <TextView
+                android:id="@+id/tv_chuxiao_used"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_chuxiao_life"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:textColor="@color/text_color" />
+
+            <TextView
+                android:id="@+id/tv_chuxiao_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/tongyong_button_bg_shape"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/size_2"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="#e0e0e0" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tongyong_button_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
+
+            <TextView
+                android:id="@+id/tv_chuchen_life"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="right"
+                android:textColor="@color/text_color" />
+
+            <TextView
+                android:id="@+id/tv_chuchen_used"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_chuchen_life"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:textColor="@color/text_color" />
+
+            <TextView
+                android:id="@+id/tv_chuchen_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/tongyong_button_bg_shape"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/size_2"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="#e0e0e0" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tongyong_button_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
+
+            <TextView
+                android:id="@+id/tv_gaoxiao_life"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="right"
+                android:textColor="@color/text_color" />
+
+            <TextView
+                android:id="@+id/tv_gaoxiao_used"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_gaoxiao_life"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:textColor="@color/text_color" />
+
+            <TextView
+                android:id="@+id/tv_gaoxiao_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/tongyong_button_bg_shape"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/size_2"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="#e0e0e0" />
     </LinearLayout>
 
 </LinearLayout>

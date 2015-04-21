@@ -7,6 +7,7 @@ import com.zjhbkj.xinfen.model.ConfigModel;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.model.StrainerModel;
+import com.zjhbkj.xinfen.model.StrainerSendModel;
 import com.zjhbkj.xinfen.orm.DataManager;
 import com.zjhbkj.xinfen.orm.DatabaseBuilder;
 
@@ -28,6 +29,7 @@ public class DBUtil {
 			DATABASE_BUILDER.addClass(RcvComsModel.class);
 			DATABASE_BUILDER.addClass(ConfigModel.class);
 			DATABASE_BUILDER.addClass(StrainerModel.class);
+			DATABASE_BUILDER.addClass(StrainerSendModel.class);
 		}
 	}
 

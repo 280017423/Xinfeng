@@ -8,6 +8,7 @@ import java.net.SocketException;
 
 import android.util.Log;
 
+import com.zjhbkj.xinfen.app.XinfengApplication;
 import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.model.ConfigModel;
@@ -15,7 +16,10 @@ import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.model.SendConfigModel;
 import com.zjhbkj.xinfen.model.StrainerModel;
+import com.zjhbkj.xinfen.model.StrainerSendModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
+import com.zjhbkj.xinfen.util.EvtLog;
+import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 import com.zjhbkj.xinfen.util.StringUtil;
 
 import de.greenrobot.event.EventBus;
@@ -80,12 +84,17 @@ public class UDPServer implements Runnable {
 					if (isValid) {
 						DBMgr.saveModel(rcvComsModel);
 						EventBus.getDefault().post(rcvComsModel);
-						if (!sendConfigData(datagramPacket)) {
+						if (SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
+								Global.CONFIG_FILE_NAME, Global.HAS_STRAINER_INFO)) {
+							EvtLog.d("aaa", "发送滤网指令");
+							sendStrainerConfig(datagramPacket);
+						} else if (!sendConfigData(datagramPacket)) {
 							// 没有配置信息发送才发心跳包
+							EvtLog.d("aaa", "发送心跳包配置指令");
 							sendHeartBeats(datagramPacket);
 						}
 					}
-				} else if (commandNum.equalsIgnoreCase(Global.COMMAND_NUM_FILTER)) {
+				} else if (commandNum.equalsIgnoreCase(Global.COMMAND_NUM_STRAINER)) {
 					StrainerModel strainerModel = new StrainerModel();
 					boolean isValid = strainerModel.receiveCommand(data);
 					datagramPacket.setLength(msg.length); // 重设数据包的长度
@@ -113,6 +122,7 @@ public class UDPServer implements Runnable {
 		if (null == configModel || StringUtil.isNullOrEmpty(configModel.getSsid())) {
 			return false;
 		}
+		EvtLog.d("aaa", "发送wifi配置指令");
 		String info = configModel.getSendInfio();
 		int left = info.length() % 17;
 		int count = info.length() / 17;
@@ -188,6 +198,28 @@ public class UDPServer implements Runnable {
 				EventBus.getDefault().post("消息发送失败." + e.toString());
 			}
 		}
+	}
+
+	/**
+	 * 发送信息到服务器
+	 */
+	public void sendStrainerConfig(DatagramPacket datagramPacket) {
+
+		StrainerSendModel model = DBMgr.getHistoryData(StrainerSendModel.class, "8A");
+		if (null != model) {
+			byte[] commands = CommandUtil.getCommand(model.toString());
+			DatagramPacket sendPacket = new DatagramPacket(
+					commands, commands.length, datagramPacket.getAddress(), datagramPacket.getPort());
+			try {
+				mSendSocket.send(sendPacket);
+				EventBus.getDefault().post("滤网信息发送成功" + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
+			} catch (IOException e) {
+				e.printStackTrace();
+				EventBus.getDefault().post("滤网信息发送失败." + e.toString());
+			}
+		}
+		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.HAS_STRAINER_INFO,
+				false);
 	}
 
 	public void closeConnection() {

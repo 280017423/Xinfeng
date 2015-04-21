@@ -41,12 +41,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:duplicateParentState="true"
+            android:focusable="false"
+            android:gravity="center"
+            android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:focusable="false"
-            android:gravity="center"
             android:textColor="@color/text_color"
             android:textSize="@dimen/size_3" />
     </LinearLayout>
@@ -71,7 +71,11 @@
             android:duplicateParentState="true"
             android:focusable="false"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/size_2" />
     </LinearLayout>
 

@@ -109,7 +109,7 @@
             android:background="@drawable/tongyong_edt_bg_shape"
             android:digits="1234567890."
             android:inputType="number"
-            android:maxLines="15"
+            android:maxLength="15"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColor="@color/text_color" />

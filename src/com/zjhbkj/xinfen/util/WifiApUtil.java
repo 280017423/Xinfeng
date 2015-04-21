@@ -49,7 +49,6 @@ public class WifiApUtil {
 			@Override
 			public boolean doTimerCheckWork() {
 				boolean isEnable = isWifiApEnabled(mWifiManager);
-				Log.d("aaa", "----" + isEnable);
 				if (isEnable && null != mStartWifiApListener) {
 					mStartWifiApListener.enableWifiApSuccess();
 				}
