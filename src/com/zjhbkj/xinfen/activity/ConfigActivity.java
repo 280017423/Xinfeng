@@ -35,11 +35,7 @@ public class ConfigActivity extends Activity implements OnClickListener {
 
 	private void initViews() {
 		TextView tvTitle = (TextView) findViewById(R.id.title_with_back_title_btn_mid);
-		TextView tvBack = (TextView) findViewById(R.id.tv_title_with_back_left);
-		tvBack.setText("返回");
 		tvTitle.setText(R.string.title_config);
-		tvBack.setOnClickListener(this);
-		tvBack.setBackgroundResource(R.drawable.tongyong_button_bg_shape);
 		mEdtSsid = (EditText) findViewById(R.id.edt_ssid);
 		mEdtPassword = (EditText) findViewById(R.id.edt_password);
 		mEdtServerIp = (EditText) findViewById(R.id.edt_server_address);
@@ -59,9 +55,6 @@ public class ConfigActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.tv_title_with_back_left:
-				finish();
-				break;
 			case R.id.btn_set_config_info:
 				checkConfigInfo();
 				break;

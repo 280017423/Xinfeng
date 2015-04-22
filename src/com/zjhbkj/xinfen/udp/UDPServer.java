@@ -59,25 +59,26 @@ public class UDPServer implements Runnable {
 				byte[] data = datagramPacket.getData();
 				if (null == data || Global.COMMAND_LENGTH != data.length) {
 					EventBus.getDefault().post("非法数据");
-					return;
+					continue;
 				}
 				String msgHeader = CommandUtil.bytesToHexString(data[0]); // 报文头40
 				if (StringUtil.isNullOrEmpty(msgHeader) || !msgHeader.equalsIgnoreCase(Global.MSG_HEADER)) {
 					EventBus.getDefault().post("非法报文头" + msgHeader);
-					return;
+					continue;
 				}
 				String commandNum = CommandUtil.bytesToHexString(data[1]); // 指令号
 				if (StringUtil.isNullOrEmpty(commandNum)) {
 					EventBus.getDefault().post("非法指令号");
-					return;
+					continue;
 				}
 				String msgTrailer = CommandUtil.bytesToHexString(data[21]); // 报文尾AB
 				if (StringUtil.isNullOrEmpty(msgTrailer) || !msgTrailer.equalsIgnoreCase(Global.MSG_TRAILER)) {
 					EventBus.getDefault().post("非法报文尾" + msgTrailer);
-					return;
+					continue;
 				}
 				// TODO 判断收到的是什么数据
 				if (commandNum.equalsIgnoreCase(Global.COMMAND_NUM_HEART_BEATS)) {
+					EvtLog.d("bbb", "收到心跳指令");
 					RcvComsModel rcvComsModel = new RcvComsModel();
 					boolean isValid = rcvComsModel.receiveCommand(data);
 					datagramPacket.setLength(msg.length); // 重设数据包的长度
@@ -95,12 +96,11 @@ public class UDPServer implements Runnable {
 						}
 					}
 				} else if (commandNum.equalsIgnoreCase(Global.COMMAND_NUM_STRAINER)) {
+					EvtLog.d("bbb", "收到滤网指令");
 					StrainerModel strainerModel = new StrainerModel();
 					boolean isValid = strainerModel.receiveCommand(data);
 					datagramPacket.setLength(msg.length); // 重设数据包的长度
 					if (isValid) {
-						// 数据有效，保存到数据库并且通知界面刷新
-						DBMgr.saveModel(strainerModel);
 						EventBus.getDefault().post(strainerModel);
 					}
 				} else if (commandNum.equalsIgnoreCase(Global.COMMAND_NUM_CONFIG)) {

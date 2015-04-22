@@ -15,7 +15,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        android:background="@color/defalut_bg"
+        android:background="@drawable/tab_bg"
         android:baselineAligned="false" >
 
         <LinearLayout

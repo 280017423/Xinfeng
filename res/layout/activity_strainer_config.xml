@@ -153,10 +153,13 @@
             android:background="#e0e0e0" />
 
         <RelativeLayout
+            android:id="@+id/rl_chuxiao_life"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/tongyong_button_bg"
+            android:clickable="true"
             android:gravity="center_vertical"
+            android:onClick="onClick"
             android:orientation="vertical"
             android:paddingBottom="10dp"
             android:paddingTop="10dp" >
@@ -202,10 +205,13 @@
             android:background="#e0e0e0" />
 
         <RelativeLayout
+            android:id="@+id/rl_chuchen_life"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/tongyong_button_bg"
+            android:clickable="true"
             android:gravity="center_vertical"
+            android:onClick="onClick"
             android:orientation="vertical"
             android:paddingBottom="10dp"
             android:paddingTop="10dp" >
@@ -251,10 +257,13 @@
             android:background="#e0e0e0" />
 
         <RelativeLayout
+            android:id="@+id/rl_gaoxiao_life"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/tongyong_button_bg"
+            android:clickable="true"
             android:gravity="center_vertical"
+            android:onClick="onClick"
             android:orientation="vertical"
             android:paddingBottom="10dp"
             android:paddingTop="10dp" >

@@ -2,7 +2,8 @@ package com.zjhbkj.xinfen.activity;
 
 import java.util.List;
 
-import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,8 +21,9 @@ import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 
 import de.greenrobot.event.EventBus;
 
-public class StrainerConfigActivity extends Activity implements OnClickListener {
+public class StrainerConfigActivity extends BaseActivity implements OnClickListener {
 
+	private static final int RESET_DIALOG = 1;
 	private View mEditView;
 	private View mNormalView;
 
@@ -38,6 +40,7 @@ public class StrainerConfigActivity extends Activity implements OnClickListener 
 	private EditText mEdtChuxiao;
 	private EditText mEdtChuchen;
 	private EditText mEdtGaoxiao;
+	private int mResetValue;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +55,9 @@ public class StrainerConfigActivity extends Activity implements OnClickListener 
 				true);
 		EventBus.getDefault().register(this);
 		List<StrainerSendModel> configModels = DBMgr.getBaseModel(StrainerSendModel.class);
+		StrainerSendModel model = null;
 		if (null == configModels || configModels.isEmpty()) {
-			StrainerSendModel model = new StrainerSendModel();
+			model = new StrainerSendModel();
 			String[] chuxiao = CommandUtil.formateHexString(Global.CHUXIAO_LIFE);
 			String[] chuchen = CommandUtil.formateHexString(Global.CHUCHEN_LIFE);
 			String[] gaoxiao = CommandUtil.formateHexString(Global.GAOXIAO_LIFE);
@@ -63,11 +67,13 @@ public class StrainerConfigActivity extends Activity implements OnClickListener 
 			model.setCommand4(chuchen[1]);
 			model.setCommand5(gaoxiao[0]);
 			model.setCommand6(gaoxiao[1]);
-			model.setCommand7("1");
-			model.setCommand8("1");
-			model.setCommand9("1");
-			DBMgr.saveModel(model);
+		} else {
+			model = configModels.get(0);
 		}
+		model.setCommand7("0");
+		model.setCommand8("0");
+		model.setCommand9("0");
+		DBMgr.saveModel(model);
 	}
 
 	private void initViews() {
@@ -95,24 +101,17 @@ public class StrainerConfigActivity extends Activity implements OnClickListener 
 
 	private void initTitle() {
 		TextView tvTitle = (TextView) findViewById(R.id.title_with_back_title_btn_mid);
-		TextView tvBack = (TextView) findViewById(R.id.tv_title_with_back_left);
 		TextView tvSetting = (TextView) findViewById(R.id.tv_title_with_right);
-		tvBack.setText("返回");
 		tvSetting.setText("设置");
 		tvSetting.setVisibility(View.GONE);
 		tvTitle.setText(R.string.title_strainer_config);
 		tvSetting.setOnClickListener(this);
-		tvBack.setOnClickListener(this);
 		tvSetting.setBackgroundResource(R.drawable.tongyong_button_bg_shape);
-		tvBack.setBackgroundResource(R.drawable.tongyong_button_bg_shape);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.tv_title_with_back_left:
-				finish();
-				break;
 			case R.id.tv_title_with_right:
 				// TODO 显示是否编辑
 				break;
@@ -120,9 +119,58 @@ public class StrainerConfigActivity extends Activity implements OnClickListener 
 				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
 						Global.HAS_STRAINER_INFO, true);
 				break;
-
+			case R.id.rl_chuxiao_life:
+				mResetValue = 1;
+				showDialog(RESET_DIALOG);
+				break;
+			case R.id.rl_chuchen_life:
+				mResetValue = 2;
+				showDialog(RESET_DIALOG);
+				break;
+			case R.id.rl_gaoxiao_life:
+				mResetValue = 3;
+				showDialog(RESET_DIALOG);
+				break;
 			default:
 				break;
+		}
+	}
+
+	@Override
+	@Deprecated
+	protected Dialog onCreateDialog(int id) {
+		if (RESET_DIALOG == id) {
+			return createDialogBuilder(this, "确认要重置吗？", "", "确定", "取消").create(id);
+		}
+		return super.onCreateDialog(id);
+	}
+
+	@Override
+	public void onPositiveBtnClick(int id, DialogInterface dialog, int which) {
+		reset(mResetValue);
+		super.onPositiveBtnClick(id, dialog, which);
+	}
+
+	private void reset(int value) {
+		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.HAS_STRAINER_INFO,
+				true);
+		List<StrainerSendModel> configModels = DBMgr.getBaseModel(StrainerSendModel.class);
+		StrainerSendModel model = null;
+		if (null != configModels && !configModels.isEmpty()) {
+			model = configModels.get(0);
+			model.setCommand7("0");
+			model.setCommand8("0");
+			model.setCommand9("0");
+			if (1 == value) {
+				model.setCommand7("1");
+			}
+			if (2 == value) {
+				model.setCommand8("1");
+			}
+			if (3 == value) {
+				model.setCommand9("1");
+			}
+			DBMgr.saveModel(model);
 		}
 	}
 
