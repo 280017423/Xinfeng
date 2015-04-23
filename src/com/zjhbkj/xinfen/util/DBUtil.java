@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.zjhbkj.xinfen.app.XinfengApplication;
 import com.zjhbkj.xinfen.model.ConfigModel;
+import com.zjhbkj.xinfen.model.IdConfigModel;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.model.StrainerModel;
@@ -30,6 +31,7 @@ public class DBUtil {
 			DATABASE_BUILDER.addClass(ConfigModel.class);
 			DATABASE_BUILDER.addClass(StrainerModel.class);
 			DATABASE_BUILDER.addClass(StrainerSendModel.class);
+			DATABASE_BUILDER.addClass(IdConfigModel.class);
 		}
 	}
 

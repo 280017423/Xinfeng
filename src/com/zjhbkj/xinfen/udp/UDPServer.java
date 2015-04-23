@@ -12,6 +12,7 @@ import com.zjhbkj.xinfen.app.XinfengApplication;
 import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.model.ConfigModel;
+import com.zjhbkj.xinfen.model.IdConfigModel;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.model.SendConfigModel;
@@ -89,7 +90,7 @@ public class UDPServer implements Runnable {
 								Global.CONFIG_FILE_NAME, Global.HAS_STRAINER_INFO)) {
 							EvtLog.d("aaa", "发送滤网指令");
 							sendStrainerConfig(datagramPacket);
-						} else if (!sendConfigData(datagramPacket)) {
+						} else if (!sendConfigData(datagramPacket) && !sendIdConfigData(datagramPacket)) {
 							// 没有配置信息发送才发心跳包
 							EvtLog.d("aaa", "发送心跳包配置指令");
 							sendHeartBeats(datagramPacket);
@@ -136,6 +137,7 @@ public class UDPServer implements Runnable {
 		}
 		for (int i = 0; i < count; i++) {
 			SendConfigModel sendConfigModel = new SendConfigModel();
+			sendConfigModel.setCommandNum("BA");
 			if (i == count - 1) {
 				sendConfigModel.setCommand1(Integer.toHexString(255));
 			} else {
@@ -174,6 +176,35 @@ public class UDPServer implements Runnable {
 				e.printStackTrace();
 				EventBus.getDefault().post("发送配置信息失败." + e.toString());
 			}
+		}
+		// 更新状态
+		configModel.setHasSent(1);
+		DBMgr.saveModel(configModel);
+		return true;
+	}
+
+	public boolean sendIdConfigData(DatagramPacket datagramPacket) {
+		IdConfigModel configModel = DBMgr.getIdConfigModel("0");
+		if (null == configModel || StringUtil.isNullOrEmpty(configModel.getIdValue())) {
+			return false;
+		}
+		EvtLog.d("aaa", "发送ID配置指令");
+		SendConfigModel sendConfigModel = new SendConfigModel();
+		sendConfigModel.setCommandNum("BB");
+		String[] idHex = CommandUtil.formateIdHexString(Integer.parseInt(configModel.getIdValue()));
+		sendConfigModel.setCommand2(idHex[0]);
+		sendConfigModel.setCommand3(idHex[1]);
+		sendConfigModel.setCommand4(idHex[2]);
+		byte[] sendIdConfigCommands = CommandUtil.getCommand(sendConfigModel.toString());
+		DatagramPacket sendPacket = new DatagramPacket(
+				sendIdConfigCommands, sendIdConfigCommands.length, datagramPacket.getAddress(),
+				datagramPacket.getPort());
+		try {
+			mSendSocket.send(sendPacket);
+			EventBus.getDefault().post("发送ID配置信息成功" + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
+		} catch (IOException e) {
+			e.printStackTrace();
+			EventBus.getDefault().post("发送ID配置信息失败." + e.toString());
 		}
 		// 更新状态
 		configModel.setHasSent(1);

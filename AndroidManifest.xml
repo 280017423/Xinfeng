@@ -81,6 +81,9 @@
         <activity
             android:name=".activity.StrainerConfigActivity"
             android:label="@string/app_name" />
+        <activity
+            android:name=".activity.IdConfigActivity"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

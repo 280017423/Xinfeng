@@ -6,16 +6,18 @@
 
     <!-- Activity背景颜色 -->
     <color name="defalut_bg">#f2f2f2</color>
+    <color name="defalut_bg_80_alpha">#33f2f2f2</color>
 
     <!-- 不透明纯白 -->
     <color name="white">#ffffffff</color>
     <!-- 80%透明纯白 -->
-    <color name="white_80_alpha">#ccffffff</color>
+    <color name="white_33_alpha">#33ffffff</color>
+    <color name="white_22_alpha">#22ffffff</color>
     <color name="text_color">#666666</color>
     <color name="black">#000000</color>
 
     <!-- 主Activity -->
-    <color name="tab_text_color">#82858b</color>
-    <color name="tab_select_text_color">#B483D6</color>
+    <color name="tab_text_color">#B483D6</color>
+    <color name="tab_select_text_color">#ffffffff</color>
 
 </resources>

@@ -37,7 +37,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="频率"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -46,7 +46,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
 
@@ -69,7 +69,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="甲醛ppm"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -78,7 +78,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
 
@@ -101,7 +101,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="模式"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -110,7 +110,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
 
@@ -133,7 +133,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="模式开关"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -142,7 +142,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
 
@@ -165,7 +165,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="pm2.5室外低"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -174,7 +174,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
 
@@ -197,7 +197,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="pm2.5室内低"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -206,7 +206,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
 
@@ -229,7 +229,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="CO2:ppm低"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -238,7 +238,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
 
@@ -261,7 +261,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="室内进风温度"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -270,7 +270,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
 
@@ -293,7 +293,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="室内出风温度"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -302,7 +302,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
 
@@ -325,7 +325,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="室外进风温度"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -334,7 +334,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
 
@@ -357,7 +357,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="室外出风温度"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -366,7 +366,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
 
@@ -389,7 +389,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center_vertical"
                     android:text="湿度"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
 
                 <TextView
@@ -398,7 +398,7 @@
                     android:layout_height="fill_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
         </LinearLayout>

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:background="@drawable/main_bg"
     android:orientation="vertical" >
 
     <include layout="@layout/title_with_back_btn_wrap" />
@@ -27,7 +27,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="wifi和服务器配置"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
         <ImageView
@@ -59,7 +59,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="滤网配置"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
         <ImageView
@@ -78,7 +78,7 @@
         android:background="#e0e0e0" />
 
     <RelativeLayout
-        android:id="@+id/rl_check_new_version"
+        android:id="@+id/rl_id_config"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:background="@drawable/tongyong_button_bg"
@@ -90,8 +90,8 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
-            android:text="检查新版本"
-            android:textColor="@color/text_color"
+            android:text="ID配置"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
         <ImageView
@@ -123,7 +123,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="关于"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
         <ImageView

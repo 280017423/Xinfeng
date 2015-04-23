@@ -6,7 +6,7 @@
 
             <corners android:radius="3dp" />
 
-            <solid android:color="@color/defalut_bg" />
+            <solid android:color="@color/white_22_alpha" />
         </shape></item>
 
 </selector>

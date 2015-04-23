@@ -7,25 +7,25 @@ public class SendConfigModel extends BaseModel {
 
 	private static final long serialVersionUID = 5745366813639864256L;
 	private String msgHeader = "AA"; // 报文头 APP->设备：AA
-	private String commandNum = "BA"; // 指令号 APP->设备：BA
-	private String command1;
-	private String command2;
-	private String command3;
-	private String command4;
-	private String command5;
-	private String command6;
-	private String command7;
-	private String command8;
-	private String command9;
-	private String command10;
-	private String command11;
-	private String command12;
-	private String command13;
-	private String command14;
-	private String command15;
-	private String command16;
-	private String command17;
-	private String command18;
+	private String commandNum; // 指令号 APP->设备：BA
+	private String command1= "0";
+	private String command2= "0";
+	private String command3= "0";
+	private String command4= "0";
+	private String command5= "0";
+	private String command6= "0";
+	private String command7= "0";
+	private String command8= "0";
+	private String command9= "0";
+	private String command10= "0";
+	private String command11= "0";
+	private String command12= "0";
+	private String command13= "0";
+	private String command14= "0";
+	private String command15= "0";
+	private String command16= "0";
+	private String command17= "0";
+	private String command18= "0";
 	private String checkSum; // 校验和 数据1+…数据18 和取一个字节
 	private String msgTrailer = "AB"; // 报文尾 AB
 

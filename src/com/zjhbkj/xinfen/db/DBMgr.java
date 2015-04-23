@@ -3,6 +3,7 @@ package com.zjhbkj.xinfen.db;
 import java.util.List;
 
 import com.zjhbkj.xinfen.model.ConfigModel;
+import com.zjhbkj.xinfen.model.IdConfigModel;
 import com.zjhbkj.xinfen.orm.BaseModel;
 import com.zjhbkj.xinfen.orm.DataAccessException;
 import com.zjhbkj.xinfen.orm.DataManager;
@@ -119,6 +120,19 @@ public class DBMgr {
 		dataManager.open();
 		try {
 			results = dataManager.get(ConfigModel.class, "HAS_SENT = ?", new String[] { hasSent });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		dataManager.close();
+		return results;
+	}
+
+	public static IdConfigModel getIdConfigModel(String hasSent) {
+		IdConfigModel results = null;
+		DataManager dataManager = DBUtil.getDataManager();
+		dataManager.open();
+		try {
+			results = dataManager.get(IdConfigModel.class, "HAS_SENT = ?", new String[] { hasSent });
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		}

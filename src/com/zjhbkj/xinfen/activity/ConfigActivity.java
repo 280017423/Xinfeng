@@ -35,7 +35,7 @@ public class ConfigActivity extends Activity implements OnClickListener {
 
 	private void initViews() {
 		TextView tvTitle = (TextView) findViewById(R.id.title_with_back_title_btn_mid);
-		tvTitle.setText(R.string.title_config);
+		tvTitle.setText(R.string.title_server_config);
 		mEdtSsid = (EditText) findViewById(R.id.edt_ssid);
 		mEdtPassword = (EditText) findViewById(R.id.edt_password);
 		mEdtServerIp = (EditText) findViewById(R.id.edt_server_address);

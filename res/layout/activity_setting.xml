@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:background="@drawable/main_bg"
     android:orientation="vertical" >
 
     <include layout="@layout/title_with_back_btn_wrap" />
@@ -15,7 +15,8 @@
         android:background="@drawable/tongyong_button_bg"
         android:clickable="false"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+        android:paddingRight="10dp"
+        android:visibility="gone" >
 
         <View
             android:layout_width="fill_parent"
@@ -28,7 +29,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="设置上报间隔"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
         <TextView
@@ -38,152 +39,8 @@
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
             android:text="2s"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_set_mode"
-        android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/tongyong_button_bg"
-        android:clickable="false"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.7dp"
-            android:layout_alignParentTop="true"
-            android:background="#e0e0e0" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
-            android:text="设置模式"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/size_2" />
-
-        <RadioGroup
-            android:id="@+id/rg_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-
-            <RadioButton
-                android:id="@+id/rbtn_auto"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="15dp"
-                android:background="@null"
-                android:button="@null"
-                android:checked="true"
-                android:drawableTop="@drawable/tongyong_check_bg"
-                android:gravity="bottom"
-                android:text="自动"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/size_4" />
-
-            <RadioButton
-                android:id="@+id/rbtn_manual"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="15dp"
-                android:background="@null"
-                android:button="@null"
-                android:drawableTop="@drawable/tongyong_check_bg"
-                android:gravity="center"
-                android:text="手动"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/size_4" />
-
-            <RadioButton
-                android:id="@+id/rbtn_sleep"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="15dp"
-                android:background="@null"
-                android:button="@null"
-                android:drawableTop="@drawable/tongyong_check_bg"
-                android:gravity="center"
-                android:text="睡眠"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/size_4" />
-        </RadioGroup>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_set_frequency"
-        android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/tongyong_button_bg"
-        android:clickable="false"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.7dp"
-            android:layout_alignParentTop="true"
-            android:background="#e0e0e0" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
-            android:text="设置频率(hz)"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/size_2" />
-
-        <LinearLayout
-            android:layout_width="114dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/btn_sub_hz"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:background="@drawable/tongyong_button_bg_shape"
-                android:gravity="center"
-                android:text="-"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/size_1"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_hz"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:clickable="false"
-                android:gravity="center"
-                android:text="30"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/size_2" />
-
-            <Button
-                android:id="@+id/btn_add_hz"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:background="@drawable/tongyong_button_bg_shape"
-                android:gravity="center"
-                android:text="+"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/size_1"
-                android:textStyle="bold" />
-        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -206,7 +63,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="设置功能开关"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
         <com.zjhbkj.xinfen.widget.SlipButton
@@ -240,7 +97,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="设置开机时间"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
         <TextView
@@ -249,7 +106,7 @@
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
     </RelativeLayout>
 
@@ -273,7 +130,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="设置关机时间"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
         <TextView
@@ -282,7 +139,7 @@
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
     </RelativeLayout>
 
@@ -306,7 +163,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="设置开/关机"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
         <TextView
@@ -315,7 +172,7 @@
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
     </RelativeLayout>
 
@@ -339,7 +196,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:text="设置户外PM2.5"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
         <TextView
@@ -348,7 +205,7 @@
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
         <View
@@ -357,5 +214,107 @@
             android:layout_alignParentBottom="true"
             android:background="#e0e0e0" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_set_frequency"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/tongyong_button_bg"
+        android:clickable="false"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:layout_alignParentTop="true"
+            android:background="#e0e0e0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="设置频率(hz)"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_2" />
+
+        <LinearLayout
+            android:layout_width="114dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_sub_hz"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tongyong_button_bg_shape"
+                android:gravity="center"
+                android:text="-"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/size_1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_hz"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:gravity="center"
+                android:text="30"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
+
+            <Button
+                android:id="@+id/btn_add_hz"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tongyong_button_bg_shape"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/size_1"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/rg_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/rbtn_auto"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/zhineng_check_bg"
+            android:button="@null"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/rbtn_manual"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/shoudong_check_bg"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/rbtn_sleep"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/shuimian_check_bg"
+            android:button="@null" />
+    </RadioGroup>
 
 </LinearLayout>

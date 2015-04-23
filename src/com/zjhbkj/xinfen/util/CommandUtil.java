@@ -99,4 +99,16 @@ public class CommandUtil {
 		values[1] = str.substring(0, 2);
 		return values;
 	}
+	
+	public static String[] formateIdHexString(int year) {
+		String[] values = new String[3];
+		String temp = Integer.toHexString(year);
+		String str = String.format("%6s", temp);
+		str = str.replaceAll("\\s", "0");
+		System.out.println(str);
+		values[0] = str.substring(4);
+		values[1] = str.substring(2, 4);
+		values[2] = str.substring(0, 2);
+		return values;
+	}
 }
