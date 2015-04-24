@@ -1,407 +1,215 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_bg"
-    android:orientation="vertical" >
+    android:background="@drawable/main_bg" >
 
-    <include layout="@layout/title_with_back_btn_wrap" />
+    <include
+        android:id="@+id/main_title"
+        layout="@layout/title_with_back_btn_wrap" />
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_mode"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fadingEdge="none"
-        android:scrollbars="none" >
+        android:layout_below="@id/main_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="自动模式"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_2" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/ll_pm2dot5_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_mode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_weight="1" >
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
+            <ImageView
+                android:id="@+id/iv_pm_2dot5_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pm2dot5_in_bg"
+                android:contentDescription="@null" />
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
+            <TextView
+                android:id="@+id/tv_pm_2dot5_in_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv_pm_2dot5_in"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_4" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="频率"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
+            <TextView
+                android:id="@+id/tv_pm_2dot5_in_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_pm_2dot5_in_title"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
 
-                <TextView
-                    android:id="@+id/tv_frequency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_pm_2dot5_in"
+                android:layout_centerHorizontal="true"
+                android:text="室内PM2.5"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_3" />
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1" >
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
+            <ImageView
+                android:id="@+id/iv_pm_2dot5_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pm2dot5_out_bg"
+                android:contentDescription="@null" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="甲醛ppm"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
+            <TextView
+                android:id="@+id/tv_pm_2dot5_out_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv_pm_2dot5_out"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_4" />
 
-                <TextView
-                    android:id="@+id/tv_ppm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_pm_2dot5_out_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_pm_2dot5_out_title"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_pm_2dot5_out"
+                android:layout_centerHorizontal="true"
+                android:text="室内PM2.5"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_3" />
+        </RelativeLayout>
+    </LinearLayout>
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
+    <RelativeLayout
+        android:id="@+id/rl_home_tab_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_pm2dot5_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/home_bg" >
+    </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="模式"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
+    <TextView
+        android:id="@+id/tv_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/rl_home_tab_layout"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_2" />
 
-                <TextView
-                    android:id="@+id/tv_mode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/rl_home_tab_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp" >
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
+        <TextView
+            android:id="@+id/tv_ppm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_2" />
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
+        <TextView
+            android:id="@+id/tv_co2_low"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_ppm"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_2" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="模式开关"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
+        <TextView
+            android:id="@+id/tv_frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_co2_low"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_2" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/tv_mode_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_mode_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_home_tab_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="模式开关：开"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_2" />
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
+    <TextView
+        android:id="@+id/tv_out_in_wind_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/rl_home_tab_layout"
+        android:layout_alignTop="@id/rl_home_tab_layout"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_2" />
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
+    <TextView
+        android:id="@+id/tv_in_in_wind_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/rl_home_tab_layout"
+        android:layout_alignTop="@id/rl_home_tab_layout"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_2" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="pm2.5室外低"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
+    <TextView
+        android:id="@+id/tv_out_out_wind_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/rl_home_tab_layout"
+        android:layout_alignTop="@id/rl_home_tab_layout"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_2" />
 
-                <TextView
-                    android:id="@+id/tv_pm_2dot5_out_low"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_in_out_wind_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/rl_home_tab_layout"
+        android:layout_alignTop="@id/rl_home_tab_layout"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_2" />
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="pm2.5室内低"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-
-                <TextView
-                    android:id="@+id/tv_pm_2dot5_in_low"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="CO2:ppm低"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-
-                <TextView
-                    android:id="@+id/tv_co2_low"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="室内进风温度"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-
-                <TextView
-                    android:id="@+id/tv_in_in_wind_temp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="室内出风温度"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-
-                <TextView
-                    android:id="@+id/tv_in_out_wind_temp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="室外进风温度"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-
-                <TextView
-                    android:id="@+id/tv_out_in_wind_temp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="室外出风温度"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-
-                <TextView
-                    android:id="@+id/tv_out_out_wind_temp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/tongyong_button_bg"
-                android:clickable="false"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.7dp"
-                    android:layout_alignParentTop="true"
-                    android:background="#e0e0e0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical"
-                    android:text="湿度"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-
-                <TextView
-                    android:id="@+id/tv_humidity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/size_2" />
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+</RelativeLayout>

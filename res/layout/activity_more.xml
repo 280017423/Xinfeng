@@ -37,7 +37,7 @@
             android:layout_centerVertical="true"
             android:contentDescription="@null"
             android:duplicateParentState="true"
-            android:src="@drawable/tongyong_jiantou_bg" />
+            android:src="@drawable/tongyong_jiantou_down" />
     </RelativeLayout>
 
     <View
@@ -69,7 +69,7 @@
             android:layout_centerVertical="true"
             android:contentDescription="@null"
             android:duplicateParentState="true"
-            android:src="@drawable/tongyong_jiantou_bg" />
+            android:src="@drawable/tongyong_jiantou_down" />
     </RelativeLayout>
 
     <View
@@ -101,7 +101,7 @@
             android:layout_centerVertical="true"
             android:contentDescription="@null"
             android:duplicateParentState="true"
-            android:src="@drawable/tongyong_jiantou_bg" />
+            android:src="@drawable/tongyong_jiantou_down" />
     </RelativeLayout>
 
     <View
@@ -116,7 +116,8 @@
         android:background="@drawable/tongyong_button_bg"
         android:clickable="true"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+        android:paddingRight="10dp"
+        android:visibility="gone" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -133,7 +134,7 @@
             android:layout_centerVertical="true"
             android:contentDescription="@null"
             android:duplicateParentState="true"
-            android:src="@drawable/tongyong_jiantou_bg" />
+            android:src="@drawable/tongyong_jiantou_down" />
     </RelativeLayout>
 
     <View

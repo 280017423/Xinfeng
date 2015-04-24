@@ -255,7 +255,7 @@
                 android:background="@drawable/tongyong_button_bg_shape"
                 android:gravity="center"
                 android:text="-"
-                android:textColor="@color/text_color"
+                android:textColor="@color/white"
                 android:textSize="@dimen/size_1"
                 android:textStyle="bold" />
 
@@ -278,7 +278,7 @@
                 android:background="@drawable/tongyong_button_bg_shape"
                 android:gravity="center"
                 android:text="+"
-                android:textColor="@color/text_color"
+                android:textColor="@color/white"
                 android:textSize="@dimen/size_1"
                 android:textStyle="bold" />
         </LinearLayout>
