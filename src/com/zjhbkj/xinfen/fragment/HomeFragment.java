@@ -8,9 +8,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.zjhbkj.xinfen.R;
 import com.zjhbkj.xinfen.db.DBMgr;
@@ -105,6 +103,10 @@ public class HomeFragment extends FragmentBase {
 		mTvOutOutTemp.setPadding(0, height / 4, width * 1 / 20, 0);
 		mTvInInTemp.setPadding(width * 3 / 20, height * 9 / 20, 0, 0);
 		mTvInOutTemp.setPadding(0, height * 9 / 20, width * 3 / 20, 0);
+
+		mTvPpm.setPadding(0, 0, 0, height / 40);
+		mTvFrequency.setPadding(0, 0, 0, height / 40);
+		mTvCo2.setPadding(0, 0, 0, height / 40);
 	}
 
 	@Override
@@ -118,8 +120,14 @@ public class HomeFragment extends FragmentBase {
 		if (null == model) {
 			return;
 		}
+
 		mTvFrequency.setText("频率：" + CommandUtil.hexStringToInt(model.getCommand1()) + " hz");
 		mTvPpm.setText("甲醛：" + CommandUtil.hexStringToInt(model.getCommand2()) / 100.0 + " ppm");
+		mTvCo2.setText(Html.fromHtml("CO₂") + "：" + model.getDisplayCo2() + " ppm");
+		UIUtil.setUnderLine(mTvFrequency);
+		UIUtil.setUnderLine(mTvPpm);
+		UIUtil.setUnderLine(mTvCo2);
+
 		int mode = CommandUtil.hexStringToInt(model.getCommand3());
 		switch (mode) {
 			case 1:
@@ -137,7 +145,6 @@ public class HomeFragment extends FragmentBase {
 		mTvModeSwitch.setText(1 == CommandUtil.hexStringToInt(model.getCommand4()) ? "模式开关：开" : "模式开关：关");
 		mTvPm2dot5Out.setText(model.getDisplayPm2dotOut());
 		mTvPm2dot5In.setText(model.getDisplayPm2dotIn());
-		mTvCo2.setText(Html.fromHtml("CO₂") + "：" + model.getDisplayCo2() + " ppm");
 		mTvInInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand11()) + Html.fromHtml("&#8451;"));
 		mTvInOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand12()) + Html.fromHtml("&#8451;"));
 		mTvOutInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand13()) + Html.fromHtml("&#8451;"));
@@ -147,7 +154,7 @@ public class HomeFragment extends FragmentBase {
 	}
 
 	public void onEventMainThread(String info) {
-		Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
+		// Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
 	}
 
 	/**

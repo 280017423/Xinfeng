@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_pm_2dot5_out"
                 android:layout_centerHorizontal="true"
-                android:text="室内PM2.5"
+                android:text="室外PM2.5"
                 android:textColor="@color/white"
                 android:textSize="@dimen/size_3" />
         </RelativeLayout>
@@ -136,8 +136,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/rl_home_tab_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp" >
+        android:layout_centerHorizontal="true" >
 
         <TextView
             android:id="@+id/tv_ppm"
@@ -151,7 +150,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_ppm"
-            android:layout_marginTop="5dp"
             android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
 
@@ -160,7 +158,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_co2_low"
-            android:layout_marginTop="5dp"
             android:textColor="@color/white"
             android:textSize="@dimen/size_2" />
     </RelativeLayout>

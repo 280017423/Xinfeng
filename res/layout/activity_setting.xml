@@ -47,6 +47,7 @@
         android:id="@+id/rl_set_functional_switch"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/tongyong_button_bg"
         android:clickable="false"
         android:paddingLeft="10dp"
