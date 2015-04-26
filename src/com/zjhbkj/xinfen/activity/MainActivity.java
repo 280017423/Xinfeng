@@ -1,5 +1,6 @@
 package com.zjhbkj.xinfen.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
@@ -7,7 +8,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
+import com.zjhbkj.xinfen.adapter.MainTabAdapter;
 import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.fragment.HomeFragment;
 import com.zjhbkj.xinfen.fragment.MoreFragment;
@@ -26,12 +29,13 @@ import com.zjhbkj.xinfen.util.WifiApUtil;
 public class MainActivity extends BaseFragmentActivity implements OnClickListener {
 
 	private static final int DIALOG_EXIT_APP = 1;
-	public static int mTempJumpToIndex = -1;
-	private int mCurrentTabIndex;
 	private FragmentManager fragmentManager;
 	private HomeFragment mHomeFragment;
 	private SettingFragment mSettingFragment;
 	private MoreFragment mMoreFragment;
+	private ViewPager mViewPager;
+	private MainTabAdapter mAdapter;
+	private List<Fragment> mFragments;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,93 +43,62 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 		setContentView(R.layout.activity_main);
 		initVariables();
 		initViews();
-		setTabSelection(TabHomeIndex.HOME_INDEX, true);
 	}
 
 	private void initVariables() {
 		initSendData();
+		mFragments = new ArrayList<Fragment>();
 		fragmentManager = getSupportFragmentManager();
+		mHomeFragment = HomeFragment.newInstance();
+		mSettingFragment = SettingFragment.newInstance();
+		mMoreFragment = MoreFragment.newInstance();
+		mFragments.clear();
+		mFragments.add(mHomeFragment);
+		mFragments.add(mSettingFragment);
+		mFragments.add(mMoreFragment);
+		mAdapter = new MainTabAdapter(fragmentManager, mFragments);
 	}
 
 	private void initViews() {
-	}
+		hideFragments();
+		setHomeClickedStatus();
+		mViewPager = (ViewPager) findViewById(R.id.viewpager_main);
+		mViewPager.setAdapter(mAdapter);
+		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (mTempJumpToIndex != -1) {
-			setTabSelection(mTempJumpToIndex, false);
-		}
-	}
+			@Override
+			public void onPageSelected(int position) {
+				switch (position) {
+					case 0:
+						hideFragments();
+						setHomeClickedStatus();
+						break;
+					case 1:
+						hideFragments();
+						setActivityClickedStatus();
+						break;
+					case 2:
+						hideFragments();
+						setMyCenterClickedStatus();
+						break;
 
-	/**
-	 * 切换到指定的Fragment
-	 * 
-	 * @param viewId
-	 */
-	public void setTabSelection(int tabHomeIndex, boolean isFromOncreate) {
-		if (mCurrentTabIndex == tabHomeIndex) {
-			return;
-		}
-		// 开启一个Fragment事务
-		FragmentTransaction transaction = fragmentManager.beginTransaction();
-		// 设置切换动画
-		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		// 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
-		hideFragments(transaction);
-		switch (tabHomeIndex) {
-			case TabHomeIndex.HOME_INDEX:
-				if (mHomeFragment == null) {
-					// 如果mDiscoverFragment为空，则创建一个并添加到界面上
-					mHomeFragment = HomeFragment.newInstance();
-					transaction.add(R.id.content, mHomeFragment);
-				} else {
-					// 如果mDiscoverFragment不为空，则直接将它显示出来
-					transaction.show(mHomeFragment);
+					default:
+						break;
 				}
-				setHomeClickedStatus();
-				break;
-			case TabHomeIndex.SETTING_INDEX:
-				if (mSettingFragment == null) {
-					// 如果mDiscoverFragment为空，则创建一个并添加到界面上
-					mSettingFragment = SettingFragment.newInstance();
-					// mMessageFragment = new MessageFragment();
-					transaction.add(R.id.content, mSettingFragment);
-				} else {
-					// 如果mDiscoverFragment不为空，则直接将它显示出来
-					transaction.show(mSettingFragment);
-				}
-				setActivityClickedStatus();
-				break;
-			case TabHomeIndex.MORE_INDEX:
-				if (mMoreFragment == null) {
-					// 如果mDiscoverFragment为空，则创建一个并添加到界面上
-					mMoreFragment = MoreFragment.newInstance();
-					transaction.add(R.id.content, mMoreFragment);
-				} else {
-					transaction.show(mMoreFragment);
-				}
-				setMyCenterClickedStatus();
-				break;
-			default:
-
-				break;
-		}
-		mCurrentTabIndex = tabHomeIndex;
-		if (!isFromOncreate) {
-			mTempJumpToIndex = -1;
-		}
-		// 当activity再次被恢复时commit之后的状态将丢失,所以这里不能用commit
-		transaction.commitAllowingStateLoss();
-	}
-
-	private void hideFragments(FragmentTransaction transaction) {
-		List<Fragment> list = fragmentManager.getFragments();
-		if (list != null) {
-			for (int i = 0; i < list.size(); i++) {
-				transaction.hide(list.get(i));
 			}
-		}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
+	}
+
+	private void hideFragments() {
 		setHomeUnClickedStatus();
 		setMyCenterUnClickedStatus();
 		setActivityUnClickedStatus();
@@ -173,23 +146,17 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 		homeImage.setImageDrawable(getResources().getDrawable(R.drawable.tab_more_pressed));
 	}
 
-	public class TabHomeIndex {
-		public static final int HOME_INDEX = 1; // 首页
-		public static final int SETTING_INDEX = 2; // 设置
-		public static final int MORE_INDEX = 3; // 更多
-	}
-
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.rl_home_tab_layout:
-				setTabSelection(TabHomeIndex.HOME_INDEX, false);
+				mViewPager.setCurrentItem(0);
 				break;
 			case R.id.rl_setting_tab_layout:
-				setTabSelection(TabHomeIndex.SETTING_INDEX, false);
+				mViewPager.setCurrentItem(1);
 				break;
 			case R.id.rl_more_tab_layout:
-				setTabSelection(TabHomeIndex.MORE_INDEX, false);
+				mViewPager.setCurrentItem(2);
 				break;
 			default:
 				break;

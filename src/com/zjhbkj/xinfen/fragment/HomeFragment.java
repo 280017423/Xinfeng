@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class HomeFragment extends FragmentBase {
 	private View mViewHome;
 	private TextView mTvInM3;
 	private TextView mTvOutM3;
+	private TextView mTvRight;
 
 	public static final HomeFragment newInstance() {
 		HomeFragment fragment = new HomeFragment();
@@ -68,6 +70,16 @@ public class HomeFragment extends FragmentBase {
 	private void initViews(View layout) {
 		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
 		tvTitle.setText(R.string.title_home);
+		mTvRight = (TextView) layout.findViewById(R.id.tv_title_with_right);
+		mTvRight.setBackgroundResource(R.drawable.tongyong_button_bg_shape);
+		mTvRight.setText("分享");
+		mTvRight.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				toast("正在开发中...");
+			}
+		});
 
 		mViewHome = layout.findViewById(R.id.rl_home_tab_layout);
 		int height = UIUtil.getScreenWidth(getActivity()) * 16 / 25;
@@ -101,12 +113,12 @@ public class HomeFragment extends FragmentBase {
 		mTvHumidity.setPadding(0, height / 4, 0, 0);
 		mTvOutInTemp.setPadding(width * 1 / 20, height / 4, 0, 0);
 		mTvOutOutTemp.setPadding(0, height / 4, width * 1 / 20, 0);
+		mTvFrequency.setPadding(0, height * 9 / 20, 0, 0);
 		mTvInInTemp.setPadding(width * 3 / 20, height * 9 / 20, 0, 0);
 		mTvInOutTemp.setPadding(0, height * 9 / 20, width * 3 / 20, 0);
 
-		mTvPpm.setPadding(0, 0, 0, height / 40);
-		mTvFrequency.setPadding(0, 0, 0, height / 40);
-		mTvCo2.setPadding(0, 0, 0, height / 40);
+		mTvPpm.setPadding(0, 0, 0, height / 20);
+		mTvCo2.setPadding(0, 0, 0, height / 20);
 	}
 
 	@Override
