@@ -3,8 +3,6 @@ package com.zjhbkj.xinfen.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zjhbkj.xinfen.R;
 import com.zjhbkj.xinfen.adapter.MainTabAdapter;
@@ -24,11 +23,9 @@ import com.zjhbkj.xinfen.fragment.MoreFragment;
 import com.zjhbkj.xinfen.fragment.SettingFragment;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
-import com.zjhbkj.xinfen.util.WifiApUtil;
 
 public class MainActivity extends BaseFragmentActivity implements OnClickListener {
 
-	private static final int DIALOG_EXIT_APP = 1;
 	private FragmentManager fragmentManager;
 	private HomeFragment mHomeFragment;
 	private SettingFragment mSettingFragment;
@@ -36,6 +33,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	private ViewPager mViewPager;
 	private MainTabAdapter mAdapter;
 	private List<Fragment> mFragments;
+	private long mExitTime;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -164,39 +162,17 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	}
 
 	@Override
-	protected Dialog onCreateDialog(int id) {
-		switch (id) {
-			case DIALOG_EXIT_APP:
-				return createDialogBuilder(this, getString(R.string.button_text_tips),
-						getString(R.string.exit_dialog_title), getString(R.string.button_text_no),
-						getString(R.string.button_text_yes)).create(id);
-
-			default:
-				break;
-		}
-		return super.onCreateDialog(id);
-	}
-
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			showDialog(DIALOG_EXIT_APP);
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+			if ((System.currentTimeMillis() - mExitTime) > 2000) {
+				Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_LONG).show();
+				mExitTime = System.currentTimeMillis();
+			} else {
+				finish();
+			}
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
-	}
-
-	@Override
-	public void onNegativeBtnClick(int id, DialogInterface dialog, int which) {
-		switch (id) {
-			case DIALOG_EXIT_APP:
-				WifiApUtil.closeWifiAp(this);
-				finish();
-				break;
-			default:
-				break;
-		}
-		super.onNegativeBtnClick(id, dialog, which);
 	}
 
 	private void initSendData() {

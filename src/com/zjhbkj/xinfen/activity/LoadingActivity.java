@@ -44,7 +44,7 @@ public class LoadingActivity extends Activity implements OnClickListener {
 
 					@Override
 					public void run() {
-						startActivity(new Intent(LoadingActivity.this, MainActivity.class));
+						startActivity(new Intent(LoadingActivity.this, DeviceListActivity.class));
 						finish();
 					}
 				});

@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.zjhbkj.xinfen.R;
 import com.zjhbkj.xinfen.db.DBMgr;
-import com.zjhbkj.xinfen.model.ConfigModel;
 import com.zjhbkj.xinfen.model.IdConfigModel;
 import com.zjhbkj.xinfen.util.StringUtil;
 
@@ -59,7 +58,7 @@ public class IdConfigActivity extends Activity implements OnClickListener {
 	private void checkConfigInfo() {
 		String id = mEdtId.getText().toString().trim();
 		if (StringUtil.isNullOrEmpty(id)) {
-			Toast.makeText(IdConfigActivity.this, "ID名字不能为空", Toast.LENGTH_LONG).show();
+			Toast.makeText(IdConfigActivity.this, "设备ID不能为空", Toast.LENGTH_LONG).show();
 			return;
 		}
 		int idValue = Integer.parseInt(id);

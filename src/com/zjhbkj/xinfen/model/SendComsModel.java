@@ -2,10 +2,13 @@ package com.zjhbkj.xinfen.model;
 
 import java.util.Calendar;
 
+import com.zjhbkj.xinfen.app.XinfengApplication;
+import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.orm.BaseModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
 import com.zjhbkj.xinfen.util.DateUtil;
+import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 
 /**
  * APP->设备
@@ -30,9 +33,9 @@ public class SendComsModel extends BaseModel {
 	private String command13; // 指令13 设置关机小时
 	private String command14; // 指令14 设置开/关机0:开机1：关机2：链接内网3：链接外网
 	private String command15; // 指令15 设置自动模式静电除尘开启的户外PM2.5
-	private String command16 = "2"; // 指令16 地址字节的最低位
-	private String command17 = "2"; // 指令17 地址字节的中间位
-	private String command18 = "3"; // 指令18 地址字节的最高位
+	private String command16; // 指令16 地址字节的最低位
+	private String command17; // 指令17 地址字节的中间位
+	private String command18; // 指令18 地址字节的最高位
 	private String checkSum; // 校验和 数据1+…数据18 和取一个字节
 	private String msgTrailer = "AB"; // 报文尾 AB
 
@@ -178,19 +181,24 @@ public class SendComsModel extends BaseModel {
 
 	@Override
 	public String toString() {
+		String deviceName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
+				Global.CONFIG_FILE_NAME, Global.CURRENT_DEVICE_ID);
+		String[] idHex = CommandUtil.formateIdHexString(Integer.parseInt(deviceName));
+		command16 = idHex[0];
+		command17 = idHex[1];
+		command18 = idHex[2];
 		command5 = Integer.toHexString(DateUtil.getDateTime(Calendar.MINUTE));
 		command6 = Integer.toHexString(DateUtil.getDateTime(Calendar.HOUR_OF_DAY));
 		command7 = Integer.toHexString(DateUtil.getDateTime(Calendar.DAY_OF_MONTH));
 		command8 = Integer.toHexString(DateUtil.getDateTime(Calendar.MONTH));
 		command9 = Integer.toHexString(DateUtil.getDateTime(Calendar.YEAR));
-		checkSum = CommandUtil.getCheckSum(command1 + " " + command2 + " " + command3 + " " + command4 + " "
-				+ command5 + " " + command6 + " " + command7 + " " + command8 + " " + command9 + " " + command10 + " "
-				+ command11 + " " + command12 + " " + command13 + " " + command14 + " " + command15 + " " + command16
-				+ " " + command17 + " " + command18);
+		checkSum = CommandUtil.getCheckSum(command1 + " " + command2 + " " + command3 + " " + command4 + " " + command5
+				+ " " + command6 + " " + command7 + " " + command8 + " " + command9 + " " + command10 + " " + command11
+				+ " " + command12 + " " + command13 + " " + command14 + " " + command15 + " " + command16 + " "
+				+ command17 + " " + command18);
 		return msgHeader + " " + commandNum + " " + command1 + " " + command2 + " " + command3 + " " + command4 + " "
 				+ command5 + " " + command6 + " " + command7 + " " + command8 + " " + command9 + " " + command10 + " "
 				+ command11 + " " + command12 + " " + command13 + " " + command14 + " " + command15 + " " + command16
 				+ " " + command17 + " " + command18 + " " + checkSum + " " + msgTrailer;
 	}
-
 }

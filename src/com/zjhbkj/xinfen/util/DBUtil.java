@@ -3,7 +3,9 @@ package com.zjhbkj.xinfen.util;
 import android.content.Context;
 
 import com.zjhbkj.xinfen.app.XinfengApplication;
+import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.model.ConfigModel;
+import com.zjhbkj.xinfen.model.DeviceModel;
 import com.zjhbkj.xinfen.model.IdConfigModel;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
@@ -32,6 +34,7 @@ public class DBUtil {
 			DATABASE_BUILDER.addClass(StrainerModel.class);
 			DATABASE_BUILDER.addClass(StrainerSendModel.class);
 			DATABASE_BUILDER.addClass(IdConfigModel.class);
+			DATABASE_BUILDER.addClass(DeviceModel.class);
 		}
 	}
 
@@ -42,7 +45,7 @@ public class DBUtil {
 		if (null != DATABASE_BUILDER) {
 			String[] tables = DATABASE_BUILDER.getTables();
 			for (int i = 0; i < tables.length; i++) {
-				// DBMgr.deleteTableFromDb(tables[i]);
+				DBMgr.deleteTableFromDb(tables[i]);
 			}
 		}
 	}

@@ -77,7 +77,7 @@ public class UDPServer implements Runnable {
 					EventBus.getDefault().post("非法报文尾" + msgTrailer);
 					continue;
 				}
-				// TODO 判断收到的是什么数据
+				// 判断收到的是什么数据
 				if (commandNum.equalsIgnoreCase(Global.COMMAND_NUM_HEART_BEATS)) {
 					EvtLog.d("bbb", "收到心跳指令");
 					RcvComsModel rcvComsModel = new RcvComsModel();

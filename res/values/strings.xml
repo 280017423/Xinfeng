@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android=" http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-
-    <string name="app_name">中嘉新风</string>
-    <string name="title_home">中嘉环保</string>
-    <string name="bottom_tab_setting">设置</string>
-    <string name="title_server_config">服务器配置</string>
-    <string name="title_id_config">ID配置</string>
-    <string name="title_strainer_config">滤网配置</string>
-    <string name="bottom_tab_more">更多</string>
-    <string name="button_text_tips">提示</string>
-    <string name="exit_dialog_title">您的操作将会退出</string>
-    <string name="button_text_no">取消</string>
-    <string name="button_text_yes">好的</string>
-    <string name="network_is_not_available">当前网络不给力\n建议检查网络状态</string>
-    <string name="chuxiao_life">初效过滤寿命 <xliff:g>%1$s</xliff:g> 小时</string>
-    <string name="chuchen_life">静电除尘寿命 <xliff:g>%1$s</xliff:g> 小时</string>
-    <string name="gaoxiao_life">高效过滤寿命 <xliff:g>%1$s</xliff:g> 小时</string>
-    <string name="has_used">已使用 <xliff:g>%1$s</xliff:g> 小时</string>
-
+	<string name="app_name">中嘉新风</string>
+	<string name="title_home">中嘉环保</string>
+	<string name="bottom_tab_setting">设置</string>
+	<string name="title_server_config">服务器配置</string>
+	<string name="title_id_config">ID配置</string>
+	<string name="title_device_list">设备列表</string>
+	<string name="title_strainer_config">滤网配置</string>
+	<string name="bottom_tab_more">更多</string>
+	<string name="button_text_tips">提示</string>
+	<string name="exit_dialog_title">您的操作将会退出</string>
+	<string name="button_text_no">取消</string>
+	<string name="button_text_yes">好的</string>
+	<string name="network_is_not_available">当前网络不给力\n建议检查网络状态</string>
+	<string name="chuxiao_life">初效过滤寿命 <xliff:g>%1$s</xliff:g> 小时</string>
+	<string name="chuchen_life">静电除尘寿命 <xliff:g>%1$s</xliff:g> 小时</string>
+	<string name="gaoxiao_life">高效过滤寿命 <xliff:g>%1$s</xliff:g> 小时</string>
+	<string name="has_used">已使用 <xliff:g>%1$s</xliff:g> 小时</string>
 </resources>

@@ -19,5 +19,7 @@ public class Global {
 
 	public static String CONFIG_FILE_NAME = "CONFIG_FILE_NAME"; // 配置文件名
 	public static String HAS_STRAINER_INFO = "HAS_STRAINER_INFO"; // 高效寿命
+	
+	public static String CURRENT_DEVICE_ID = "CURRENT_DEVICE_ID"; // 当前设备ID
 
 }
