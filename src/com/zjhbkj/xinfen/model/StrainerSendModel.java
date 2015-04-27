@@ -1,7 +1,10 @@
 package com.zjhbkj.xinfen.model;
 
+import com.zjhbkj.xinfen.app.XinfengApplication;
+import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.orm.BaseModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
+import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 
 /**
  * 滤网设备指令
@@ -210,6 +213,12 @@ public class StrainerSendModel extends BaseModel {
 
 	@Override
 	public String toString() {
+		String deviceName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
+				Global.CONFIG_FILE_NAME, Global.CURRENT_DEVICE_ID);
+		String[] idHex = CommandUtil.formateIdHexString(Integer.parseInt(deviceName));
+		command16 = idHex[0];
+		command17 = idHex[1];
+		command18 = idHex[2];
 		checkSum = CommandUtil.getCheckSum(command1 + " " + command2 + " " + command3 + " " + command4 + " " + command5
 				+ " " + command6 + " " + command7 + " " + command8 + " " + command9 + " " + command10 + " " + command11
 				+ " " + command12 + " " + command13 + " " + command14 + " " + command15 + " " + command16 + " "

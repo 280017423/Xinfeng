@@ -41,6 +41,14 @@ public class DBMgr {
 		}
 	}
 
+	public static <T extends BaseModel> void deleteModel(final T model) {
+		if (null == model) {
+			return;
+		}
+		DataManager dataManager = DBUtil.getDataManager();
+		dataManager.delete(model.getClass(), model.getID());
+	}
+
 	public static <T extends BaseModel> void saveModel(final T model, String primaryKey, String primaryValue) {
 		if (null == model) {
 			return;

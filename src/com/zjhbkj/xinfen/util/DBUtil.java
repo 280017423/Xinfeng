@@ -13,6 +13,7 @@ import com.zjhbkj.xinfen.model.StrainerModel;
 import com.zjhbkj.xinfen.model.StrainerSendModel;
 import com.zjhbkj.xinfen.orm.DataManager;
 import com.zjhbkj.xinfen.orm.DatabaseBuilder;
+import com.zjhbkj.xinfen.orm.Utils;
 
 /**
  * 数据库初始化类
@@ -45,7 +46,12 @@ public class DBUtil {
 		if (null != DATABASE_BUILDER) {
 			String[] tables = DATABASE_BUILDER.getTables();
 			for (int i = 0; i < tables.length; i++) {
-				DBMgr.deleteTableFromDb(tables[i]);
+				if (Utils.toSQLName(DeviceModel.class.getSimpleName()).equals(tables[i])) {
+					// 设备表不删除
+					continue;
+				} else {
+					DBMgr.deleteTableFromDb(tables[i]);
+				}
 			}
 		}
 	}

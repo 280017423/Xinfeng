@@ -44,7 +44,7 @@ public class DeviceListActivity extends Activity implements OnClickListener {
 
 	private void initVariables() {
 		mDeviceModels = new ArrayList<DeviceModel>();
-		mDeviceAdapter = new DeviceAdapter(this, mDeviceModels);
+		mDeviceAdapter = new DeviceAdapter(this, mDeviceModels, this);
 	}
 
 	private void initViews() {
@@ -84,9 +84,20 @@ public class DeviceListActivity extends Activity implements OnClickListener {
 			case R.id.btn_set_config_info:
 				addDevice();
 				break;
+			case R.id.btn_del_device:
+				delDevice((DeviceModel) v.getTag());
+				break;
 			default:
 				break;
 		}
+	}
+
+	private void delDevice(DeviceModel model) {
+		if (null == model) {
+			return;
+		}
+		DBMgr.deleteModel(model);
+		getDeviceList();
 	}
 
 	private void addDevice() {

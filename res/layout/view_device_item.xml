@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@drawable/tongyong_button_bg"
+	android:descendantFocusability="blocksDescendants"
 	android:orientation="vertical"
-	android:padding="15dp" >
+	android:padding="10dp" >
 	<TextView
 		android:id="@+id/tv_device_name"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_gravity="center_vertical"
+		android:layout_centerVertical="true"
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
-</LinearLayout>
+	<Button
+		android:id="@+id/btn_del_device"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:background="@drawable/tongyong_button_bg_shape"
+		android:padding="5dp"
+		android:text="删除"
+		android:textColor="@color/white"
+		android:textSize="@dimen/size_2" />
+</RelativeLayout>

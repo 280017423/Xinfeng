@@ -158,9 +158,6 @@ public class StrainerConfigActivity extends BaseActivity implements OnClickListe
 		StrainerSendModel model = null;
 		if (null != configModels && !configModels.isEmpty()) {
 			model = configModels.get(0);
-			model.setCommand7("0");
-			model.setCommand8("0");
-			model.setCommand9("0");
 			if (1 == value) {
 				model.setCommand7("1");
 			}

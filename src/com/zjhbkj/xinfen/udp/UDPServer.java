@@ -80,6 +80,18 @@ public class UDPServer implements Runnable {
 				// 判断收到的是什么数据
 				if (commandNum.equalsIgnoreCase(Global.COMMAND_NUM_HEART_BEATS)) {
 					EvtLog.d("bbb", "收到心跳指令");
+					// 判断是否是当前设备发送的
+					String deviceName = CommandUtil.bytesToHexString(data[19]) + CommandUtil.bytesToHexString(data[18])
+							+ CommandUtil.bytesToHexString(data[17]);
+					String localName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
+							Global.CONFIG_FILE_NAME, Global.CURRENT_DEVICE_ID);
+					if (CommandUtil.hexStringToInt(deviceName) != Integer.parseInt(localName)) {
+						EventBus.getDefault().post(
+								"不是同一台设备" + CommandUtil.hexStringToInt(deviceName) + "======"
+										+ Integer.parseInt(localName));
+						continue;
+					}
+
 					RcvComsModel rcvComsModel = new RcvComsModel();
 					boolean isValid = rcvComsModel.receiveCommand(data);
 					datagramPacket.setLength(msg.length); // 重设数据包的长度
@@ -98,6 +110,18 @@ public class UDPServer implements Runnable {
 					}
 				} else if (commandNum.equalsIgnoreCase(Global.COMMAND_NUM_STRAINER)) {
 					EvtLog.d("bbb", "收到滤网指令");
+					// 判断是否是当前设备发送的
+					String deviceName = CommandUtil.bytesToHexString(data[19]) + CommandUtil.bytesToHexString(data[18])
+							+ CommandUtil.bytesToHexString(data[17]);
+					String localName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
+							Global.CONFIG_FILE_NAME, Global.CURRENT_DEVICE_ID);
+					if (CommandUtil.hexStringToInt(deviceName) != Integer.parseInt(localName)) {
+						EventBus.getDefault().post(
+								"不是同一台设备" + CommandUtil.hexStringToInt(deviceName) + "======"
+										+ Integer.parseInt(localName));
+						continue;
+					}
+
 					StrainerModel strainerModel = new StrainerModel();
 					boolean isValid = strainerModel.receiveCommand(data);
 					datagramPacket.setLength(msg.length); // 重设数据包的长度

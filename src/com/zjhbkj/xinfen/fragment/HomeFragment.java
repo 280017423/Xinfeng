@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zjhbkj.xinfen.R;
 import com.zjhbkj.xinfen.db.DBMgr;
@@ -166,7 +167,7 @@ public class HomeFragment extends FragmentBase {
 	}
 
 	public void onEventMainThread(String info) {
-		// Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
+		Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
 	}
 
 	/**

@@ -4,8 +4,10 @@ import java.util.List;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
@@ -18,12 +20,12 @@ public class DeviceAdapter extends BaseAdapter {
 
 	private List<DeviceModel> mDeviceModels;
 	private Context mContext;
+	private OnClickListener mOnClickListener;
 
-	public static final String TAG = DeviceAdapter.class.getSimpleName();
-
-	public DeviceAdapter(Context context, List<DeviceModel> data) {
+	public DeviceAdapter(Context context, List<DeviceModel> data, OnClickListener listener) {
 		mContext = context;
 		mDeviceModels = data;
+		mOnClickListener = listener;
 	}
 
 	@Override
@@ -53,17 +55,21 @@ public class DeviceAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = View.inflate(mContext, R.layout.view_device_item, null);
 			holder = new ViewHolder();
-			holder.tvContent = (TextView) convertView.findViewById(R.id.tv_device_name);
+			holder.mTvName = (TextView) convertView.findViewById(R.id.tv_device_name);
+			holder.mBtnDelete = (Button) convertView.findViewById(R.id.btn_del_device);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		DeviceModel model = mDeviceModels.get(position);
-		holder.tvContent.setText("设备：" + model.getIdValue());
+		holder.mTvName.setText("设备：" + model.getIdValue());
+		holder.mBtnDelete.setTag(model);
+		holder.mBtnDelete.setOnClickListener(mOnClickListener);
 		return convertView;
 	}
 }
 
 class ViewHolder {
-	public TextView tvContent;
+	public TextView mTvName;
+	public Button mBtnDelete;
 }
