@@ -2,7 +2,11 @@ package com.zjhbkj.xinfen.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import android.R.integer;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,15 +21,25 @@ import android.widget.Toast;
 
 import com.zjhbkj.xinfen.R;
 import com.zjhbkj.xinfen.adapter.MainTabAdapter;
+import com.zjhbkj.xinfen.app.XinfengApplication;
+import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.fragment.HomeFragment;
 import com.zjhbkj.xinfen.fragment.MoreFragment;
 import com.zjhbkj.xinfen.fragment.SettingFragment;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
+import com.zjhbkj.xinfen.udp.UDPClient;
+import com.zjhbkj.xinfen.udp.UDPClient.ClientMsgListener;
+import com.zjhbkj.xinfen.udp.UDPServer;
+import com.zjhbkj.xinfen.util.EvtLog;
+import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
+import com.zjhbkj.xinfen.util.WifiApUtil;
 
 public class MainActivity extends BaseFragmentActivity implements OnClickListener {
 
+	private UDPServer mUdpServer;
+	private UDPClient mUdpClient;
 	private FragmentManager fragmentManager;
 	private HomeFragment mHomeFragment;
 	private SettingFragment mSettingFragment;
@@ -45,6 +59,19 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 
 	private void initVariables() {
 		initSendData();
+
+		ExecutorService exec = Executors.newCachedThreadPool();
+		mUdpServer = new UDPServer();
+		exec.execute(mUdpServer);
+
+		mUdpClient = UDPClient.newInstance(new ClientMsgListener() {
+
+			@Override
+			public void handlerErorMsg(String errorMsg) {
+				EvtLog.d("aaa", errorMsg);
+			}
+		});
+
 		mFragments = new ArrayList<Fragment>();
 		fragmentManager = getSupportFragmentManager();
 		mHomeFragment = HomeFragment.newInstance();
@@ -168,6 +195,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 				Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_LONG).show();
 				mExitTime = System.currentTimeMillis();
 			} else {
+				WifiApUtil.closeWifiAp(this);
 				finish();
 			}
 			return true;
@@ -197,6 +225,33 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 			mSendComsModel.setCommand15(Integer.toHexString(100));
 			mSendComsModel.send();
 		}
+	}
+
+	public void showMyDialog() {
+		int hasToast = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+				Global.HAS_TOAST_OUT_OF_DATE);
+		if (1 == hasToast) {
+			return;
+		}
+		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+				Global.HAS_TOAST_OUT_OF_DATE, 1);
+		Dialog dialog = createDialogBuilder(this, "提示", "滤芯过期，请更换", "确定", "").create(0);
+		dialog.show();
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (null != mUdpServer) {
+			EvtLog.d("aaa", "断开udp");
+			mUdpServer.stopAcceptMessage();
+			mUdpServer.closeConnection();
+		}
+		if (null != mUdpClient) {
+			EvtLog.d("aaa", "断开udp");
+			mUdpClient.stopAcceptMessage();
+			mUdpClient.closeConnection();
+		}
+		super.onDestroy();
 	}
 
 }

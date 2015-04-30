@@ -1,75 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#9F000000" >
-
-    <LinearLayout
-        android:id="@+id/content_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/transparent"
-        android:orientation="horizontal" >
-
-        <com.zjhbkj.xinfen.widget.wheelview.WheelView
-            android:id="@+id/wv_item_1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <com.zjhbkj.xinfen.widget.wheelview.WheelView
-            android:id="@+id/wv_item_2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="gone" />
-
-        <com.zjhbkj.xinfen.widget.wheelview.WheelView
-            android:id="@+id/wv_item_3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="gone" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_above="@id/content_view"
-        android:background="@drawable/title_bg"
-        android:clickable="false" >
-
-        <TextView
-            android:id="@+id/tv_pop_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:focusable="false"
-            android:focusableInTouchMode="true"
-            android:singleLine="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_1" />
-
-        <Button
-            android:id="@+id/btn_ok"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/tongyong_button_bg_shape"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="确定"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_2" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.7dp"
-            android:layout_alignParentBottom="true"
-            android:background="#e0e0e0" />
-    </RelativeLayout>
-
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#9F000000" >
+	<LinearLayout
+		android:id="@+id/content_view"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:background="@color/transparent"
+		android:orientation="horizontal" >
+		<com.zjhbkj.xinfen.widget.wheelview.WheelView
+			android:id="@+id/wv_item_1"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1" />
+		<com.zjhbkj.xinfen.widget.wheelview.WheelView
+			android:id="@+id/wv_item_2"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:visibility="gone" />
+		<com.zjhbkj.xinfen.widget.wheelview.WheelView
+			android:id="@+id/wv_item_3"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:visibility="gone" />
+	</LinearLayout>
+	<RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="45dp"
+		android:layout_above="@id/content_view"
+		android:background="@drawable/wheel_view_title"
+		android:clickable="false" >
+		<TextView
+			android:id="@+id/tv_pop_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:focusable="false"
+			android:focusableInTouchMode="true"
+			android:singleLine="true"
+			android:textColor="@color/white"
+			android:textSize="@dimen/size_1" />
+		<Button
+			android:id="@+id/btn_ok"
+			android:layout_width="48dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:layout_marginRight="10dp"
+			android:background="@drawable/tongyong_button_bg_shape"
+			android:gravity="center"
+			android:padding="5dp"
+			android:text="确定"
+			android:textColor="@color/white"
+			android:textSize="@dimen/size_2" />
+		<View
+			android:layout_width="fill_parent"
+			android:layout_height="0.7dp"
+			android:layout_alignParentBottom="true"
+			android:background="#e0e0e0" />
+	</RelativeLayout>
 </RelativeLayout>

@@ -93,5 +93,4 @@ public class MoreFragment extends FragmentBase implements OnClickListener {
 				break;
 		}
 	}
-
 }

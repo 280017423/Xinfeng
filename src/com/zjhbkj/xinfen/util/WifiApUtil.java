@@ -129,4 +129,20 @@ public class WifiApUtil {
 		return false;
 	}
 
+	/**
+	 * WIFI网络开关
+	 */
+	public static void toggleWiFi(Context context, boolean openWf) {
+		WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		if (openWf) {
+			if (!wm.isWifiEnabled()) {
+				wm.setWifiEnabled(openWf);
+			}
+		} else {
+			if (wm.isWifiEnabled()) {
+				wm.setWifiEnabled(openWf);
+			}
+		}
+	}
+
 }

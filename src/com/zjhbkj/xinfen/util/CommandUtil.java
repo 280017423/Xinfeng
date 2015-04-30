@@ -105,7 +105,6 @@ public class CommandUtil {
 		String temp = Integer.toHexString(id);
 		String str = String.format("%6s", temp);
 		str = str.replaceAll("\\s", "0");
-		System.out.println(str);
 		values[2] = str.substring(0, 2);
 		values[1] = str.substring(2, 4);
 		values[0] = str.substring(4);

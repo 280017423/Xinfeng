@@ -1,8 +1,6 @@
 package com.zjhbkj.xinfen.fragment;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -10,21 +8,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.zjhbkj.xinfen.R;
+import com.zjhbkj.xinfen.activity.MainActivity;
+import com.zjhbkj.xinfen.activity.WebActivity;
+import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.model.RcvComsModel;
-import com.zjhbkj.xinfen.udp.UDPServer;
 import com.zjhbkj.xinfen.util.CommandUtil;
-import com.zjhbkj.xinfen.util.EvtLog;
+import com.zjhbkj.xinfen.util.NetUtil;
 import com.zjhbkj.xinfen.util.UIUtil;
 
 import de.greenrobot.event.EventBus;
 
-public class HomeFragment extends FragmentBase {
+public class HomeFragment extends FragmentBase implements OnClickListener {
 
-	private UDPServer mUdpServer;
 	private TextView mTvFrequency;
 	private TextView mTvPpm;
 	private TextView mTvMode;
@@ -55,9 +53,6 @@ public class HomeFragment extends FragmentBase {
 
 	private void initVariables() {
 		EventBus.getDefault().register(this);
-		ExecutorService exec = Executors.newCachedThreadPool();
-		mUdpServer = new UDPServer();
-		exec.execute(mUdpServer);
 	}
 
 	@Override
@@ -65,7 +60,20 @@ public class HomeFragment extends FragmentBase {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View layout = inflater.inflate(R.layout.activity_home, container, false);
 		initViews(layout);
+		setListener(layout);
 		return layout;
+	}
+
+	private void setListener(View layout) {
+		layout.findViewById(R.id.iv_pm_2dot5_in).setOnClickListener(this);
+		layout.findViewById(R.id.iv_pm_2dot5_out).setOnClickListener(this);
+		mTvInInTemp.setOnClickListener(this);
+		mTvInOutTemp.setOnClickListener(this);
+		mTvOutInTemp.setOnClickListener(this);
+		mTvOutOutTemp.setOnClickListener(this);
+		mTvHumidity.setOnClickListener(this);
+		mTvCo2.setOnClickListener(this);
+		mTvPpm.setOnClickListener(this);
 	}
 
 	private void initViews(View layout) {
@@ -87,9 +95,6 @@ public class HomeFragment extends FragmentBase {
 		int width = UIUtil.getScreenWidth(getActivity()) * 4 / 5;
 		UIUtil.setViewWidth(mViewHome, width);
 		UIUtil.setViewHeight(mViewHome, height);
-		EvtLog.d("aaa", "屏幕宽度：" + UIUtil.getScreenWidth(getActivity()));
-		EvtLog.d("aaa", "mViewHome宽度：" + UIUtil.getScreenWidth(getActivity()) * 4 / 5);
-		EvtLog.d("aaa", "mViewHome高度：" + height);
 
 		mTvInM3 = (TextView) layout.findViewById(R.id.tv_pm_2dot5_in_title);
 		mTvInM3.setText(Html.fromHtml("mg/m&sup3;"));
@@ -155,7 +160,23 @@ public class HomeFragment extends FragmentBase {
 			default:
 				break;
 		}
-		mTvModeSwitch.setText(1 == CommandUtil.hexStringToInt(model.getCommand4()) ? "模式开关：开" : "模式开关：关");
+		int cleanValue = CommandUtil.hexStringToInt(model.getCommand4());
+		mTvModeSwitch.setText(1 == cleanValue % 10 ? "模式开关：开" : "模式开关：关");
+
+		switch (cleanValue / 10) {
+			case 1:
+				((MainActivity) getActivity()).showMyDialog();
+				break;
+			case 2:
+				((MainActivity) getActivity()).showMyDialog();
+				break;
+			case 3:
+				((MainActivity) getActivity()).showMyDialog();
+				break;
+
+			default:
+				break;
+		}
 		mTvPm2dot5Out.setText(model.getDisplayPm2dotOut());
 		mTvPm2dot5In.setText(model.getDisplayPm2dotIn());
 		mTvInInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand11()) + Html.fromHtml("&#8451;"));
@@ -167,7 +188,7 @@ public class HomeFragment extends FragmentBase {
 	}
 
 	public void onEventMainThread(String info) {
-		Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
+		// Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -182,15 +203,58 @@ public class HomeFragment extends FragmentBase {
 
 	@Override
 	public void onDestroy() {
-		if (null != mUdpServer) {
-			mUdpServer.stopAcceptMessage();
-			mUdpServer.closeConnection();
-		}
 		try {
 			EventBus.getDefault().unregister(this);
 		} catch (Exception e) {
 		}
 		super.onDestroy();
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.iv_pm_2dot5_in:
+				jumpToGraphic("pm25in");
+				break;
+			case R.id.iv_pm_2dot5_out:
+				jumpToGraphic("pm25out");
+				break;
+			case R.id.tv_in_in_wind_temp:
+				jumpToGraphic("wendu1");
+				break;
+			case R.id.tv_in_out_wind_temp:
+				jumpToGraphic("wendu2");
+				break;
+			case R.id.tv_out_in_wind_temp:
+				jumpToGraphic("wendu3");
+				break;
+			case R.id.tv_out_out_wind_temp:
+				jumpToGraphic("wendu4");
+				break;
+			case R.id.tv_humidity:
+				jumpToGraphic("shidu");
+				break;
+			case R.id.tv_co2_low:
+				jumpToGraphic("co2");
+				break;
+			case R.id.tv_ppm:
+				jumpToGraphic("jiaquan");
+				break;
+
+			default:
+				break;
+		}
+
+	}
+
+	private void jumpToGraphic(String action) {
+		if (!NetUtil.isNetworkAvailable()) {
+			toast(getString(R.string.network_is_not_available));
+			return;
+		}
+		Intent intent = new Intent(getActivity(), WebActivity.class);
+		intent.putExtra("url", Global.getGraphicUrl(action));
+		startActivity(intent);
 	}
 
 }

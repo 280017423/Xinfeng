@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import com.zjhbkj.xinfen.listener.IDialogProtocol;
 import com.zjhbkj.xinfen.util.DialogManager;
 import com.zjhbkj.xinfen.widget.CustomDialog.Builder;
+import com.zjhbkj.xinfen.widget.LoadingUpView;
 
 class BaseActivity extends Activity implements IDialogProtocol {
 
@@ -31,6 +32,29 @@ class BaseActivity extends Activity implements IDialogProtocol {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+	}
+
+	protected boolean showLoadingUpView(LoadingUpView loadingUpView) {
+		return showLoadingUpView(loadingUpView, "");
+	}
+
+	protected boolean showLoadingUpView(LoadingUpView loadingUpView, String info) {
+		if (loadingUpView != null && !loadingUpView.isShowing()) {
+			if (null == info) {
+				info = "";
+			}
+			loadingUpView.showPopup(info);
+			return true;
+		}
+		return false;
+	}
+
+	protected boolean dismissLoadingUpView(LoadingUpView loadingUpView) {
+		if (loadingUpView != null && loadingUpView.isShowing()) {
+			loadingUpView.dismiss();
+			return true;
+		}
+		return false;
 	}
 
 	@Override

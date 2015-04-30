@@ -52,6 +52,7 @@ public class UDPServer implements Runnable {
 		}
 	}
 
+	@Override
 	public void run() {
 		DatagramPacket datagramPacket = new DatagramPacket(msg, msg.length);
 		while (onGoinglistner) {
@@ -98,6 +99,15 @@ public class UDPServer implements Runnable {
 					if (isValid) {
 						DBMgr.saveModel(rcvComsModel);
 						EventBus.getDefault().post(rcvComsModel);
+						// 更新模式状态
+						SendComsModel mSendComsModel = DBMgr.getHistoryData(SendComsModel.class, "EA");
+						int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
+								Global.CONFIG_FILE_NAME, Global.HAS_SETTING_INFO);
+						if (null != mSendComsModel && count <= 0) {
+							mSendComsModel.setCommand3(rcvComsModel.getCommand3());
+							mSendComsModel.setCommand1(rcvComsModel.getCommand1());
+							DBMgr.saveModel(mSendComsModel);
+						}
 						if (SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
 								Global.CONFIG_FILE_NAME, Global.HAS_STRAINER_INFO)) {
 							EvtLog.d("aaa", "发送滤网指令");
@@ -237,7 +247,7 @@ public class UDPServer implements Runnable {
 	}
 
 	/**
-	 * 发送信息到服务器
+	 * 发送信息到设备
 	 */
 	public void sendHeartBeats(DatagramPacket datagramPacket) {
 		SendComsModel model = DBMgr.getHistoryData(SendComsModel.class, "EA");
@@ -253,10 +263,16 @@ public class UDPServer implements Runnable {
 				EventBus.getDefault().post("消息发送失败." + e.toString());
 			}
 		}
+		int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+				Global.HAS_SETTING_INFO);
+		if (count > 0) {
+			SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+					Global.HAS_SETTING_INFO, count - 1);
+		}
 	}
 
 	/**
-	 * 发送信息到服务器
+	 * 发送滤网信息到设备
 	 */
 	public void sendStrainerConfig(DatagramPacket datagramPacket) {
 

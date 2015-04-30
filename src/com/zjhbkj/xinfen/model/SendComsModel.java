@@ -6,6 +6,8 @@ import com.zjhbkj.xinfen.app.XinfengApplication;
 import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.orm.BaseModel;
+import com.zjhbkj.xinfen.udp.UDPClient;
+import com.zjhbkj.xinfen.udp.UDPClient.ClientMsgListener;
 import com.zjhbkj.xinfen.util.CommandUtil;
 import com.zjhbkj.xinfen.util.DateUtil;
 import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
@@ -176,7 +178,37 @@ public class SendComsModel extends BaseModel {
 	}
 
 	public void send() {
+		send(false);
+	}
+
+	public void send(boolean switchHot) {
 		DBMgr.saveModel(this, "COMMAND_NUM = ?", "EA");
+		if ("3".equals(command14)) {
+			UDPClient client = UDPClient.newInstance(new ClientMsgListener() {
+
+				@Override
+				public void handlerErorMsg(String errorMsg) {
+				}
+			});
+			if (!client.isConnected()) {
+				client.connectServer();
+			}
+		} else {
+			if (switchHot) {
+				UDPClient client = UDPClient.newInstance(new ClientMsgListener() {
+
+					@Override
+					public void handlerErorMsg(String errorMsg) {
+					}
+				});
+				if (!client.isConnected()) {
+					client.connectServer();
+				}
+			}
+			// 一旦有设置，就三个周期不要更改本地数据，保护本地数据
+			SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+					Global.HAS_SETTING_INFO, 3);
+		}
 	}
 
 	@Override

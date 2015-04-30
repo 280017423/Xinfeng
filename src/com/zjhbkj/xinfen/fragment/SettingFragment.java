@@ -13,18 +13,32 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
+import com.zjhbkj.xinfen.app.XinfengApplication;
+import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.db.DBMgr;
+import com.zjhbkj.xinfen.listener.StartWifiApListener;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
+import com.zjhbkj.xinfen.udp.UDPClient;
+import com.zjhbkj.xinfen.udp.UDPClient.ClientMsgListener;
 import com.zjhbkj.xinfen.util.ActionSheetUtil;
 import com.zjhbkj.xinfen.util.CommandUtil;
+import com.zjhbkj.xinfen.util.EvtLog;
+import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
+import com.zjhbkj.xinfen.util.TimerUtil;
+import com.zjhbkj.xinfen.util.TimerUtil.TimerActionListener;
 import com.zjhbkj.xinfen.util.WheelViewUtil;
+import com.zjhbkj.xinfen.util.WifiApUtil;
 import com.zjhbkj.xinfen.widget.ActionSheet.ActionSheetClickListener;
+import com.zjhbkj.xinfen.widget.LoadingUpView;
 import com.zjhbkj.xinfen.widget.SlipButton;
 import com.zjhbkj.xinfen.widget.SlipButton.OnChangedListener;
 
+import de.greenrobot.event.EventBus;
+
 public class SettingFragment extends FragmentBase implements OnClickListener, OnCheckedChangeListener {
 
+	public static final String TAG = SettingFragment.class.getName();
 	public static final int CODE_GET_DATE = 100;
 	public static final int CODE_GET_TIME = 101;
 	public static final int CODE_GET_START_TIME = 102;
@@ -45,6 +59,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private TextView mTvStartTime;
 	private TextView mTvShutTime;
 	private SendComsModel mSendComsModel;
+	private LoadingUpView mLoadingUpView;
 	private Handler mHandler = new Handler() {
 
 		@Override
@@ -89,6 +104,8 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	}
 
 	private void initVariables() {
+		EventBus.getDefault().register(this);
+		mLoadingUpView = new LoadingUpView(getActivity(), true);
 		// 第一次进来拿到设备发过来的初始数据，初始化设置界面
 		mSendComsModel = DBMgr.getHistoryData(SendComsModel.class, "EA");
 		if (null == mSendComsModel) {
@@ -211,13 +228,91 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					public void onItemClick(int itemPosition) {
 						if (-1 != itemPosition) {
 							refreashStartShut(itemPosition);
+							String oldValue = mSendComsModel.getCommand14();
 							mSendComsModel.setCommand14(Integer.toHexString(itemPosition));
 							mSendComsModel.send();
+							if (3 == itemPosition) {
+								if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
+									mLoadingUpView.showPopup("正在切换至外网");
+								}
+								// TODO 延迟9s连接服务器
+								TimerUtil.startTimer(TAG, 3 * 3, 1000, new TimerActionListener() {
+
+									@Override
+									public void doAction() {
+										if (0 == TimerUtil.getTimerTime(TAG)) {
+											EvtLog.d("aaa", "toggleWiFi, true");
+											// 关闭热点，打开wifi；
+											WifiApUtil.closeWifiAp(getActivity());
+											WifiApUtil.toggleWiFi(getActivity(), true);
+											TimerUtil.stopTimer(TAG);
+											if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
+												mLoadingUpView.dismiss();
+											}
+										}
+									}
+								});
+							} else if (2 == itemPosition && oldValue.equalsIgnoreCase(Integer.toHexString(3))) {
+								if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
+									mLoadingUpView.showPopup("正在切换至内网");
+								}
+								mSendComsModel.setCommand14(Integer.toHexString(itemPosition));
+								mSendComsModel.send(true);
+								TimerUtil.startTimer(TAG, 3 * 3, 1000, new TimerActionListener() {
+
+									@Override
+									public void doAction() {
+										if (0 == TimerUtil.getTimerTime(TAG)) {
+											WifiApUtil.toggleWiFi(getActivity(), false);
+											WifiApUtil wifiAp = new WifiApUtil(getActivity());
+											wifiAp.startWifiAp(Global.SSID, Global.PASSWORD, new StartWifiApListener() {
+
+												@Override
+												public void enableWifiApSuccess() {
+													getActivity().runOnUiThread(new Runnable() {
+
+														@Override
+														public void run() {
+															getActivity().runOnUiThread(new Runnable() {
+
+																@Override
+																public void run() {
+																	if (null != mLoadingUpView
+																			&& mLoadingUpView.isShowing()) {
+																		mLoadingUpView.dismiss();
+																	}
+																}
+															});
+															toast("已经切换至内网");
+														}
+													});
+												}
+
+												@Override
+												public void enableWifiApFail() {
+													getActivity().runOnUiThread(new Runnable() {
+
+														@Override
+														public void run() {
+															if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
+																mLoadingUpView.dismiss();
+															}
+														}
+													});
+												}
+											});
+											TimerUtil.stopTimer(TAG);
+											if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
+												mLoadingUpView.dismiss();
+											}
+										}
+									}
+								});
+							}
 						}
 					}
 				});
 				break;
-
 			default:
 				break;
 		}
@@ -258,6 +353,15 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mSendComsModel.send();
 	}
 
+	public void onEventMainThread(RcvComsModel model) {
+		int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+				Global.HAS_SETTING_INFO);
+		if (count <= 0) {
+			mSendComsModel.setCommand3(model.getCommand3());
+			refreashHzView();
+		}
+	}
+
 	private void refreashHzView() {
 		int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand3());
 		if (1 == mode) {
@@ -290,5 +394,14 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			default:
 				break;
 		}
+	}
+
+	@Override
+	public void onDestroy() {
+		try {
+			EventBus.getDefault().unregister(this);
+		} catch (Exception e) {
+		}
+		super.onDestroy();
 	}
 }

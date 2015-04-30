@@ -4,7 +4,7 @@ import com.zjhbkj.xinfen.orm.BaseModel;
 
 public class DeviceModel extends BaseModel {
 	private static final long serialVersionUID = 438886563533003934L;
-	public static final String ID_VALUE = "ID_VALUE"; // idValue
+	public static final String ID_VALUE = "ID_VALUE";
 	private String idValue; // idValue
 
 	public String getIdValue() {

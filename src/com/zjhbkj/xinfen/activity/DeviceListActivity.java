@@ -3,7 +3,6 @@ package com.zjhbkj.xinfen.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -21,17 +20,22 @@ import com.zjhbkj.xinfen.adapter.DeviceAdapter;
 import com.zjhbkj.xinfen.app.XinfengApplication;
 import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.db.DBMgr;
+import com.zjhbkj.xinfen.listener.StartWifiApListener;
 import com.zjhbkj.xinfen.model.DeviceModel;
+import com.zjhbkj.xinfen.util.DBUtil;
 import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 import com.zjhbkj.xinfen.util.StringUtil;
+import com.zjhbkj.xinfen.util.WifiApUtil;
+import com.zjhbkj.xinfen.widget.LoadingUpView;
 
-public class DeviceListActivity extends Activity implements OnClickListener {
+public class DeviceListActivity extends BaseActivity implements OnClickListener {
 
 	private long mExitTime;
 	private List<DeviceModel> mDeviceModels;
 	private ListView mLvDeviceList;
 	private EditText mEdtId;
 	private DeviceAdapter mDeviceAdapter;
+	private LoadingUpView mLoadingUpView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class DeviceListActivity extends Activity implements OnClickListener {
 	}
 
 	private void initVariables() {
+		mLoadingUpView = new LoadingUpView(this, true);
 		mDeviceModels = new ArrayList<DeviceModel>();
 		mDeviceAdapter = new DeviceAdapter(this, mDeviceModels, this);
 	}
@@ -62,8 +67,7 @@ public class DeviceListActivity extends Activity implements OnClickListener {
 				if (null != model && !StringUtil.isNullOrEmpty(model.getIdValue())) {
 					SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
 							Global.CURRENT_DEVICE_ID, model.getIdValue());
-					startActivity(new Intent(DeviceListActivity.this, MainActivity.class));
-					finish();
+					startWifiAp();
 				}
 			}
 		});
@@ -131,10 +135,44 @@ public class DeviceListActivity extends Activity implements OnClickListener {
 				Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_LONG).show();
 				mExitTime = System.currentTimeMillis();
 			} else {
+				WifiApUtil.closeWifiAp(this);
 				finish();
 			}
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	private void startWifiAp() {
+		if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
+			mLoadingUpView.showPopup("正在开启热点");
+		}
+		WifiApUtil wifiAp = new WifiApUtil(this);
+		wifiAp.startWifiAp(Global.SSID, Global.PASSWORD, new StartWifiApListener() {
+
+			@Override
+			public void enableWifiApSuccess() {
+				DeviceListActivity.this.runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						DBUtil.clearAllTables();
+						startActivity(new Intent(DeviceListActivity.this, MainActivity.class));
+						finish();
+					}
+				});
+			}
+
+			@Override
+			public void enableWifiApFail() {
+				DeviceListActivity.this.runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						Toast.makeText(DeviceListActivity.this, "热点开启失败，请重试", Toast.LENGTH_LONG).show();
+					}
+				});
+			}
+		});
 	}
 }

@@ -33,6 +33,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:background="@drawable/pm2dot5_in_bg"
+				android:clickable="true"
 				android:contentDescription="@null" />
 			<TextView
 				android:id="@+id/tv_pm_2dot5_in_title"
@@ -71,6 +72,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:background="@drawable/pm2dot5_out_bg"
+				android:clickable="true"
 				android:contentDescription="@null" />
 			<TextView
 				android:id="@+id/tv_pm_2dot5_out_title"
@@ -114,9 +116,9 @@
 		android:id="@+id/tv_frequency"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:textColor="@color/white"
 		android:layout_alignTop="@id/rl_home_tab_layout"
 		android:layout_centerHorizontal="true"
+		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
 	<TextView
 		android:id="@+id/tv_humidity"
@@ -124,6 +126,7 @@
 		android:layout_height="wrap_content"
 		android:layout_alignTop="@id/rl_home_tab_layout"
 		android:layout_centerHorizontal="true"
+		android:clickable="true"
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
 	<RelativeLayout
@@ -135,6 +138,7 @@
 			android:id="@+id/tv_ppm"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:clickable="true"
 			android:textColor="@color/white"
 			android:textSize="@dimen/size_2" />
 		<TextView
@@ -142,6 +146,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/tv_ppm"
+			android:clickable="true"
 			android:textColor="@color/white"
 			android:textSize="@dimen/size_2" />
 	</RelativeLayout>
@@ -161,6 +166,7 @@
 		android:layout_height="wrap_content"
 		android:layout_alignLeft="@id/rl_home_tab_layout"
 		android:layout_alignTop="@id/rl_home_tab_layout"
+		android:clickable="true"
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
 	<TextView
@@ -169,6 +175,7 @@
 		android:layout_height="wrap_content"
 		android:layout_alignLeft="@id/rl_home_tab_layout"
 		android:layout_alignTop="@id/rl_home_tab_layout"
+		android:clickable="true"
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
 	<TextView
@@ -177,6 +184,7 @@
 		android:layout_height="wrap_content"
 		android:layout_alignRight="@id/rl_home_tab_layout"
 		android:layout_alignTop="@id/rl_home_tab_layout"
+		android:clickable="true"
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
 	<TextView
@@ -185,6 +193,7 @@
 		android:layout_height="wrap_content"
 		android:layout_alignRight="@id/rl_home_tab_layout"
 		android:layout_alignTop="@id/rl_home_tab_layout"
+		android:clickable="true"
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
 </RelativeLayout>

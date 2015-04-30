@@ -55,7 +55,7 @@
 				<TextView
 					android:id="@+id/tv_setting_tab"
 					style="@style/home_item_text_style"
-					android:text="遥控"
+					android:text="设置"
 					android:textSize="12sp" />
 			</LinearLayout>
 			<LinearLayout

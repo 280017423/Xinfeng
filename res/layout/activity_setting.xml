@@ -183,11 +183,6 @@
 			android:gravity="center_vertical"
 			android:textColor="@color/white"
 			android:textSize="@dimen/size_2" />
-		<View
-			android:layout_width="fill_parent"
-			android:layout_height="0.7dp"
-			android:layout_alignParentBottom="true"
-			android:background="#e0e0e0" />
 	</RelativeLayout>
 	<RelativeLayout
 		android:id="@+id/rl_set_frequency"
@@ -201,6 +196,11 @@
 			android:layout_width="fill_parent"
 			android:layout_height="0.7dp"
 			android:layout_alignParentTop="true"
+			android:background="#e0e0e0" />
+		<View
+			android:layout_width="fill_parent"
+			android:layout_height="0.7dp"
+			android:layout_alignParentBottom="true"
 			android:background="#e0e0e0" />
 		<TextView
 			android:layout_width="wrap_content"
@@ -259,19 +259,19 @@
 		android:layout_marginTop="15dp"
 		android:orientation="horizontal" >
 		<RadioButton
-			android:id="@+id/rbtn_auto"
-			android:layout_width="60dp"
-			android:layout_height="60dp"
-			android:background="@drawable/zhineng_check_bg"
-			android:button="@null"
-			android:checked="true" />
-		<RadioButton
 			android:id="@+id/rbtn_manual"
 			android:layout_width="60dp"
 			android:layout_height="60dp"
-			android:layout_marginLeft="15dp"
 			android:background="@drawable/shoudong_check_bg"
 			android:button="@null" />
+		<RadioButton
+			android:id="@+id/rbtn_auto"
+			android:layout_width="60dp"
+			android:layout_height="60dp"
+			android:layout_marginLeft="15dp"
+			android:background="@drawable/zhineng_check_bg"
+			android:button="@null"
+			android:checked="true" />
 		<RadioButton
 			android:id="@+id/rbtn_sleep"
 			android:layout_width="60dp"
