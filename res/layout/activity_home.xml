@@ -16,6 +16,15 @@
 		android:text="自动模式"
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
+	<TextView
+		android:id="@+id/tv_offline_mode"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tv_mode"
+		android:layout_centerHorizontal="true"
+		android:text="（在线）"
+		android:textColor="@color/white"
+		android:textSize="@dimen/size_4" />
 	<LinearLayout
 		android:id="@+id/ll_pm2dot5_layout"
 		android:layout_width="wrap_content"

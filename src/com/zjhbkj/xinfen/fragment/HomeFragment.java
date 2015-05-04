@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.zjhbkj.xinfen.R;
 import com.zjhbkj.xinfen.activity.MainActivity;
@@ -17,12 +18,14 @@ import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
 import com.zjhbkj.xinfen.util.NetUtil;
+import com.zjhbkj.xinfen.util.TimerUtil;
+import com.zjhbkj.xinfen.util.TimerUtil.TimerActionListener;
 import com.zjhbkj.xinfen.util.UIUtil;
 
 import de.greenrobot.event.EventBus;
 
 public class HomeFragment extends FragmentBase implements OnClickListener {
-
+	public static final String TAG = MainActivity.class.getName();
 	private TextView mTvFrequency;
 	private TextView mTvPpm;
 	private TextView mTvMode;
@@ -39,6 +42,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	private TextView mTvInM3;
 	private TextView mTvOutM3;
 	private TextView mTvRight;
+	private TextView mTvOffLineMode;
 
 	public static final HomeFragment newInstance() {
 		HomeFragment fragment = new HomeFragment();
@@ -52,6 +56,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	}
 
 	private void initVariables() {
+		initOffLineTimer();
 		EventBus.getDefault().register(this);
 	}
 
@@ -86,7 +91,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-				toast("正在开发中...");
+				showShare("我是测试分享的...");
 			}
 		});
 
@@ -102,6 +107,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvOutM3.setText(Html.fromHtml("mg/m&sup3;"));
 
 		mTvFrequency = (TextView) layout.findViewById(R.id.tv_frequency);
+		mTvOffLineMode = (TextView) layout.findViewById(R.id.tv_offline_mode);
 		mTvPpm = (TextView) layout.findViewById(R.id.tv_ppm);
 		mTvMode = (TextView) layout.findViewById(R.id.tv_mode);
 		mTvModeSwitch = (TextView) layout.findViewById(R.id.tv_mode_switch);
@@ -127,6 +133,28 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvCo2.setPadding(0, 0, 0, height / 20);
 	}
 
+	private void initOffLineTimer() {
+		TimerUtil.startTimer(TAG, 60, 1000, new TimerActionListener() {
+
+			@Override
+			public void doAction() {
+				if (0 == TimerUtil.getTimerTime(TAG)) {
+					if (!isAdded()) {
+						return;
+					}
+					getActivity().runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							mTvOffLineMode.setText("（离线）");
+						}
+					});
+					initOffLineTimer();
+				}
+			}
+		});
+	}
+
 	@Override
 	public void onResume() {
 		RcvComsModel model = DBMgr.getHistoryData(RcvComsModel.class, "DA");
@@ -141,6 +169,11 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 
 		mTvFrequency.setText("频率：" + CommandUtil.hexStringToInt(model.getCommand1()) + " hz");
 		mTvPpm.setText("甲醛：" + CommandUtil.hexStringToInt(model.getCommand2()) / 100.0 + " ppm");
+		if ("00".equals(model.getDisplayCo2())) {
+			mTvOffLineMode.setText("（离线）");
+		} else {
+			mTvOffLineMode.setText("（在线）");
+		}
 		mTvCo2.setText(Html.fromHtml("CO₂") + "：" + model.getDisplayCo2() + " ppm");
 		UIUtil.setUnderLine(mTvFrequency);
 		UIUtil.setUnderLine(mTvPpm);
@@ -199,6 +232,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	 *            指令数据
 	 */
 	public void onEventMainThread(RcvComsModel model) {
+		TimerUtil.setTimerTime(TAG, 60);
 		refreashUi(model);
 	}
 
@@ -256,6 +290,18 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		Intent intent = new Intent(getActivity(), WebActivity.class);
 		intent.putExtra("url", Global.getGraphicUrl(action));
 		startActivity(intent);
+	}
+
+	private void showShare(String content) {
+		OnekeyShare oks = new OnekeyShare();
+		oks.disableSSOWhenAuthorize(); // 关闭sso授权
+		oks.setTitle(getString(R.string.app_name)); // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+		oks.setText(content); // text是分享文本，所有平台都需要这个字段
+		// oks.setComment("我是测试评论文本");
+		oks.setSilent(false); // 启动分享GUI
+		oks.setShareFromQQAuthSupport(false);
+		oks.setDialogMode(); // 令编辑页面显示为Dialog模式
+		oks.show(getActivity());
 	}
 
 }

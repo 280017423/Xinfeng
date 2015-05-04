@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import android.R.integer;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,7 +36,7 @@ import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 import com.zjhbkj.xinfen.util.WifiApUtil;
 
 public class MainActivity extends BaseFragmentActivity implements OnClickListener {
-
+	public static final String TAG = MainActivity.class.getName();
 	private UDPServer mUdpServer;
 	private UDPClient mUdpClient;
 	private FragmentManager fragmentManager;
@@ -59,7 +58,24 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 
 	private void initVariables() {
 		initSendData();
+		initUdp();
+		initFragment();
+	}
 
+	private void initFragment() {
+		mFragments = new ArrayList<Fragment>();
+		fragmentManager = getSupportFragmentManager();
+		mHomeFragment = HomeFragment.newInstance();
+		mSettingFragment = SettingFragment.newInstance();
+		mMoreFragment = MoreFragment.newInstance();
+		mFragments.clear();
+		mFragments.add(mHomeFragment);
+		mFragments.add(mSettingFragment);
+		mFragments.add(mMoreFragment);
+		mAdapter = new MainTabAdapter(fragmentManager, mFragments);
+	}
+
+	private void initUdp() {
 		ExecutorService exec = Executors.newCachedThreadPool();
 		mUdpServer = new UDPServer();
 		exec.execute(mUdpServer);
@@ -71,17 +87,6 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 				EvtLog.d("aaa", errorMsg);
 			}
 		});
-
-		mFragments = new ArrayList<Fragment>();
-		fragmentManager = getSupportFragmentManager();
-		mHomeFragment = HomeFragment.newInstance();
-		mSettingFragment = SettingFragment.newInstance();
-		mMoreFragment = MoreFragment.newInstance();
-		mFragments.clear();
-		mFragments.add(mHomeFragment);
-		mFragments.add(mSettingFragment);
-		mFragments.add(mMoreFragment);
-		mAdapter = new MainTabAdapter(fragmentManager, mFragments);
 	}
 
 	private void initViews() {
