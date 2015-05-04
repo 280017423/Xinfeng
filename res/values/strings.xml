@@ -3,6 +3,7 @@
 	<string name="app_name">中嘉新风</string>
 	<string name="title_home">中嘉环保</string>
 	<string name="bottom_tab_setting">设置</string>
+	<string name="about">关于</string>
 	<string name="title_server_config">服务器配置</string>
 	<string name="title_id_config">ID配置</string>
 	<string name="title_device_list">设备列表</string>
@@ -17,4 +18,5 @@
 	<string name="chuchen_life">静电除尘寿命 <xliff:g>%1$s</xliff:g> 小时</string>
 	<string name="gaoxiao_life">高效过滤寿命 <xliff:g>%1$s</xliff:g> 小时</string>
 	<string name="has_used">已使用 <xliff:g>%1$s</xliff:g> 小时</string>
+	<string name="text_version_code">当前版本&#160;v&#160;%s</string>
 </resources>

@@ -369,6 +369,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			default:
 				break;
 		}
+		checkLockAndTimer();
 		refreashHzView();
 		send();
 	}
@@ -378,6 +379,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				Global.HAS_SETTING_INFO);
 		if (count <= 0) {
 			mSendComsModel.setCommand3(model.getCommand3());
+			checkLockAndTimer();
 			refreashHzView();
 		}
 	}

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
+import com.zjhbkj.xinfen.activity.AboutActivity;
 import com.zjhbkj.xinfen.activity.ConfigActivity;
 import com.zjhbkj.xinfen.activity.DeviceListActivity;
 import com.zjhbkj.xinfen.activity.IdConfigActivity;
@@ -25,6 +26,7 @@ public class MoreFragment extends FragmentBase implements OnClickListener {
 	private View mViewIdConfig;
 	private View mViewStrainer;
 	private View mViewWifiConfig;
+	private View mViewAbout;
 	private Button mBtnLogout;
 
 	public static final MoreFragment newInstance() {
@@ -54,6 +56,7 @@ public class MoreFragment extends FragmentBase implements OnClickListener {
 		mViewIdConfig.setOnClickListener(this);
 		mViewWifiConfig.setOnClickListener(this);
 		mViewStrainer.setOnClickListener(this);
+		mViewAbout.setOnClickListener(this);
 		mBtnLogout.setOnClickListener(this);
 	}
 
@@ -61,6 +64,7 @@ public class MoreFragment extends FragmentBase implements OnClickListener {
 		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
 		tvTitle.setText(R.string.bottom_tab_more);
 		mViewIdConfig = layout.findViewById(R.id.rl_id_config);
+		mViewAbout = layout.findViewById(R.id.rl_id_about);
 		mViewWifiConfig = layout.findViewById(R.id.rl_config);
 		mViewStrainer = layout.findViewById(R.id.rl_strainer_config);
 		mBtnLogout = (Button) layout.findViewById(R.id.btn_logout);
@@ -76,6 +80,9 @@ public class MoreFragment extends FragmentBase implements OnClickListener {
 		switch (v.getId()) {
 			case R.id.rl_config:
 				startActivity(new Intent(getActivity(), ConfigActivity.class));
+				break;
+			case R.id.rl_id_about:
+				startActivity(new Intent(getActivity(), AboutActivity.class));
 				break;
 			case R.id.rl_strainer_config:
 				startActivity(new Intent(getActivity(), StrainerConfigActivity.class));
