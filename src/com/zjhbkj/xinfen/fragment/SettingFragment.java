@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
@@ -19,8 +21,6 @@ import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.listener.StartWifiApListener;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
-import com.zjhbkj.xinfen.udp.UDPClient;
-import com.zjhbkj.xinfen.udp.UDPClient.ClientMsgListener;
 import com.zjhbkj.xinfen.util.ActionSheetUtil;
 import com.zjhbkj.xinfen.util.CommandUtil;
 import com.zjhbkj.xinfen.util.EvtLog;
@@ -58,8 +58,18 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private TextView mTvSetPm2dot5;
 	private TextView mTvStartTime;
 	private TextView mTvShutTime;
+	private CheckBox mCbLock;
+	private CheckBox mCbTimer;
+
 	private SendComsModel mSendComsModel;
 	private LoadingUpView mLoadingUpView;
+	private CompoundButton.OnCheckedChangeListener mLockListener = new CompoundButton.OnCheckedChangeListener() {
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			send();
+		}
+	};
 	private Handler mHandler = new Handler() {
 
 		@Override
@@ -72,7 +82,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					if (null != startTiems && 2 == startTiems.length) {
 						mSendComsModel.setCommand10(Integer.toHexString(Integer.parseInt(startTiems[1])));
 						mSendComsModel.setCommand11(Integer.toHexString(Integer.parseInt(startTiems[0])));
-						mSendComsModel.send();
+						send();
 					}
 					break;
 				case CODE_GET_SHUT_TIME:
@@ -82,7 +92,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					if (null != shutTiems && 2 == shutTiems.length) {
 						mSendComsModel.setCommand12(Integer.toHexString(Integer.parseInt(shutTiems[1])));
 						mSendComsModel.setCommand13(Integer.toHexString(Integer.parseInt(shutTiems[0])));
-						mSendComsModel.send();
+						send();
 					}
 					break;
 				default:
@@ -125,7 +135,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			mSendComsModel.setCommand13(Integer.toHexString(20));
 			mSendComsModel.setCommand14(Integer.toHexString(02));
 			mSendComsModel.setCommand15(Integer.toHexString(100));
-			mSendComsModel.send();
+			send();
 		}
 	}
 
@@ -156,6 +166,10 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mTvStartTime = (TextView) layout.findViewById(R.id.tv_set_start_time);
 		mTvShutTime = (TextView) layout.findViewById(R.id.tv_set_shut_time);
 		mTvSetStartShut = (TextView) layout.findViewById(R.id.tv_set_shut_down_start_up);
+		mCbLock = (CheckBox) layout.findViewById(R.id.cb_lock);
+		mCbTimer = (CheckBox) layout.findViewById(R.id.cb_timer);
+		mCbLock.setOnCheckedChangeListener(mLockListener);
+		mCbTimer.setOnCheckedChangeListener(mLockListener);
 		refreashUi();
 	}
 
@@ -169,7 +183,9 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				+ CommandUtil.hexStringToInt(mSendComsModel.getCommand12()));
 		refreashHzView();
 		refreashStartShut(CommandUtil.hexStringToInt(mSendComsModel.getCommand14()));
-		mSbtnSetFunction.setCheck(1 == CommandUtil.hexStringToInt(mSendComsModel.getCommand4()));
+		int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
+		mSbtnSetFunction.setCheck(1 == functionValue % 10);
+		mCbTimer.setChecked(functionValue > 10);
 	}
 
 	private void setListener() {
@@ -189,7 +205,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				} else {
 					mSendComsModel.setCommand4(Integer.toHexString(2));
 				}
-				mSendComsModel.send();
+				send();
 				mSbtnSetFunction.setCheck(1 == CommandUtil.hexStringToInt(mSendComsModel.getCommand4()));
 			}
 		});
@@ -219,7 +235,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			case R.id.btn_ok:
 				mSendComsModel.setCommand15(Integer.toHexString((Integer) v.getTag()));
 				mTvSetPm2dot5.setText("" + (Integer) v.getTag());
-				mSendComsModel.send();
+				send();
 				break;
 			case R.id.rl_set_shut_down_start_up:
 				ActionSheetUtil.showActionSheet(getActivity(), new ActionSheetClickListener() {
@@ -227,10 +243,14 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					@Override
 					public void onItemClick(int itemPosition) {
 						if (-1 != itemPosition) {
-							refreashStartShut(itemPosition);
 							String oldValue = mSendComsModel.getCommand14();
-							mSendComsModel.setCommand14(Integer.toHexString(itemPosition));
-							mSendComsModel.send();
+							String newValue = Integer.toHexString(itemPosition);
+							if (newValue.equalsIgnoreCase(oldValue)) {
+								return;
+							}
+							refreashStartShut(itemPosition);
+							mSendComsModel.setCommand14(newValue);
+							send();
 							if (3 == itemPosition) {
 								if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
 									mLoadingUpView.showPopup("正在切换至外网");
@@ -330,7 +350,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		}
 		mTvHz.setText("" + mHz);
 		mSendComsModel.setCommand2(Integer.toHexString(mHz));
-		mSendComsModel.send();
+		send();
 	}
 
 	@Override
@@ -350,7 +370,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				break;
 		}
 		refreashHzView();
-		mSendComsModel.send();
+		send();
 	}
 
 	public void onEventMainThread(RcvComsModel model) {
@@ -364,7 +384,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 
 	private void refreashHzView() {
 		int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand3());
-		if (1 == mode) {
+		if (1 == mode % 10) {
 			mViewHz.setVisibility(View.GONE);
 			mRgMode.check(R.id.rbtn_auto);
 		} else if (2 == mode) {
@@ -374,6 +394,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			mViewHz.setVisibility(View.GONE);
 			mRgMode.check(R.id.rbtn_sleep);
 		}
+		mCbLock.setChecked(mode > 10);
 	}
 
 	private void refreashStartShut(int value) {
@@ -393,6 +414,30 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 
 			default:
 				break;
+		}
+	}
+
+	private void send() {
+		checkLockAndTimer();
+		mSendComsModel.send();
+	}
+
+	private void checkLockAndTimer() {
+		if (null != mCbLock) {
+			int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand3());
+			if (mCbLock.isChecked()) {
+				mSendComsModel.setCommand3(Integer.toHexString(mode % 10 + 10));
+			} else {
+				mSendComsModel.setCommand3(Integer.toHexString(mode % 10));
+			}
+		}
+		if (null != mCbTimer) {
+			int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
+			if (mCbTimer.isChecked()) {
+				mSendComsModel.setCommand4(Integer.toHexString(functionValue % 10 + 10));
+			} else {
+				mSendComsModel.setCommand4(Integer.toHexString(functionValue % 10));
+			}
 		}
 	}
 

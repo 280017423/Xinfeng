@@ -165,6 +165,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 
 		switch (cleanValue / 10) {
 			case 1:
+				// TODO 需要显示滤网状态
 				((MainActivity) getActivity()).showMyDialog();
 				break;
 			case 2:
