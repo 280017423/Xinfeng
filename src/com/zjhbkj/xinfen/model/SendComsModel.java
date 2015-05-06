@@ -215,6 +215,24 @@ public class SendComsModel extends BaseModel {
 	public String toString() {
 		String deviceName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
 				Global.CONFIG_FILE_NAME, Global.CURRENT_DEVICE_ID);
+		// 童锁和定时器逻辑
+		boolean isLockOpened = SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
+				Global.CONFIG_FILE_NAME, Global.IS_LOCK_OPENED);
+		boolean isTimerOpened = SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
+				Global.CONFIG_FILE_NAME, Global.IS_TIMER_OPENED);
+		int lockMode = CommandUtil.hexStringToInt(command3);
+		if (isLockOpened) {
+			command3 = Integer.toHexString(lockMode % 10 + 10);
+		} else {
+			command3 = Integer.toHexString(lockMode % 10);
+		}
+		int timerMode = CommandUtil.hexStringToInt(command4);
+		if (isTimerOpened) {
+			command4 = Integer.toHexString(timerMode % 10 + 10);
+		} else {
+			command4 = Integer.toHexString(timerMode % 10);
+		}
+
 		String[] idHex = CommandUtil.formateIdHexString(Integer.parseInt(deviceName));
 		command16 = idHex[0];
 		command17 = idHex[1];

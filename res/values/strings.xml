@@ -19,4 +19,12 @@
 	<string name="gaoxiao_life">高效过滤寿命 <xliff:g>%1$s</xliff:g> 小时</string>
 	<string name="has_used">已使用 <xliff:g>%1$s</xliff:g> 小时</string>
 	<string name="text_version_code">当前版本&#160;v&#160;%s</string>
+	<string name="share_info">室外pm2.5： <xliff:g>%1$s</xliff:g> \r\n
+		                      室内pm2.5： <xliff:g>%2$s</xliff:g> \r\n
+		                      室外进风温度： <xliff:g>%3$s</xliff:g> \r\n
+		                      室内进风温度： <xliff:g>%4$s</xliff:g> \r\n
+		                      室内出风温度： <xliff:g>%5$s</xliff:g> \r\n
+		                      室外出风温度： <xliff:g>%6$s</xliff:g> \r\n
+		                      甲醛： <xliff:g>%7$s</xliff:g> \r\n
+		                      CO₂： <xliff:g>%8$s</xliff:g> \r\n</string>
 </resources>

@@ -7,7 +7,6 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.zjhbkj.xinfen.R;
-import com.zjhbkj.xinfen.util.UIUtil;
 
 public class AboutActivity extends BaseActivity implements OnClickListener {
 
@@ -37,8 +36,8 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 		TextView tvVersion = (TextView) findViewById(R.id.tv_version_code);
 		tvVersion.setText(getString(R.string.text_version_code, mVersionName));
 		mIvLogo = findViewById(R.id.iv_logo);
-		UIUtil.setViewWidth(mIvLogo, UIUtil.getScreenWidth(this) / 4);
-		UIUtil.setViewHeight(mIvLogo, UIUtil.getScreenWidth(this) / 4);
+		// UIUtil.setViewWidth(mIvLogo, UIUtil.getScreenWidth(this) / 4);
+		// UIUtil.setViewHeight(mIvLogo, UIUtil.getScreenWidth(this) / 4);
 	}
 
 	@Override

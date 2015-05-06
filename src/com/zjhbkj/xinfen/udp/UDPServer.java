@@ -104,7 +104,12 @@ public class UDPServer implements Runnable {
 						int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
 								Global.CONFIG_FILE_NAME, Global.HAS_SETTING_INFO);
 						if (null != mSendComsModel && count <= 0) {
-							mSendComsModel.setCommand3(rcvComsModel.getCommand3());
+							int isWifiMode = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
+									Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE);
+							if (1 != isWifiMode) {
+								// 是内网才更新
+								mSendComsModel.setCommand3(rcvComsModel.getCommand3());
+							}
 							mSendComsModel.setCommand1(rcvComsModel.getCommand1());
 							DBMgr.saveModel(mSendComsModel);
 						}

@@ -1,5 +1,7 @@
 package com.zjhbkj.xinfen.commom;
 
+import java.util.Locale;
+
 import com.zjhbkj.xinfen.app.XinfengApplication;
 import com.zjhbkj.xinfen.util.AppUtil;
 import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
@@ -30,6 +32,9 @@ public class Global {
 
 	public static String CURRENT_DEVICE_ID = "CURRENT_DEVICE_ID"; // 当前设备ID
 	public static String HAS_TOAST_OUT_OF_DATE = "HAS_TOAST_OUT_OF_DATE"; // 是否已经谈过过期提示
+	public static String IS_WIFI_MODE = "IS_WIFI_MODE"; // 是否是外网
+	public static String IS_LOCK_OPENED = "IS_LOCK_OPENED"; // 是否童锁打开
+	public static String IS_TIMER_OPENED = "IS_TIMER_OPENED"; // 是否定时器
 
 	public static String getGraphicUrl(String action) {
 		String deviceName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
@@ -39,7 +44,7 @@ public class Global {
 	}
 
 	public static String formateIdHexString(int id) {
-		String temp = Integer.toHexString(id);
+		String temp = Integer.toHexString(id).toUpperCase(Locale.getDefault());
 		String str = String.format("%6s", temp);
 		str = str.replaceAll("\\s", "0");
 		return str;

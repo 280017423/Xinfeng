@@ -222,9 +222,8 @@
 				android:layout_width="0dp"
 				android:layout_height="fill_parent"
 				android:layout_weight="1"
-				android:background="@drawable/tongyong_button_bg_shape"
+				android:background="@drawable/btn_sub_bg"
 				android:gravity="center"
-				android:text="-"
 				android:textColor="@color/white"
 				android:textSize="@dimen/size_big_1"
 				android:textStyle="bold" />
@@ -243,9 +242,8 @@
 				android:layout_width="0dp"
 				android:layout_height="fill_parent"
 				android:layout_weight="1"
-				android:background="@drawable/tongyong_button_bg_shape"
+				android:background="@drawable/btn_add_bg"
 				android:gravity="center"
-				android:text="+"
 				android:textColor="@color/white"
 				android:textSize="@dimen/size_big_1"
 				android:textStyle="bold" />
@@ -288,17 +286,20 @@
 		android:orientation="horizontal" >
 		<CheckBox
 			android:id="@+id/cb_lock"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_width="32dp"
+			android:layout_height="32dp"
+			android:background="@drawable/lock_bg"
+			android:button="@null"
 			android:checked="false"
-			android:text="童锁"
 			android:textColor="@color/white" />
 		<CheckBox
 			android:id="@+id/cb_timer"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_width="32dp"
+			android:layout_height="32dp"
+			android:layout_marginLeft="60dp"
+			android:background="@drawable/timer_bg"
+			android:button="@null"
 			android:checked="false"
-			android:text="定时"
 			android:textColor="@color/white" />
 	</LinearLayout>
 </LinearLayout>

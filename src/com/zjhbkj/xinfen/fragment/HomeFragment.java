@@ -7,17 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.zjhbkj.xinfen.R;
 import com.zjhbkj.xinfen.activity.MainActivity;
 import com.zjhbkj.xinfen.activity.WebActivity;
+import com.zjhbkj.xinfen.app.XinfengApplication;
 import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.util.CommandUtil;
 import com.zjhbkj.xinfen.util.NetUtil;
+import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 import com.zjhbkj.xinfen.util.TimerUtil;
 import com.zjhbkj.xinfen.util.TimerUtil.TimerActionListener;
 import com.zjhbkj.xinfen.util.UIUtil;
@@ -43,6 +46,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	private TextView mTvOutM3;
 	private TextView mTvRight;
 	private TextView mTvOffLineMode;
+	private RcvComsModel mCurrentModel;
+	private ImageView mIvChuxiao;
+	private ImageView mIvchuchen;
+	private ImageView mIvGaoxiao;
 
 	public static final HomeFragment newInstance() {
 		HomeFragment fragment = new HomeFragment();
@@ -91,7 +98,19 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-				showShare("我是测试分享的...");
+				if (null == mCurrentModel) {
+					return;
+				}
+				String shareInfo = getString(R.string.share_info,
+						mCurrentModel.getDisplayPm2dotOut() + Html.fromHtml("mg/m&sup3;"),
+						mCurrentModel.getDisplayPm2dotIn() + Html.fromHtml("mg/m&sup3;"),
+						"" + CommandUtil.hexStringToInt(mCurrentModel.getCommand13()) + Html.fromHtml("&#8451;"), ""
+								+ CommandUtil.hexStringToInt(mCurrentModel.getCommand11()) + Html.fromHtml("&#8451;"),
+						"" + CommandUtil.hexStringToInt(mCurrentModel.getCommand12()) + Html.fromHtml("&#8451;"), ""
+								+ CommandUtil.hexStringToInt(mCurrentModel.getCommand14()) + Html.fromHtml("&#8451;"),
+						CommandUtil.hexStringToInt(mCurrentModel.getCommand2()) / 100.0 + " ppm",
+						mCurrentModel.getDisplayCo2() + " ppm");
+				showShare(shareInfo);
 			}
 		});
 
@@ -122,6 +141,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 
 		mTvHumidity = (TextView) layout.findViewById(R.id.tv_humidity);
 
+		mIvChuxiao = (ImageView) layout.findViewById(R.id.iv_chuxiao);
+		mIvchuchen = (ImageView) layout.findViewById(R.id.iv_chuchen);
+		mIvGaoxiao = (ImageView) layout.findViewById(R.id.iv_gaoxiao);
+
 		mTvHumidity.setPadding(0, height / 4, 0, 0);
 		mTvOutInTemp.setPadding(width * 1 / 20, height / 4, 0, 0);
 		mTvOutOutTemp.setPadding(0, height / 4, width * 1 / 20, 0);
@@ -138,7 +161,9 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 
 			@Override
 			public void doAction() {
-				if (0 == TimerUtil.getTimerTime(TAG)) {
+				int isWifiMode = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
+						Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE);
+				if (0 >= TimerUtil.getTimerTime(TAG) && 1 != isWifiMode) {
 					if (!isAdded()) {
 						return;
 					}
@@ -166,9 +191,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		if (null == model) {
 			return;
 		}
-
+		mCurrentModel = model;
 		mTvFrequency.setText("频率：" + CommandUtil.hexStringToInt(model.getCommand1()) + " hz");
 		mTvPpm.setText("甲醛：" + CommandUtil.hexStringToInt(model.getCommand2()) / 100.0 + " ppm");
+		TimerUtil.setTimerTime(TAG, 60);
 		if ("00".equals(model.getDisplayCo2())) {
 			mTvOffLineMode.setText("（离线）");
 		} else {
@@ -198,13 +224,15 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 
 		switch (cleanValue / 10) {
 			case 1:
-				// TODO 需要显示滤网状态
+				mIvGaoxiao.setBackgroundResource(R.drawable.gaoxiao_guoqi);
 				((MainActivity) getActivity()).showMyDialog();
 				break;
 			case 2:
+				mIvChuxiao.setBackgroundResource(R.drawable.chuxiao_guoqi);
 				((MainActivity) getActivity()).showMyDialog();
 				break;
 			case 3:
+				mIvchuchen.setBackgroundResource(R.drawable.chuchen_guoqi);
 				((MainActivity) getActivity()).showMyDialog();
 				break;
 
@@ -232,7 +260,6 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	 *            指令数据
 	 */
 	public void onEventMainThread(RcvComsModel model) {
-		TimerUtil.setTimerTime(TAG, 60);
 		refreashUi(model);
 	}
 
@@ -293,6 +320,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	}
 
 	private void showShare(String content) {
+		if (!NetUtil.isNetworkAvailable()) {
+			toast(getString(R.string.network_is_not_available));
+			return;
+		}
 		OnekeyShare oks = new OnekeyShare();
 		oks.disableSSOWhenAuthorize(); // 关闭sso授权
 		oks.setTitle(getString(R.string.app_name)); // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用

@@ -49,7 +49,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private Button mBtnSubHz;
 	private RadioGroup mRgMode;
 	private SlipButton mSbtnSetFunction;
-	private View mViewHz;
 	private View mViewSetStartShut;
 	private View mViewSetStartTime;
 	private View mViewSetShutTime;
@@ -67,6 +66,13 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			if (R.id.cb_lock == buttonView.getId()) {
+				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+						Global.IS_LOCK_OPENED, isChecked);
+			} else if (R.id.cb_timer == buttonView.getId()) {
+				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+						Global.IS_TIMER_OPENED, isChecked);
+			}
 			send();
 		}
 	};
@@ -158,7 +164,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mBtnSubHz = (Button) layout.findViewById(R.id.btn_sub_hz);
 		mSbtnSetFunction = (SlipButton) layout.findViewById(R.id.sb_set_functional_switch);
 		mTvSetPm2dot5 = (TextView) layout.findViewById(R.id.tv_set_pm_2_5);
-		mViewHz = layout.findViewById(R.id.rl_set_frequency);
 		mViewSetStartShut = layout.findViewById(R.id.rl_set_shut_down_start_up);
 		mViewSetPm2dot5 = layout.findViewById(R.id.rl_set_pm2_5);
 		mViewSetStartTime = layout.findViewById(R.id.rl_set_start_up_time);
@@ -185,7 +190,8 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		refreashStartShut(CommandUtil.hexStringToInt(mSendComsModel.getCommand14()));
 		int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
 		mSbtnSetFunction.setCheck(1 == functionValue % 10);
-		mCbTimer.setChecked(functionValue > 10);
+		mCbTimer.setChecked(SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
+				Global.CONFIG_FILE_NAME, Global.IS_TIMER_OPENED));
 	}
 
 	private void setListener() {
@@ -255,7 +261,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 								if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
 									mLoadingUpView.showPopup("正在切换至外网");
 								}
-								// TODO 延迟9s连接服务器
 								TimerUtil.startTimer(TAG, 3 * 3, 1000, new TimerActionListener() {
 
 									@Override
@@ -266,6 +271,8 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 											WifiApUtil.closeWifiAp(getActivity());
 											WifiApUtil.toggleWiFi(getActivity(), true);
 											TimerUtil.stopTimer(TAG);
+											SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT,
+													Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE, 1);
 											if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
 												mLoadingUpView.dismiss();
 											}
@@ -303,6 +310,8 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 																	}
 																}
 															});
+															SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT,
+																	Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE, 0);
 															toast("已经切换至内网");
 														}
 													});
@@ -369,7 +378,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			default:
 				break;
 		}
-		checkLockAndTimer();
 		refreashHzView();
 		send();
 	}
@@ -379,7 +387,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				Global.HAS_SETTING_INFO);
 		if (count <= 0) {
 			mSendComsModel.setCommand3(model.getCommand3());
-			checkLockAndTimer();
+			send();
 			refreashHzView();
 		}
 	}
@@ -387,16 +395,20 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private void refreashHzView() {
 		int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand3());
 		if (1 == mode % 10) {
-			mViewHz.setVisibility(View.GONE);
+			mBtnAddHz.setEnabled(false);
+			mBtnSubHz.setEnabled(false);
 			mRgMode.check(R.id.rbtn_auto);
 		} else if (2 == mode) {
-			mViewHz.setVisibility(View.VISIBLE);
+			mBtnAddHz.setEnabled(true);
+			mBtnSubHz.setEnabled(true);
 			mRgMode.check(R.id.rbtn_manual);
 		} else if (3 == mode) {
-			mViewHz.setVisibility(View.GONE);
+			mBtnAddHz.setEnabled(false);
+			mBtnSubHz.setEnabled(false);
 			mRgMode.check(R.id.rbtn_sleep);
 		}
-		mCbLock.setChecked(mode > 10);
+		mCbLock.setChecked(SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
+				Global.CONFIG_FILE_NAME, Global.IS_LOCK_OPENED));
 	}
 
 	private void refreashStartShut(int value) {
@@ -420,27 +432,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	}
 
 	private void send() {
-		checkLockAndTimer();
 		mSendComsModel.send();
-	}
-
-	private void checkLockAndTimer() {
-		if (null != mCbLock) {
-			int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand3());
-			if (mCbLock.isChecked()) {
-				mSendComsModel.setCommand3(Integer.toHexString(mode % 10 + 10));
-			} else {
-				mSendComsModel.setCommand3(Integer.toHexString(mode % 10));
-			}
-		}
-		if (null != mCbTimer) {
-			int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
-			if (mCbTimer.isChecked()) {
-				mSendComsModel.setCommand4(Integer.toHexString(functionValue % 10 + 10));
-			} else {
-				mSendComsModel.setCommand4(Integer.toHexString(functionValue % 10));
-			}
-		}
 	}
 
 	@Override
