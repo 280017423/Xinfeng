@@ -11,7 +11,6 @@ import java.util.TimerTask;
  * 
  */
 public class TimerUtil {
-	private static final String TAG = "TimerUtil";
 	// 记录时间的容器
 	private static final Map<String, Integer> TIME_MAP = new HashMap<String, Integer>();
 	// 记录Timer的容器
@@ -26,7 +25,6 @@ public class TimerUtil {
 			public void run() {
 				int time = TIME_MAP.get(key);
 				TIME_MAP.put(key, --time);
-				EvtLog.d(TAG, "执行计时任务" + key + ":" + time);
 				actionListener.doAction();
 			}
 		};

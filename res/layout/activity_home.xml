@@ -32,40 +32,113 @@
 		android:layout_below="@id/tv_mode"
 		android:layout_centerHorizontal="true"
 		android:layout_marginTop="20dp"
-		android:orientation="horizontal" >
+		android:orientation="horizontal"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp" >
 		<RelativeLayout
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1" >
-			<ImageView
-				android:id="@+id/iv_pm_2dot5_in"
+			<com.zjhbkj.xinfen.widget.ProgressView
+				xmlns:progress="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/pgv_jiaquan"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:background="@drawable/pm2dot5_in_bg"
-				android:clickable="true"
-				android:contentDescription="@null" />
+				android:layout_alignParentLeft="true"
+				android:paddingLeft="5dp"
+				android:paddingRight="5dp"
+				android:paddingTop="5dp"
+				progress:bacColor="#ff0000"
+				progress:fontSize="@dimen/size_2"
+				progress:forColor="#ff0000"
+				progress:startAngle="160" />
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignTop="@id/pgv_jiaquan"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="15dp"
+				android:text="ppm"
+				android:textColor="#ffff00"
+				android:textSize="@dimen/size_4" />
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/pgv_jiaquan"
+				android:layout_centerHorizontal="true"
+				android:text="甲醛"
+				android:textColor="#ffff00"
+				android:textSize="@dimen/size_2" />
+		</RelativeLayout>
+		<RelativeLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:layout_weight="1" >
+			<com.zjhbkj.xinfen.widget.ProgressView
+				xmlns:progress="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/pgv_co2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:paddingLeft="5dp"
+				android:paddingRight="5dp"
+				android:paddingTop="5dp"
+				progress:bacColor="#ff0000"
+				progress:fontSize="@dimen/size_2"
+				progress:forColor="#ff0000"
+				progress:progress="43"
+				progress:startAngle="160" />
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignTop="@id/pgv_co2"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="15dp"
+				android:text="ppm"
+				android:textColor="#ffff00"
+				android:textSize="@dimen/size_4" />
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/pgv_co2"
+				android:layout_centerHorizontal="true"
+				android:text="CO₂"
+				android:textColor="#ffff00"
+				android:textSize="@dimen/size_2" />
+		</RelativeLayout>
+		<RelativeLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:layout_weight="1" >
+			<com.zjhbkj.xinfen.widget.ProgressView
+				xmlns:progress="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/pgv_pm_2dot5_in"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:paddingLeft="5dp"
+				android:paddingRight="5dp"
+				android:paddingTop="5dp"
+				progress:bacColor="#ff0000"
+				progress:fontSize="@dimen/size_2"
+				progress:forColor="#ff0000"
+				progress:progress="43"
+				progress:startAngle="160" />
 			<TextView
 				android:id="@+id/tv_pm_2dot5_in_title"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignTop="@id/iv_pm_2dot5_in"
+				android:layout_alignTop="@id/pgv_pm_2dot5_in"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="10dp"
+				android:layout_marginTop="15dp"
 				android:textColor="#ffff00"
 				android:textSize="@dimen/size_4" />
 			<TextView
-				android:id="@+id/tv_pm_2dot5_in_low"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_below="@id/tv_pm_2dot5_in_title"
-				android:layout_centerHorizontal="true"
-				android:textColor="#ff0000"
-				android:textSize="@dimen/size_1"
-				android:textStyle="bold" />
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/iv_pm_2dot5_in"
+				android:layout_below="@id/pgv_pm_2dot5_in"
 				android:layout_centerHorizontal="true"
 				android:text="室内PM2.5"
 				android:textColor="#ffff00"
@@ -74,38 +147,35 @@
 		<RelativeLayout
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="50dp"
+			android:layout_marginLeft="10dp"
 			android:layout_weight="1" >
-			<ImageView
-				android:id="@+id/iv_pm_2dot5_out"
+			<com.zjhbkj.xinfen.widget.ProgressView
+				xmlns:progress="http://schemas.android.com/apk/res-auto"
+				android:id="@+id/pgv_pm_2dot5_out"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:background="@drawable/pm2dot5_out_bg"
-				android:clickable="true"
-				android:contentDescription="@null" />
+				android:layout_alignParentLeft="true"
+				android:paddingLeft="5dp"
+				android:paddingRight="5dp"
+				android:paddingTop="5dp"
+				progress:bacColor="#ff0000"
+				progress:fontSize="@dimen/size_2"
+				progress:forColor="#ff0000"
+				progress:progress="43"
+				progress:startAngle="160" />
 			<TextView
 				android:id="@+id/tv_pm_2dot5_out_title"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignTop="@id/iv_pm_2dot5_out"
+				android:layout_alignTop="@id/pgv_pm_2dot5_out"
 				android:layout_centerHorizontal="true"
-				android:layout_marginTop="10dp"
+				android:layout_marginTop="15dp"
 				android:textColor="#ffff00"
 				android:textSize="@dimen/size_4" />
 			<TextView
-				android:id="@+id/tv_pm_2dot5_out_low"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_below="@id/tv_pm_2dot5_out_title"
-				android:layout_centerHorizontal="true"
-				android:layout_centerInParent="true"
-				android:textColor="@color/white"
-				android:textSize="@dimen/size_1"
-				android:textStyle="bold" />
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/iv_pm_2dot5_out"
+				android:layout_below="@id/pgv_pm_2dot5_out"
 				android:layout_centerHorizontal="true"
 				android:text="室外PM2.5"
 				android:textColor="#ffff00"
@@ -138,27 +208,6 @@
 		android:clickable="true"
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
-	<RelativeLayout
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignBottom="@id/rl_home_tab_layout"
-		android:layout_centerHorizontal="true" >
-		<TextView
-			android:id="@+id/tv_ppm"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:clickable="true"
-			android:textColor="@color/white"
-			android:textSize="@dimen/size_2" />
-		<TextView
-			android:id="@+id/tv_co2_low"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/tv_ppm"
-			android:clickable="true"
-			android:textColor="@color/white"
-			android:textSize="@dimen/size_2" />
-	</RelativeLayout>
 	<TextView
 		android:id="@+id/tv_mode_switch"
 		android:layout_width="wrap_content"

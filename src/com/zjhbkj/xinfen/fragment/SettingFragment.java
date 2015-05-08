@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,7 +25,6 @@ import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.util.ActionSheetUtil;
 import com.zjhbkj.xinfen.util.CommandUtil;
-import com.zjhbkj.xinfen.util.EvtLog;
 import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 import com.zjhbkj.xinfen.util.TimerUtil;
 import com.zjhbkj.xinfen.util.TimerUtil.TimerActionListener;
@@ -31,8 +32,6 @@ import com.zjhbkj.xinfen.util.WheelViewUtil;
 import com.zjhbkj.xinfen.util.WifiApUtil;
 import com.zjhbkj.xinfen.widget.ActionSheet.ActionSheetClickListener;
 import com.zjhbkj.xinfen.widget.LoadingUpView;
-import com.zjhbkj.xinfen.widget.SlipButton;
-import com.zjhbkj.xinfen.widget.SlipButton.OnChangedListener;
 
 import de.greenrobot.event.EventBus;
 
@@ -48,12 +47,15 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private Button mBtnAddHz;
 	private Button mBtnSubHz;
 	private RadioGroup mRgMode;
-	private SlipButton mSbtnSetFunction;
+	private View mViewSetFunctionalSwitch;
 	private View mViewSetStartShut;
+	private View mViewSetWifiMode;
 	private View mViewSetStartTime;
 	private View mViewSetShutTime;
 	private View mViewSetPm2dot5;
+	private TextView mTvSetFunctionalSwitch;
 	private TextView mTvSetStartShut;
+	private TextView mTvSetWifiMode;
 	private TextView mTvSetPm2dot5;
 	private TextView mTvStartTime;
 	private TextView mTvShutTime;
@@ -62,6 +64,61 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 
 	private SendComsModel mSendComsModel;
 	private LoadingUpView mLoadingUpView;
+	private OnTouchListener mOnTouchListener = new OnTouchListener() {
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			switch (v.getId()) {
+				case R.id.btn_add_hz:
+					if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+						TimerUtil.startTimer(R.id.btn_add_hz + "", 0, 300, new TimerActionListener() {
+
+							@Override
+							public void doAction() {
+								getActivity().runOnUiThread(new Runnable() {
+
+									@Override
+									public void run() {
+										changeHz(true);
+									}
+								});
+							}
+						});
+					} else if (event.getAction() == MotionEvent.ACTION_UP
+							|| event.getAction() == MotionEvent.ACTION_CANCEL) {
+						TimerUtil.stopTimer(R.id.btn_add_hz + "");
+						send();
+					}
+					break;
+				case R.id.btn_sub_hz:
+					if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+						TimerUtil.startTimer(R.id.btn_sub_hz + "", 0, 300, new TimerActionListener() {
+
+							@Override
+							public void doAction() {
+								getActivity().runOnUiThread(new Runnable() {
+
+									@Override
+									public void run() {
+										changeHz(false);
+									}
+								});
+							}
+						});
+					} else if (event.getAction() == MotionEvent.ACTION_UP
+							|| event.getAction() == MotionEvent.ACTION_CANCEL) {
+						TimerUtil.stopTimer(R.id.btn_sub_hz + "");
+						send();
+					}
+					break;
+				default:
+					break;
+			}
+			return false;
+		}
+	};
 	private CompoundButton.OnCheckedChangeListener mLockListener = new CompoundButton.OnCheckedChangeListener() {
 
 		@Override
@@ -162,15 +219,18 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mTvHz = (TextView) layout.findViewById(R.id.tv_hz);
 		mBtnAddHz = (Button) layout.findViewById(R.id.btn_add_hz);
 		mBtnSubHz = (Button) layout.findViewById(R.id.btn_sub_hz);
-		mSbtnSetFunction = (SlipButton) layout.findViewById(R.id.sb_set_functional_switch);
 		mTvSetPm2dot5 = (TextView) layout.findViewById(R.id.tv_set_pm_2_5);
+		mViewSetFunctionalSwitch = layout.findViewById(R.id.rl_set_functional_switch);
 		mViewSetStartShut = layout.findViewById(R.id.rl_set_shut_down_start_up);
+		mViewSetWifiMode = layout.findViewById(R.id.rl_set_wifi_mode);
 		mViewSetPm2dot5 = layout.findViewById(R.id.rl_set_pm2_5);
 		mViewSetStartTime = layout.findViewById(R.id.rl_set_start_up_time);
 		mViewSetShutTime = layout.findViewById(R.id.rl_set_shut_down_time);
 		mTvStartTime = (TextView) layout.findViewById(R.id.tv_set_start_time);
 		mTvShutTime = (TextView) layout.findViewById(R.id.tv_set_shut_time);
+		mTvSetFunctionalSwitch = (TextView) layout.findViewById(R.id.tv_set_functional_switch);
 		mTvSetStartShut = (TextView) layout.findViewById(R.id.tv_set_shut_down_start_up);
+		mTvSetWifiMode = (TextView) layout.findViewById(R.id.tv_set_wifi_mode);
 		mCbLock = (CheckBox) layout.findViewById(R.id.cb_lock);
 		mCbTimer = (CheckBox) layout.findViewById(R.id.cb_timer);
 		mCbLock.setOnCheckedChangeListener(mLockListener);
@@ -189,43 +249,26 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		refreashHzView();
 		refreashStartShut(CommandUtil.hexStringToInt(mSendComsModel.getCommand14()));
 		int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
-		mSbtnSetFunction.setCheck(1 == functionValue % 10);
+		mTvSetFunctionalSwitch.setText(1 == functionValue % 10 ? "开" : "关");
 		mCbTimer.setChecked(SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
 				Global.CONFIG_FILE_NAME, Global.IS_TIMER_OPENED));
 	}
 
 	private void setListener() {
-		mBtnAddHz.setOnClickListener(this);
-		mBtnSubHz.setOnClickListener(this);
+		mBtnAddHz.setOnTouchListener(mOnTouchListener);
+		mBtnSubHz.setOnTouchListener(mOnTouchListener);
 		mRgMode.setOnCheckedChangeListener(this);
 		mViewSetStartShut.setOnClickListener(this);
+		mViewSetWifiMode.setOnClickListener(this);
 		mViewSetPm2dot5.setOnClickListener(this);
 		mViewSetStartTime.setOnClickListener(this);
 		mViewSetShutTime.setOnClickListener(this);
-		mSbtnSetFunction.setOnChangedListener(new OnChangedListener() {
-
-			@Override
-			public void onChanged(View view, boolean checkState) {
-				if (checkState) {
-					mSendComsModel.setCommand4(Integer.toHexString(1));
-				} else {
-					mSendComsModel.setCommand4(Integer.toHexString(2));
-				}
-				send();
-				mSbtnSetFunction.setCheck(1 == CommandUtil.hexStringToInt(mSendComsModel.getCommand4()));
-			}
-		});
+		mViewSetFunctionalSwitch.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.btn_add_hz:
-				changeHz(true);
-				break;
-			case R.id.btn_sub_hz:
-				changeHz(false);
-				break;
 			case R.id.rl_set_pm2_5:
 				WheelViewUtil.showPm2dot5(getActivity(),
 						CommandUtil.hexStringToInt(mSendComsModel.getCommand15()) - 50, this);
@@ -243,102 +286,145 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				mTvSetPm2dot5.setText("" + (Integer) v.getTag());
 				send();
 				break;
-			case R.id.rl_set_shut_down_start_up:
-				ActionSheetUtil.showActionSheet(getActivity(), new ActionSheetClickListener() {
+			case R.id.rl_set_wifi_mode:
+				ActionSheetUtil.showWifiModeActionSheet(getActivity(), new ActionSheetClickListener() {
 
 					@Override
 					public void onItemClick(int itemPosition) {
-						if (-1 != itemPosition) {
-							String oldValue = mSendComsModel.getCommand14();
-							String newValue = Integer.toHexString(itemPosition);
-							if (newValue.equalsIgnoreCase(oldValue)) {
-								return;
-							}
-							refreashStartShut(itemPosition);
-							mSendComsModel.setCommand14(newValue);
-							send();
-							if (3 == itemPosition) {
-								if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
-									mLoadingUpView.showPopup("正在切换至外网");
-								}
-								TimerUtil.startTimer(TAG, 3 * 3, 1000, new TimerActionListener() {
-
-									@Override
-									public void doAction() {
-										if (0 == TimerUtil.getTimerTime(TAG)) {
-											EvtLog.d("aaa", "toggleWiFi, true");
-											// 关闭热点，打开wifi；
-											WifiApUtil.closeWifiAp(getActivity());
-											WifiApUtil.toggleWiFi(getActivity(), true);
-											TimerUtil.stopTimer(TAG);
-											SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT,
-													Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE, 1);
-											if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
-												mLoadingUpView.dismiss();
-											}
-										}
-									}
-								});
-							} else if (2 == itemPosition && oldValue.equalsIgnoreCase(Integer.toHexString(3))) {
-								if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
-									mLoadingUpView.showPopup("正在切换至内网");
-								}
-								mSendComsModel.setCommand14(Integer.toHexString(itemPosition));
-								mSendComsModel.send(true);
-								TimerUtil.startTimer(TAG, 3 * 3, 1000, new TimerActionListener() {
-
-									@Override
-									public void doAction() {
-										if (0 == TimerUtil.getTimerTime(TAG)) {
-											WifiApUtil.toggleWiFi(getActivity(), false);
-											WifiApUtil wifiAp = new WifiApUtil(getActivity());
-											wifiAp.startWifiAp(Global.SSID, Global.PASSWORD, new StartWifiApListener() {
-
-												@Override
-												public void enableWifiApSuccess() {
-													getActivity().runOnUiThread(new Runnable() {
-
-														@Override
-														public void run() {
-															getActivity().runOnUiThread(new Runnable() {
-
-																@Override
-																public void run() {
-																	if (null != mLoadingUpView
-																			&& mLoadingUpView.isShowing()) {
-																		mLoadingUpView.dismiss();
-																	}
-																}
-															});
-															SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT,
-																	Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE, 0);
-															toast("已经切换至内网");
-														}
-													});
-												}
-
-												@Override
-												public void enableWifiApFail() {
-													getActivity().runOnUiThread(new Runnable() {
-
-														@Override
-														public void run() {
-															if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
-																mLoadingUpView.dismiss();
-															}
-														}
-													});
-												}
-											});
-											TimerUtil.stopTimer(TAG);
-											if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
-												mLoadingUpView.dismiss();
-											}
-										}
-									}
-								});
-							}
+						if (-1 == itemPosition) {
+							return;
 						}
+						String oldValue = mSendComsModel.getCommand14();
+						String newValue = Integer.toHexString(itemPosition + 2);
+						if (newValue.equalsIgnoreCase(oldValue)) {
+							return;
+						}
+						refreashStartShut(itemPosition + 2);
+						mSendComsModel.setCommand14(newValue);
+						send();
+						if (1 == itemPosition) {
+							if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
+								mLoadingUpView.showPopup("正在切换至外网");
+							}
+							TimerUtil.startTimer(TAG, 3 * 3, 1000, new TimerActionListener() {
+
+								@Override
+								public void doAction() {
+									if (0 == TimerUtil.getTimerTime(TAG)) {
+										// 关闭热点，打开wifi；
+										WifiApUtil.closeWifiAp(getActivity());
+										WifiApUtil.toggleWiFi(getActivity(), true);
+										TimerUtil.stopTimer(TAG);
+										SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT,
+												Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE, 1);
+										if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
+											mLoadingUpView.dismiss();
+										}
+									}
+								}
+							});
+						} else if (0 == itemPosition) {
+							if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
+								mLoadingUpView.showPopup("正在切换至内网");
+							}
+							mSendComsModel.setCommand14(newValue);
+							mSendComsModel.send(true);
+							TimerUtil.startTimer(TAG, 3 * 3, 1000, new TimerActionListener() {
+
+								@Override
+								public void doAction() {
+									if (0 == TimerUtil.getTimerTime(TAG)) {
+										WifiApUtil.toggleWiFi(getActivity(), false);
+										WifiApUtil wifiAp = new WifiApUtil(getActivity());
+										wifiAp.startWifiAp(Global.SSID, Global.PASSWORD, new StartWifiApListener() {
+
+											@Override
+											public void enableWifiApSuccess() {
+												getActivity().runOnUiThread(new Runnable() {
+
+													@Override
+													public void run() {
+														getActivity().runOnUiThread(new Runnable() {
+
+															@Override
+															public void run() {
+																if (null != mLoadingUpView
+																		&& mLoadingUpView.isShowing()) {
+																	mLoadingUpView.dismiss();
+																}
+															}
+														});
+														SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT,
+																Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE, 0);
+														toast("已经切换至内网");
+													}
+												});
+											}
+
+											@Override
+											public void enableWifiApFail() {
+												getActivity().runOnUiThread(new Runnable() {
+
+													@Override
+													public void run() {
+														if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
+															mLoadingUpView.dismiss();
+														}
+													}
+												});
+											}
+										});
+										TimerUtil.stopTimer(TAG);
+										if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
+											mLoadingUpView.dismiss();
+										}
+									}
+								}
+							});
+						}
+					}
+				});
+				break;
+			case R.id.rl_set_shut_down_start_up:
+				ActionSheetUtil.showShutStartActionSheet(getActivity(), new ActionSheetClickListener() {
+
+					@Override
+					public void onItemClick(int itemPosition) {
+						if (-1 == itemPosition) {
+							return;
+						}
+						String oldValue = mSendComsModel.getCommand14();
+						String newValue = Integer.toHexString(itemPosition);
+						if (newValue.equalsIgnoreCase(oldValue)) {
+							return;
+						}
+						refreashStartShut(itemPosition);
+						mSendComsModel.setCommand14(newValue);
+						send();
+					}
+				});
+				break;
+			case R.id.rl_set_functional_switch:
+				ActionSheetUtil.showFunctionalSwitchActionSheet(getActivity(), new ActionSheetClickListener() {
+
+					@Override
+					public void onItemClick(int itemPosition) {
+						if (-1 == itemPosition) {
+							return;
+						}
+						String oldValue = mSendComsModel.getCommand14();
+						String newValue = Integer.toHexString(itemPosition);
+						if (newValue.equalsIgnoreCase(oldValue)) {
+							return;
+						}
+						if (0 == itemPosition) {
+							mSendComsModel.setCommand4(Integer.toHexString(1));
+						} else {
+							mSendComsModel.setCommand4(Integer.toHexString(2));
+						}
+						send();
+						int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
+						mTvSetFunctionalSwitch.setText(1 == functionValue % 10 ? "开" : "关");
 					}
 				});
 				break;
@@ -359,7 +445,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		}
 		mTvHz.setText("" + mHz);
 		mSendComsModel.setCommand2(Integer.toHexString(mHz));
-		send();
 	}
 
 	@Override
@@ -420,10 +505,10 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				mTvSetStartShut.setText("关机");
 				break;
 			case 2:
-				mTvSetStartShut.setText("内网");
+				mTvSetWifiMode.setText("内网");
 				break;
 			case 3:
-				mTvSetStartShut.setText("外网");
+				mTvSetWifiMode.setText("外网");
 				break;
 
 			default:

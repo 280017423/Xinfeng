@@ -43,7 +43,7 @@
 		android:layout_height="48dp"
 		android:layout_marginTop="15dp"
 		android:background="@drawable/tongyong_button_bg"
-		android:clickable="false"
+		android:clickable="true"
 		android:paddingLeft="10dp"
 		android:paddingRight="10dp" >
 		<View
@@ -58,15 +58,14 @@
 			android:text="设置功能开关"
 			android:textColor="@color/white"
 			android:textSize="@dimen/size_2" />
-		<com.zjhbkj.xinfen.widget.SlipButton
-			android:id="@+id/sb_set_functional_switch"
+		<TextView
+			android:id="@+id/tv_set_functional_switch"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_height="fill_parent"
 			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-			app:slip_button_off_bg="@drawable/split_close"
-			app:slip_button_on_bg="@drawable/split_on"
-			app:slip_button_thumb="@drawable/split_thumb" />
+			android:gravity="center_vertical"
+			android:textColor="@color/white"
+			android:textSize="@dimen/size_2" />
 	</RelativeLayout>
 	<RelativeLayout
 		android:id="@+id/rl_set_start_up_time"
@@ -148,6 +147,36 @@
 			android:textSize="@dimen/size_2" />
 		<TextView
 			android:id="@+id/tv_set_shut_down_start_up"
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:layout_alignParentRight="true"
+			android:gravity="center_vertical"
+			android:text="开机"
+			android:textColor="@color/white"
+			android:textSize="@dimen/size_2" />
+	</RelativeLayout>
+	<RelativeLayout
+		android:id="@+id/rl_set_wifi_mode"
+		android:layout_width="fill_parent"
+		android:layout_height="48dp"
+		android:background="@drawable/tongyong_button_bg"
+		android:clickable="true"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp" >
+		<View
+			android:layout_width="fill_parent"
+			android:layout_height="0.7dp"
+			android:layout_alignParentTop="true"
+			android:background="#e0e0e0" />
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:gravity="center_vertical"
+			android:text="设置内/外网"
+			android:textColor="@color/white"
+			android:textSize="@dimen/size_2" />
+		<TextView
+			android:id="@+id/tv_set_wifi_mode"
 			android:layout_width="wrap_content"
 			android:layout_height="fill_parent"
 			android:layout_alignParentRight="true"
@@ -286,16 +315,16 @@
 		android:orientation="horizontal" >
 		<CheckBox
 			android:id="@+id/cb_lock"
-			android:layout_width="32dp"
-			android:layout_height="32dp"
+			android:layout_width="48dp"
+			android:layout_height="48dp"
 			android:background="@drawable/lock_bg"
 			android:button="@null"
 			android:checked="false"
 			android:textColor="@color/white" />
 		<CheckBox
 			android:id="@+id/cb_timer"
-			android:layout_width="32dp"
-			android:layout_height="32dp"
+			android:layout_width="48dp"
+			android:layout_height="48dp"
 			android:layout_marginLeft="60dp"
 			android:background="@drawable/timer_bg"
 			android:button="@null"

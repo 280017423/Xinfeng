@@ -24,18 +24,15 @@ import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 import com.zjhbkj.xinfen.util.TimerUtil;
 import com.zjhbkj.xinfen.util.TimerUtil.TimerActionListener;
 import com.zjhbkj.xinfen.util.UIUtil;
+import com.zjhbkj.xinfen.widget.ProgressView;
 
 import de.greenrobot.event.EventBus;
 
 public class HomeFragment extends FragmentBase implements OnClickListener {
 	public static final String TAG = MainActivity.class.getName();
 	private TextView mTvFrequency;
-	private TextView mTvPpm;
 	private TextView mTvMode;
 	private TextView mTvModeSwitch;
-	private TextView mTvPm2dot5Out;
-	private TextView mTvPm2dot5In;
-	private TextView mTvCo2;
 	private TextView mTvInInTemp;
 	private TextView mTvInOutTemp;
 	private TextView mTvOutInTemp;
@@ -50,6 +47,11 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	private ImageView mIvChuxiao;
 	private ImageView mIvchuchen;
 	private ImageView mIvGaoxiao;
+
+	private ProgressView mPgvPm2dot5In;
+	private ProgressView mPgvPm2dot5Out;
+	private ProgressView mPgvCo2;
+	private ProgressView mPgvJiaquan;
 
 	public static final HomeFragment newInstance() {
 		HomeFragment fragment = new HomeFragment();
@@ -77,15 +79,15 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	}
 
 	private void setListener(View layout) {
-		layout.findViewById(R.id.iv_pm_2dot5_in).setOnClickListener(this);
-		layout.findViewById(R.id.iv_pm_2dot5_out).setOnClickListener(this);
+		mPgvPm2dot5In.setOnClickListener(this);
+		mPgvPm2dot5Out.setOnClickListener(this);
+		mPgvCo2.setOnClickListener(this);
+		mPgvJiaquan.setOnClickListener(this);
 		mTvInInTemp.setOnClickListener(this);
 		mTvInOutTemp.setOnClickListener(this);
 		mTvOutInTemp.setOnClickListener(this);
 		mTvOutOutTemp.setOnClickListener(this);
 		mTvHumidity.setOnClickListener(this);
-		mTvCo2.setOnClickListener(this);
-		mTvPpm.setOnClickListener(this);
 	}
 
 	private void initViews(View layout) {
@@ -127,12 +129,8 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 
 		mTvFrequency = (TextView) layout.findViewById(R.id.tv_frequency);
 		mTvOffLineMode = (TextView) layout.findViewById(R.id.tv_offline_mode);
-		mTvPpm = (TextView) layout.findViewById(R.id.tv_ppm);
 		mTvMode = (TextView) layout.findViewById(R.id.tv_mode);
 		mTvModeSwitch = (TextView) layout.findViewById(R.id.tv_mode_switch);
-		mTvPm2dot5Out = (TextView) layout.findViewById(R.id.tv_pm_2dot5_out_low);
-		mTvPm2dot5In = (TextView) layout.findViewById(R.id.tv_pm_2dot5_in_low);
-		mTvCo2 = (TextView) layout.findViewById(R.id.tv_co2_low);
 
 		mTvInInTemp = (TextView) layout.findViewById(R.id.tv_in_in_wind_temp);
 		mTvInOutTemp = (TextView) layout.findViewById(R.id.tv_in_out_wind_temp);
@@ -145,6 +143,20 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mIvchuchen = (ImageView) layout.findViewById(R.id.iv_chuchen);
 		mIvGaoxiao = (ImageView) layout.findViewById(R.id.iv_gaoxiao);
 
+		mPgvJiaquan = (ProgressView) layout.findViewById(R.id.pgv_jiaquan);
+		mPgvCo2 = (ProgressView) layout.findViewById(R.id.pgv_co2);
+		mPgvPm2dot5In = (ProgressView) layout.findViewById(R.id.pgv_pm_2dot5_in);
+		mPgvPm2dot5Out = (ProgressView) layout.findViewById(R.id.pgv_pm_2dot5_out);
+
+		UIUtil.setViewWidth(mPgvJiaquan, UIUtil.getScreenWidth(getActivity()) / 4);
+		UIUtil.setViewHeight(mPgvJiaquan, UIUtil.getScreenWidth(getActivity()) * 2 / 16);
+		UIUtil.setViewWidth(mPgvCo2, UIUtil.getScreenWidth(getActivity()) / 4);
+		UIUtil.setViewHeight(mPgvCo2, UIUtil.getScreenWidth(getActivity()) * 2 / 16);
+		UIUtil.setViewWidth(mPgvPm2dot5In, UIUtil.getScreenWidth(getActivity()) / 4);
+		UIUtil.setViewHeight(mPgvPm2dot5In, UIUtil.getScreenWidth(getActivity()) * 2 / 16);
+		UIUtil.setViewWidth(mPgvPm2dot5Out, UIUtil.getScreenWidth(getActivity()) / 4);
+		UIUtil.setViewHeight(mPgvPm2dot5Out, UIUtil.getScreenWidth(getActivity()) * 2 / 16);
+
 		mTvHumidity.setPadding(0, height / 4, 0, 0);
 		mTvOutInTemp.setPadding(width * 1 / 20, height / 4, 0, 0);
 		mTvOutOutTemp.setPadding(0, height / 4, width * 1 / 20, 0);
@@ -152,8 +164,6 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvInInTemp.setPadding(width * 3 / 20, height * 9 / 20, 0, 0);
 		mTvInOutTemp.setPadding(0, height * 9 / 20, width * 3 / 20, 0);
 
-		mTvPpm.setPadding(0, 0, 0, height / 20);
-		mTvCo2.setPadding(0, 0, 0, height / 20);
 	}
 
 	private void initOffLineTimer() {
@@ -193,17 +203,13 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		}
 		mCurrentModel = model;
 		mTvFrequency.setText("频率：" + CommandUtil.hexStringToInt(model.getCommand1()) + " hz");
-		mTvPpm.setText("甲醛：" + CommandUtil.hexStringToInt(model.getCommand2()) / 100.0 + " ppm");
 		TimerUtil.setTimerTime(TAG, 60);
-		if ("00".equals(model.getDisplayCo2())) {
+		if ("00".equals(model.getDisplayCo2()) || "0".equals(model.getDisplayCo2())) {
 			mTvOffLineMode.setText("（离线）");
 		} else {
 			mTvOffLineMode.setText("（在线）");
 		}
-		mTvCo2.setText(Html.fromHtml("CO₂") + "：" + model.getDisplayCo2() + " ppm");
 		UIUtil.setUnderLine(mTvFrequency);
-		UIUtil.setUnderLine(mTvPpm);
-		UIUtil.setUnderLine(mTvCo2);
 
 		int mode = CommandUtil.hexStringToInt(model.getCommand3());
 		switch (mode) {
@@ -239,8 +245,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 			default:
 				break;
 		}
-		mTvPm2dot5Out.setText(model.getDisplayPm2dotOut());
-		mTvPm2dot5In.setText(model.getDisplayPm2dotIn());
+		mPgvPm2dot5Out.setContentText(model.getDisplayPm2dotOut());
+		mPgvPm2dot5In.setContentText(model.getDisplayPm2dotIn());
+		mPgvCo2.setContentText(model.getDisplayCo2());
+		mPgvJiaquan.setContentText("" + CommandUtil.hexStringToInt(model.getCommand2()) / 100.0);
 		mTvInInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand11()) + Html.fromHtml("&#8451;"));
 		mTvInOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand12()) + Html.fromHtml("&#8451;"));
 		mTvOutInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand13()) + Html.fromHtml("&#8451;"));
@@ -275,10 +283,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.iv_pm_2dot5_in:
+			case R.id.pgv_pm_2dot5_in:
 				jumpToGraphic("pm25in");
 				break;
-			case R.id.iv_pm_2dot5_out:
+			case R.id.pgv_pm_2dot5_out:
 				jumpToGraphic("pm25out");
 				break;
 			case R.id.tv_in_in_wind_temp:
@@ -296,10 +304,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 			case R.id.tv_humidity:
 				jumpToGraphic("shidu");
 				break;
-			case R.id.tv_co2_low:
+			case R.id.pgv_co2:
 				jumpToGraphic("co2");
 				break;
-			case R.id.tv_ppm:
+			case R.id.pgv_jiaquan:
 				jumpToGraphic("jiaquan");
 				break;
 

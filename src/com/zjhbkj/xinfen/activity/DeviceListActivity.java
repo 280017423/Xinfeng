@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.umeng.update.UmengUpdateAgent;
 import com.zjhbkj.xinfen.R;
 import com.zjhbkj.xinfen.adapter.DeviceAdapter;
 import com.zjhbkj.xinfen.app.XinfengApplication;
@@ -44,6 +45,8 @@ public class DeviceListActivity extends BaseActivity implements OnClickListener 
 		initVariables();
 		initViews();
 		getDeviceList();
+		UmengUpdateAgent.update(this);
+		UmengUpdateAgent.setUpdateOnlyWifi(false);
 	}
 
 	private void initVariables() {
