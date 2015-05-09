@@ -41,13 +41,13 @@ public class NetWorkChangeBroadcastReceiver extends BroadcastReceiver {
 	}
 
 	private void initSendTimer() {
-		TimerUtil.startTimer(TAG, 5, 1000, new TimerActionListener() {
+		TimerUtil.startTimer(TAG, 0, 5000, new TimerActionListener() {
 
 			@Override
 			public void doAction() {
 				int isWifiMode = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
 						Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE);
-				if (0 >= TimerUtil.getTimerTime(TAG) && 1 == isWifiMode) {
+				if (1 == isWifiMode) {
 					Log.d("aaa", "开始定时发送...");
 					UDPClient client = UDPClient.newInstance(new ClientMsgListener() {
 
@@ -57,7 +57,6 @@ public class NetWorkChangeBroadcastReceiver extends BroadcastReceiver {
 						}
 					});
 					client.connectServer();
-					initSendTimer();
 				}
 			}
 		});

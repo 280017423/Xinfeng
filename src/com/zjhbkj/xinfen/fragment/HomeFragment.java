@@ -52,6 +52,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	private ProgressView mPgvPm2dot5Out;
 	private ProgressView mPgvCo2;
 	private ProgressView mPgvJiaquan;
+	private String mDeviceName;
 
 	public static final HomeFragment newInstance() {
 		HomeFragment fragment = new HomeFragment();
@@ -65,6 +66,8 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	}
 
 	private void initVariables() {
+		mDeviceName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+				Global.CURRENT_DEVICE_ID);
 		initOffLineTimer();
 		EventBus.getDefault().register(this);
 	}
@@ -157,13 +160,15 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		UIUtil.setViewWidth(mPgvPm2dot5Out, UIUtil.getScreenWidth(getActivity()) / 4);
 		UIUtil.setViewHeight(mPgvPm2dot5Out, UIUtil.getScreenWidth(getActivity()) * 2 / 16);
 
-		mTvHumidity.setPadding(0, height / 4, 0, 0);
-		mTvOutInTemp.setPadding(width * 1 / 20, height / 4, 0, 0);
-		mTvOutOutTemp.setPadding(0, height / 4, width * 1 / 20, 0);
 		mTvFrequency.setPadding(0, height * 9 / 20, 0, 0);
-		mTvInInTemp.setPadding(width * 3 / 20, height * 9 / 20, 0, 0);
-		mTvInOutTemp.setPadding(0, height * 9 / 20, width * 3 / 20, 0);
+		mTvHumidity.setPadding(0, height / 4, 0, 0);
 
+		mTvOutOutTemp.setPadding(width * 1 / 20, height / 4, 0, 0);
+		mTvOutInTemp.setPadding(0, height / 4, width / 20, 0);
+		mTvInOutTemp.setPadding(width * 3 / 20, height * 9 / 20, 0, 0);
+		mTvInInTemp.setPadding(0, height * 9 / 20, width * 3 / 20, 0);
+
+		mTvOffLineMode.setText("（" + mDeviceName + "离线）");
 	}
 
 	private void initOffLineTimer() {
@@ -181,7 +186,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 
 						@Override
 						public void run() {
-							mTvOffLineMode.setText("（离线）");
+							mTvOffLineMode.setText("（" + mDeviceName + "离线）");
 						}
 					});
 					initOffLineTimer();
@@ -205,9 +210,9 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvFrequency.setText("频率：" + CommandUtil.hexStringToInt(model.getCommand1()) + " hz");
 		TimerUtil.setTimerTime(TAG, 60);
 		if ("00".equals(model.getDisplayCo2()) || "0".equals(model.getDisplayCo2())) {
-			mTvOffLineMode.setText("（离线）");
+			mTvOffLineMode.setText("（" + mDeviceName + "离线）");
 		} else {
-			mTvOffLineMode.setText("（在线）");
+			mTvOffLineMode.setText("（" + mDeviceName + "在线）");
 		}
 		UIUtil.setUnderLine(mTvFrequency);
 
@@ -249,10 +254,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mPgvPm2dot5In.setContentText(model.getDisplayPm2dotIn());
 		mPgvCo2.setContentText(model.getDisplayCo2());
 		mPgvJiaquan.setContentText("" + CommandUtil.hexStringToInt(model.getCommand2()) / 100.0);
-		mTvInInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand11()) + Html.fromHtml("&#8451;"));
-		mTvInOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand12()) + Html.fromHtml("&#8451;"));
-		mTvOutInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand13()) + Html.fromHtml("&#8451;"));
-		mTvOutOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand14()) + Html.fromHtml("&#8451;"));
+		mTvInOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand11()) + Html.fromHtml("&#8451;"));
+		mTvInInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand12()) + Html.fromHtml("&#8451;"));
+		mTvOutOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand13()) + Html.fromHtml("&#8451;"));
+		mTvOutInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand14()) + Html.fromHtml("&#8451;"));
 
 		mTvHumidity.setText("湿度：" + CommandUtil.hexStringToInt(model.getCommand15()));
 	}

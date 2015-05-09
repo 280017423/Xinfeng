@@ -22,7 +22,6 @@
 		android:layout_height="wrap_content"
 		android:layout_below="@id/tv_mode"
 		android:layout_centerHorizontal="true"
-		android:text="（离线）"
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_4" />
 	<LinearLayout
@@ -219,25 +218,25 @@
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
 	<TextView
-		android:id="@+id/tv_out_in_wind_temp"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignLeft="@id/rl_home_tab_layout"
-		android:layout_alignTop="@id/rl_home_tab_layout"
-		android:clickable="true"
-		android:textColor="@color/white"
-		android:textSize="@dimen/size_2" />
-	<TextView
-		android:id="@+id/tv_in_in_wind_temp"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignLeft="@id/rl_home_tab_layout"
-		android:layout_alignTop="@id/rl_home_tab_layout"
-		android:clickable="true"
-		android:textColor="@color/white"
-		android:textSize="@dimen/size_2" />
-	<TextView
 		android:id="@+id/tv_out_out_wind_temp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@id/rl_home_tab_layout"
+		android:layout_alignTop="@id/rl_home_tab_layout"
+		android:clickable="true"
+		android:textColor="@color/white"
+		android:textSize="@dimen/size_2" />
+	<TextView
+		android:id="@+id/tv_in_out_wind_temp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@id/rl_home_tab_layout"
+		android:layout_alignTop="@id/rl_home_tab_layout"
+		android:clickable="true"
+		android:textColor="@color/white"
+		android:textSize="@dimen/size_2" />
+	<TextView
+		android:id="@+id/tv_out_in_wind_temp"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignRight="@id/rl_home_tab_layout"
@@ -246,7 +245,7 @@
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
 	<TextView
-		android:id="@+id/tv_in_out_wind_temp"
+		android:id="@+id/tv_in_in_wind_temp"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignRight="@id/rl_home_tab_layout"
