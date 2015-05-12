@@ -112,7 +112,6 @@ public class UDPClient {
 										+ Integer.parseInt(localName));
 						continue;
 					}
-
 					RcvComsModel rcvComsModel = new RcvComsModel();
 					boolean isValid = rcvComsModel.receiveCommand(data);
 					datagramPacket.setLength(buffer.length); // 重设数据包的长度
@@ -121,7 +120,9 @@ public class UDPClient {
 						EventBus.getDefault().post(rcvComsModel);
 						// 更新模式状态
 						SendComsModel mSendComsModel = DBMgr.getHistoryData(SendComsModel.class, "EA");
-						if (null != mSendComsModel) {
+						int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
+								Global.CONFIG_FILE_NAME, Global.HAS_SETTING_INFO);
+						if (null != mSendComsModel && count <= 0) {
 							mSendComsModel.setCommand3(rcvComsModel.getCommand3());
 							mSendComsModel.setCommand1(rcvComsModel.getCommand1());
 							DBMgr.saveModel(mSendComsModel);
@@ -147,6 +148,12 @@ public class UDPClient {
 			try {
 				EvtLog.d("aaa", "发送消息到服务器:" + model.toString());
 				mDatagramSocket.send(dPacket);
+				int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
+						Global.CONFIG_FILE_NAME, Global.HAS_SETTING_INFO);
+				if (count > 0) {
+					SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+							Global.HAS_SETTING_INFO, count - 1);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 				EventBus.getDefault().post("消息发送失败." + e.toString());

@@ -152,7 +152,8 @@ public class WheelViewUtil {
 		wvDay.setViewAdapter(mDayAdapter);
 	}
 
-	public static void showTime(final Context context, int hour, int mins, final Handler handler, final int what) {
+	public static void showTime(final Context context, int hour, int mins, final Handler handler, final int what,
+			final String title) {
 		String[] hours = new String[24];
 		for (int i = 0; i < hours.length; i++) {
 			hours[i] = i + "时";
@@ -162,9 +163,9 @@ public class WheelViewUtil {
 			minutes[i] = i + "分";
 		}
 		final View contentView = View.inflate(context, R.layout.view_wheelview_pop, null);
-		final TextView title = (TextView) contentView.findViewById(R.id.tv_pop_title);
+		final TextView tvTitle = (TextView) contentView.findViewById(R.id.tv_pop_title);
 		Button btnOk = (Button) contentView.findViewById(R.id.btn_ok);
-		title.setText("选择时间");
+		tvTitle.setText(title);
 		final WheelView wvHour = (WheelView) contentView.findViewById(R.id.wv_item_1);
 		final WheelView wvMins = (WheelView) contentView.findViewById(R.id.wv_item_2);
 		wvMins.setVisibility(View.VISIBLE);

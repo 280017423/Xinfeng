@@ -275,11 +275,14 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				break;
 			case R.id.rl_set_start_up_time:
 				WheelViewUtil.showTime(getActivity(), CommandUtil.hexStringToInt(mSendComsModel.getCommand11()),
-						CommandUtil.hexStringToInt(mSendComsModel.getCommand10()), mHandler, CODE_GET_START_TIME);
+						CommandUtil.hexStringToInt(mSendComsModel.getCommand10()), mHandler, CODE_GET_START_TIME,
+						"开机时间");
 				break;
 			case R.id.rl_set_shut_down_time:
-				WheelViewUtil.showTime(getActivity(), CommandUtil.hexStringToInt(mSendComsModel.getCommand13()),
-						CommandUtil.hexStringToInt(mSendComsModel.getCommand12()), mHandler, CODE_GET_SHUT_TIME);
+				WheelViewUtil
+						.showTime(getActivity(), CommandUtil.hexStringToInt(mSendComsModel.getCommand13()),
+								CommandUtil.hexStringToInt(mSendComsModel.getCommand12()), mHandler,
+								CODE_GET_SHUT_TIME, "关机时间");
 				break;
 			case R.id.btn_ok:
 				mSendComsModel.setCommand15(Integer.toHexString((Integer) v.getTag()));

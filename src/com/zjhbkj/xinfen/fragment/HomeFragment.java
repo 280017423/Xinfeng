@@ -217,7 +217,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		UIUtil.setUnderLine(mTvFrequency);
 
 		int mode = CommandUtil.hexStringToInt(model.getCommand3());
-		switch (mode) {
+		switch (mode % 10) {
 			case 1:
 				mTvMode.setText("自动模式");
 				break;
@@ -254,10 +254,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mPgvPm2dot5In.setContentText(model.getDisplayPm2dotIn());
 		mPgvCo2.setContentText(model.getDisplayCo2());
 		mPgvJiaquan.setContentText("" + CommandUtil.hexStringToInt(model.getCommand2()) / 100.0);
-		mTvInOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand11()) + Html.fromHtml("&#8451;"));
-		mTvInInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand12()) + Html.fromHtml("&#8451;"));
-		mTvOutOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand13()) + Html.fromHtml("&#8451;"));
-		mTvOutInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand14()) + Html.fromHtml("&#8451;"));
+		mTvInInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand11()) + Html.fromHtml("&#8451;"));
+		mTvInOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand12()) + Html.fromHtml("&#8451;"));
+		mTvOutInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand13()) + Html.fromHtml("&#8451;"));
+		mTvOutOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand14()) + Html.fromHtml("&#8451;"));
 
 		mTvHumidity.setText("湿度：" + CommandUtil.hexStringToInt(model.getCommand15()));
 	}
