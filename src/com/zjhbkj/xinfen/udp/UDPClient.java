@@ -51,13 +51,13 @@ public class UDPClient {
 			public void run() {
 				try {
 					mInetAddress = InetAddress.getByName(Global.SERVER_IP); // 本机测试
-					if (mDatagramSocket == null) {
+					if (mDatagramSocket == null || !mDatagramSocket.isConnected()) {
 						mDatagramSocket = new DatagramSocket(null);
 						mDatagramSocket.setReuseAddress(true);
 						mDatagramSocket.bind(new InetSocketAddress(Global.SERVER_PORT));
 					}
-					sendToServer();
 					receiveMsg();
+					sendToServer();
 				} catch (UnknownHostException e) {
 					mInetAddress = null;
 					mClientListener.handlerErorMsg("没有找到服务器");
@@ -72,6 +72,9 @@ public class UDPClient {
 	}
 
 	protected void receiveMsg() {
+		if (null == mDatagramSocket) {
+			return;
+		}
 		DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
 		while (onGoinglistner) {
 			try {
@@ -116,14 +119,14 @@ public class UDPClient {
 					boolean isValid = rcvComsModel.receiveCommand(data);
 					datagramPacket.setLength(buffer.length); // 重设数据包的长度
 					if (isValid) {
-						DBMgr.saveModel(rcvComsModel);
-						EventBus.getDefault().post(rcvComsModel);
 						// 更新模式状态
 						SendComsModel mSendComsModel = DBMgr.getHistoryData(SendComsModel.class, "EA");
 						int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
 								Global.CONFIG_FILE_NAME, Global.HAS_SETTING_INFO);
 						if (null != mSendComsModel && count <= 0) {
-							mSendComsModel.setCommand3(rcvComsModel.getCommand3());
+							DBMgr.saveModel(rcvComsModel);
+							EventBus.getDefault().post(rcvComsModel);
+							// mSendComsModel.setCommand3(rcvComsModel.getCommand3());
 							mSendComsModel.setCommand1(rcvComsModel.getCommand1());
 							DBMgr.saveModel(mSendComsModel);
 						}
@@ -137,28 +140,37 @@ public class UDPClient {
 	}
 
 	public void sendToServer() {
-		if (null == mInetAddress || null == mDatagramSocket) {
-			mClientListener.handlerErorMsg("服务器未连接");
+		if (null == mDatagramSocket) {
 			return;
 		}
-		SendComsModel model = DBMgr.getHistoryData(SendComsModel.class, "EA");
-		if (null != model) {
-			byte[] commands = CommandUtil.getCommand(model.toString());
-			DatagramPacket dPacket = new DatagramPacket(commands, commands.length, mInetAddress, Global.SERVER_PORT);
-			try {
-				EvtLog.d("aaa", "发送消息到服务器:" + model.toString());
-				mDatagramSocket.send(dPacket);
-				int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
-						Global.CONFIG_FILE_NAME, Global.HAS_SETTING_INFO);
-				if (count > 0) {
-					SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
-							Global.HAS_SETTING_INFO, count - 1);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (null == mInetAddress || null == mDatagramSocket) {
+					mClientListener.handlerErorMsg("服务器未连接");
+					return;
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				EventBus.getDefault().post("消息发送失败." + e.toString());
+				SendComsModel model = DBMgr.getHistoryData(SendComsModel.class, "EA");
+				if (null != model) {
+					byte[] commands = CommandUtil.getCommand(model.toString());
+					DatagramPacket dPacket = new DatagramPacket(
+							commands, commands.length, mInetAddress, Global.SERVER_PORT);
+					try {
+						EvtLog.d("aaa", "发送消息到服务器:" + model.toString());
+						mDatagramSocket.send(dPacket);
+						int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
+								Global.CONFIG_FILE_NAME, Global.HAS_SETTING_INFO);
+						if (count > 0) {
+							SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+									Global.HAS_SETTING_INFO, count - 1);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+						EventBus.getDefault().post("消息发送失败." + e.toString());
+					}
+				}
 			}
-		}
+		}).start();
 	}
 
 	public void closeConnection() {
@@ -170,10 +182,7 @@ public class UDPClient {
 	}
 
 	public boolean isConnected() {
-		if (null != mDatagramSocket) {
-			return mDatagramSocket.isConnected();
-		}
-		return false;
+		return null != mDatagramSocket && onGoinglistner;
 	}
 
 	public void stopAcceptMessage() {

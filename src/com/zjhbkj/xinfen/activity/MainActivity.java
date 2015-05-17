@@ -230,7 +230,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 			mSendComsModel.setCommand13(Integer.toHexString(20));
 			mSendComsModel.setCommand14(Integer.toHexString(02));
 			mSendComsModel.setCommand15(Integer.toHexString(100));
-			mSendComsModel.send();
+			mSendComsModel.send(false);
 		}
 	}
 

@@ -3,6 +3,7 @@ package com.zjhbkj.xinfen.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -88,7 +89,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					} else if (event.getAction() == MotionEvent.ACTION_UP
 							|| event.getAction() == MotionEvent.ACTION_CANCEL) {
 						TimerUtil.stopTimer(R.id.btn_add_hz + "");
-						send();
+						send(true);
 					}
 					break;
 				case R.id.btn_sub_hz:
@@ -110,7 +111,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					} else if (event.getAction() == MotionEvent.ACTION_UP
 							|| event.getAction() == MotionEvent.ACTION_CANCEL) {
 						TimerUtil.stopTimer(R.id.btn_sub_hz + "");
-						send();
+						send(true);
 					}
 					break;
 				default:
@@ -130,7 +131,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
 						Global.IS_TIMER_OPENED, isChecked);
 			}
-			send();
+			send(true);
 		}
 	};
 	private Handler mHandler = new Handler() {
@@ -145,7 +146,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					if (null != startTiems && 2 == startTiems.length) {
 						mSendComsModel.setCommand10(Integer.toHexString(Integer.parseInt(startTiems[1])));
 						mSendComsModel.setCommand11(Integer.toHexString(Integer.parseInt(startTiems[0])));
-						send();
+						send(true);
 					}
 					break;
 				case CODE_GET_SHUT_TIME:
@@ -155,7 +156,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 					if (null != shutTiems && 2 == shutTiems.length) {
 						mSendComsModel.setCommand12(Integer.toHexString(Integer.parseInt(shutTiems[1])));
 						mSendComsModel.setCommand13(Integer.toHexString(Integer.parseInt(shutTiems[0])));
-						send();
+						send(true);
 					}
 					break;
 				default:
@@ -198,7 +199,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			mSendComsModel.setCommand13(Integer.toHexString(20));
 			mSendComsModel.setCommand14(Integer.toHexString(02));
 			mSendComsModel.setCommand15(Integer.toHexString(100));
-			send();
+			send(false);
 		}
 	}
 
@@ -287,7 +288,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			case R.id.btn_ok:
 				mSendComsModel.setCommand15(Integer.toHexString((Integer) v.getTag()));
 				mTvSetPm2dot5.setText("" + (Integer) v.getTag());
-				send();
+				send(true);
 				break;
 			case R.id.rl_set_wifi_mode:
 				ActionSheetUtil.showWifiModeActionSheet(getActivity(), new ActionSheetClickListener() {
@@ -304,7 +305,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 						}
 						refreashStartShut(itemPosition + 2);
 						mSendComsModel.setCommand14(newValue);
-						send();
+						send(true);
 						if (1 == itemPosition) {
 							if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
 								mLoadingUpView.showPopup("正在切换至外网");
@@ -403,7 +404,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 						}
 						refreashStartShut(itemPosition);
 						mSendComsModel.setCommand14(newValue);
-						send();
+						send(true);
 					}
 				});
 				break;
@@ -425,7 +426,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 						} else {
 							mSendComsModel.setCommand4(Integer.toHexString(2));
 						}
-						send();
+						send(true);
 						int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
 						mTvSetFunctionalSwitch.setText(1 == functionValue % 10 ? "开" : "关");
 					}
@@ -467,30 +468,33 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				break;
 		}
 		refreashHzView();
-		send();
+		send(true);
 	}
 
 	public void onEventMainThread(RcvComsModel model) {
 		int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
 				Global.HAS_SETTING_INFO);
+		Log.d("ccc", "设置界面时间:" + count);
 		if (count <= 0) {
 			mSendComsModel.setCommand3(model.getCommand3());
-			send();
+			send(false);
 			refreashHzView();
 		}
 	}
 
 	private void refreashHzView() {
 		int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand3());
+		EventBus.getDefault().post(mode);
+		Log.d("ccc", "发送模式:" + mode);
 		if (1 == mode % 10) {
 			mBtnAddHz.setEnabled(false);
 			mBtnSubHz.setEnabled(false);
 			mRgMode.check(R.id.rbtn_auto);
-		} else if (2 == mode) {
+		} else if (2 == mode % 10) {
 			mBtnAddHz.setEnabled(true);
 			mBtnSubHz.setEnabled(true);
 			mRgMode.check(R.id.rbtn_manual);
-		} else if (3 == mode) {
+		} else if (3 == mode % 10) {
 			mBtnAddHz.setEnabled(false);
 			mBtnSubHz.setEnabled(false);
 			mRgMode.check(R.id.rbtn_sleep);
@@ -519,8 +523,8 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		}
 	}
 
-	private void send() {
-		mSendComsModel.send();
+	private void send(boolean isDelay) {
+		mSendComsModel.send(isDelay);
 	}
 
 	@Override

@@ -13,7 +13,7 @@
 		android:layout_below="@id/main_title"
 		android:layout_centerHorizontal="true"
 		android:layout_marginTop="15dp"
-		android:text="自动模式"
+		android:text="智能模式"
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
 	<TextView

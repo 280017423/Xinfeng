@@ -3,6 +3,7 @@ package com.zjhbkj.xinfen.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -163,9 +164,9 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvFrequency.setPadding(0, height * 9 / 20, 0, 0);
 		mTvHumidity.setPadding(0, height / 4, 0, 0);
 
-		mTvOutOutTemp.setPadding(width * 1 / 20, height / 4, 0, 0);
+		mTvOutOutTemp.setPadding(0, height * 9 / 20, 0, 0);
 		mTvOutInTemp.setPadding(0, height / 4, width / 20, 0);
-		mTvInOutTemp.setPadding(width * 3 / 20, height * 9 / 20, 0, 0);
+		mTvInOutTemp.setPadding(width * 4 / 20, height * 5 / 20, 0, 0);
 		mTvInInTemp.setPadding(0, height * 9 / 20, width * 3 / 20, 0);
 
 		mTvOffLineMode.setText("（" + mDeviceName + "离线）");
@@ -216,20 +217,6 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		}
 		UIUtil.setUnderLine(mTvFrequency);
 
-		int mode = CommandUtil.hexStringToInt(model.getCommand3());
-		switch (mode % 10) {
-			case 1:
-				mTvMode.setText("自动模式");
-				break;
-			case 2:
-				mTvMode.setText("手动模式");
-				break;
-			case 3:
-				mTvMode.setText("睡眠模式");
-				break;
-			default:
-				break;
-		}
 		int cleanValue = CommandUtil.hexStringToInt(model.getCommand4());
 		mTvModeSwitch.setText(1 == cleanValue % 10 ? "模式开关：开" : "模式开关：关");
 
@@ -262,8 +249,21 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvHumidity.setText("湿度：" + CommandUtil.hexStringToInt(model.getCommand15()));
 	}
 
-	public void onEventMainThread(String info) {
-		// Toast.makeText(getActivity(), info, Toast.LENGTH_LONG).show();
+	public void onEventMainThread(Integer mode) {
+		Log.d("ccc", "接受模式:" + mode % 10);
+		switch (mode % 10) {
+			case 1:
+				mTvMode.setText("智能模式");
+				break;
+			case 2:
+				mTvMode.setText("手动模式");
+				break;
+			case 3:
+				mTvMode.setText("睡眠模式");
+				break;
+			default:
+				break;
+		}
 	}
 
 	/**

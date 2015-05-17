@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.zjhbkj.xinfen.app.XinfengApplication;
@@ -48,7 +47,6 @@ public class NetWorkChangeBroadcastReceiver extends BroadcastReceiver {
 				int isWifiMode = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
 						Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE);
 				if (1 == isWifiMode) {
-					Log.d("aaa", "开始定时发送...");
 					UDPClient client = UDPClient.newInstance(new ClientMsgListener() {
 
 						@Override
@@ -57,6 +55,7 @@ public class NetWorkChangeBroadcastReceiver extends BroadcastReceiver {
 						}
 					});
 					client.connectServer();
+					client.sendToServer();
 				}
 			}
 		});

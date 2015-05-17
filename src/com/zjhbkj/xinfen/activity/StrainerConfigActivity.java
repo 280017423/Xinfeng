@@ -24,8 +24,6 @@ import de.greenrobot.event.EventBus;
 public class StrainerConfigActivity extends BaseActivity implements OnClickListener {
 
 	private static final int RESET_DIALOG = 1;
-	private View mEditView;
-	private View mNormalView;
 
 	TextView mTvChuxiaoLife;
 	TextView mTvChuxiaoUsed;
@@ -78,8 +76,6 @@ public class StrainerConfigActivity extends BaseActivity implements OnClickListe
 
 	private void initViews() {
 		initTitle();
-		mEditView = findViewById(R.id.ll_edit_view);
-		mNormalView = findViewById(R.id.ll_normal_view);
 		mEdtChuxiao = (EditText) findViewById(R.id.edt_chuxiao);
 		mEdtChuchen = (EditText) findViewById(R.id.edt_chuchen);
 		mEdtGaoxiao = (EditText) findViewById(R.id.edt_gaoxiao);
@@ -112,9 +108,6 @@ public class StrainerConfigActivity extends BaseActivity implements OnClickListe
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.tv_title_with_right:
-				// TODO 显示是否编辑
-				break;
 			case R.id.btn_set_config_info:
 				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
 						Global.HAS_STRAINER_INFO, true);
@@ -169,9 +162,6 @@ public class StrainerConfigActivity extends BaseActivity implements OnClickListe
 			}
 			DBMgr.saveModel(model);
 		}
-	}
-
-	private void checkConfigInfo() {
 	}
 
 	/**
