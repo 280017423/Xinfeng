@@ -214,7 +214,7 @@
 		android:layout_below="@id/rl_home_tab_layout"
 		android:layout_centerHorizontal="true"
 		android:layout_marginTop="20dp"
-		android:text="模式开关：开"
+		android:text="静电除尘：开"
 		android:textColor="@color/white"
 		android:textSize="@dimen/size_2" />
 	<TextView

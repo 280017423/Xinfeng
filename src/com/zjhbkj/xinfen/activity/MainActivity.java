@@ -213,6 +213,14 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	private void initSendData() {
 		// 第一次进来拿到设备发过来的初始数据，初始化设置界面
 		SendComsModel mSendComsModel = DBMgr.getHistoryData(SendComsModel.class, "EA");
+		String deviceName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
+				Global.CONFIG_FILE_NAME, Global.CURRENT_DEVICE_ID);
+		Integer command15 = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
+				Global.GLOBAL_FILE_NAME, deviceName);
+		if (-1 == command15) {
+			command15 = 100;
+		}
+
 		if (null == mSendComsModel) {
 			mSendComsModel = new SendComsModel();
 			RcvComsModel model = DBMgr.getHistoryData(RcvComsModel.class, "DA");
@@ -229,7 +237,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 			mSendComsModel.setCommand12(Integer.toHexString(30));
 			mSendComsModel.setCommand13(Integer.toHexString(20));
 			mSendComsModel.setCommand14(Integer.toHexString(02));
-			mSendComsModel.setCommand15(Integer.toHexString(100));
+			mSendComsModel.setCommand15(Integer.toHexString(command15));
 			mSendComsModel.send(false);
 		}
 	}

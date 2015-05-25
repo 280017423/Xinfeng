@@ -169,7 +169,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvInOutTemp.setPadding(width * 4 / 20, height * 5 / 20, 0, 0);
 		mTvInInTemp.setPadding(0, height * 9 / 20, width * 3 / 20, 0);
 
-		mTvOffLineMode.setText("（" + mDeviceName + "离线）");
+		int isWifiMode = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+				Global.IS_WIFI_MODE);
+		String wifiMode = isWifiMode == 1 ? "外网" : "内网";
+		mTvOffLineMode.setText("（" + mDeviceName + wifiMode + "离线）");
 	}
 
 	private void initOffLineTimer() {
@@ -207,18 +210,21 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		if (null == model) {
 			return;
 		}
+		int isWifiMode = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+				Global.IS_WIFI_MODE);
+		String wifiMode = isWifiMode == 1 ? "外网" : "内网";
 		mCurrentModel = model;
 		mTvFrequency.setText("频率：" + CommandUtil.hexStringToInt(model.getCommand1()) + " hz");
 		TimerUtil.setTimerTime(TAG, 60);
 		if ("00".equals(model.getDisplayCo2()) || "0".equals(model.getDisplayCo2())) {
-			mTvOffLineMode.setText("（" + mDeviceName + "离线）");
+			mTvOffLineMode.setText("（" + mDeviceName + wifiMode + "离线）");
 		} else {
-			mTvOffLineMode.setText("（" + mDeviceName + "在线）");
+			mTvOffLineMode.setText("（" + mDeviceName + wifiMode + "在线）");
 		}
 		UIUtil.setUnderLine(mTvFrequency);
 
 		int cleanValue = CommandUtil.hexStringToInt(model.getCommand4());
-		mTvModeSwitch.setText(1 == cleanValue % 10 ? "模式开关：开" : "模式开关：关");
+		mTvModeSwitch.setText(1 == cleanValue % 10 ? "静电除尘：开" : "静电除尘：关");
 
 		switch (cleanValue / 10) {
 			case 1:
@@ -247,9 +253,8 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvOutOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand14()) + Html.fromHtml("&#8451;"));
 
 		mTvHumidity.setText("湿度：" + CommandUtil.hexStringToInt(model.getCommand15()));
-	}
 
-	public void onEventMainThread(Integer mode) {
+		int mode = CommandUtil.hexStringToInt(model.getCommand3());
 		Log.d("ccc", "接受模式:" + mode % 10);
 		switch (mode % 10) {
 			case 1:

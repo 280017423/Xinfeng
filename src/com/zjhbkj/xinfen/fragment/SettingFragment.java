@@ -183,6 +183,14 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		// 第一次进来拿到设备发过来的初始数据，初始化设置界面
 		mSendComsModel = DBMgr.getHistoryData(SendComsModel.class, "EA");
 		if (null == mSendComsModel) {
+			String deviceName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
+					Global.CONFIG_FILE_NAME, Global.CURRENT_DEVICE_ID);
+			Integer command15 = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
+					Global.GLOBAL_FILE_NAME, deviceName);
+			if (-1 == command15) {
+				command15 = 100;
+			}
+
 			mSendComsModel = new SendComsModel();
 			RcvComsModel model = DBMgr.getHistoryData(RcvComsModel.class, "DA");
 			mSendComsModel.setCommand1(Integer.toHexString(3)); // 上报时间为3秒
@@ -198,7 +206,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			mSendComsModel.setCommand12(Integer.toHexString(30));
 			mSendComsModel.setCommand13(Integer.toHexString(20));
 			mSendComsModel.setCommand14(Integer.toHexString(02));
-			mSendComsModel.setCommand15(Integer.toHexString(100));
+			mSendComsModel.setCommand15(Integer.toHexString(command15));
 			send(false);
 		}
 	}
@@ -287,6 +295,10 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				break;
 			case R.id.btn_ok:
 				mSendComsModel.setCommand15(Integer.toHexString((Integer) v.getTag()));
+				String deviceName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
+						Global.CONFIG_FILE_NAME, Global.CURRENT_DEVICE_ID);
+				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME, deviceName,
+						(Integer) v.getTag());
 				mTvSetPm2dot5.setText("" + (Integer) v.getTag());
 				send(true);
 				break;
@@ -484,7 +496,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 
 	private void refreashHzView() {
 		int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand3());
-		EventBus.getDefault().post(mode);
 		Log.d("ccc", "发送模式:" + mode);
 		if (1 == mode % 10) {
 			mBtnAddHz.setEnabled(false);
