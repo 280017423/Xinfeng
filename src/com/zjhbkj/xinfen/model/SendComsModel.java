@@ -17,7 +17,7 @@ public class SendComsModel extends BaseModel {
 
 	private static final long serialVersionUID = 5745366813639864256L;
 	private String msgHeader = "AA"; // 报文头 APP->设备：AA
-	private String commandNum = "EA"; // 指令号 APP->设备：EA
+	public String commandNum = "EA"; // 指令号 APP->设备：EA
 	private String command1; // 指令1 设置上报间隔 单位：秒
 	private String command2; // 指令2 设置频率 单位: Hz（只对手动有效）
 	private String command3; // 指令3 设置模式1 自动：2 手动：3睡眠：

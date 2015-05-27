@@ -59,6 +59,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	private void initVariables() {
 		// 默认标记为内网
 		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE, 0);
+		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_FIRST_TIME, 2);
 		initSendData();
 		initUdp();
 		initFragment();

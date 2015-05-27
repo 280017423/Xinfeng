@@ -484,14 +484,19 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	}
 
 	public void onEventMainThread(RcvComsModel model) {
-		int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
-				Global.HAS_SETTING_INFO);
-		Log.d("ccc", "设置界面时间:" + count);
-		if (count <= 0) {
-			mSendComsModel.setCommand3(model.getCommand3());
-			send(false);
-			refreashHzView();
-		}
+		mSendComsModel.setCommand2(model.getCommand2());
+		mSendComsModel.setCommand3(model.getCommand3());
+		mSendComsModel.setCommand4(model.getCommand4());
+		int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
+		mTvSetFunctionalSwitch.setText(1 == functionValue % 10 ? "开" : "关");
+		mTvHz.setText("" + CommandUtil.hexStringToInt(mSendComsModel.getCommand2()));
+		int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
+		boolean isTimer = mode / 10 > 0;
+		refreashHzView();
+		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_TIMER_OPENED,
+				isTimer);
+		mCbTimer.setChecked(isTimer);
+		send(false);
 	}
 
 	private void refreashHzView() {
@@ -510,8 +515,10 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			mBtnSubHz.setEnabled(false);
 			mRgMode.check(R.id.rbtn_sleep);
 		}
-		mCbLock.setChecked(SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
-				Global.CONFIG_FILE_NAME, Global.IS_LOCK_OPENED));
+		boolean isLock = mode / 10 > 0;
+		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_LOCK_OPENED,
+				isLock);
+		mCbLock.setChecked(isLock);
 	}
 
 	private void refreashStartShut(int value) {

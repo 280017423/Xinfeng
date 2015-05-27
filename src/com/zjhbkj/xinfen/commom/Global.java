@@ -33,6 +33,7 @@ public class Global {
 
 	public static String CURRENT_DEVICE_ID = "CURRENT_DEVICE_ID"; // 当前设备ID
 	public static String HAS_TOAST_OUT_OF_DATE = "HAS_TOAST_OUT_OF_DATE"; // 是否已经谈过过期提示
+	public static String IS_FIRST_TIME = "IS_FIRST_TIME"; // 是否第一次
 	public static String IS_WIFI_MODE = "IS_WIFI_MODE"; // 是否是外网
 	public static String IS_LOCK_OPENED = "IS_LOCK_OPENED"; // 是否童锁打开
 	public static String IS_TIMER_OPENED = "IS_TIMER_OPENED"; // 是否定时器

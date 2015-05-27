@@ -152,6 +152,12 @@ public class UDPClient {
 				}
 				SendComsModel model = DBMgr.getHistoryData(SendComsModel.class, "EA");
 				if (null != model) {
+					//判断是否第一次
+					int isFirstTime = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_FIRST_TIME);
+					if (0 <= isFirstTime) {
+						model.commandNum = "FA";
+						SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_FIRST_TIME, isFirstTime - 1);
+					}
 					byte[] commands = CommandUtil.getCommand(model.toString());
 					DatagramPacket dPacket = new DatagramPacket(
 							commands, commands.length, mInetAddress, Global.SERVER_PORT);

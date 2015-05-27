@@ -164,9 +164,9 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvFrequency.setPadding(0, height * 9 / 20, 0, 0);
 		mTvHumidity.setPadding(0, height / 4, 0, 0);
 
-		mTvOutOutTemp.setPadding(0, height * 9 / 20, 0, 0);
+		mTvOutOutTemp.setPadding(width * 2 / 20, height * 9 / 20, 0, 0);
 		mTvOutInTemp.setPadding(0, height / 4, width / 20, 0);
-		mTvInOutTemp.setPadding(width * 4 / 20, height * 5 / 20, 0, 0);
+		mTvInOutTemp.setPadding(width * 5 / 20, height * 5 / 20, 0, 0);
 		mTvInInTemp.setPadding(0, height * 9 / 20, width * 3 / 20, 0);
 
 		int isWifiMode = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
