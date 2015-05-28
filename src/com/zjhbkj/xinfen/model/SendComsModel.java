@@ -180,7 +180,7 @@ public class SendComsModel extends BaseModel {
 		// 一旦有设置，就三个周期不要更改本地数据，保护本地数据
 		if (needDelay) {
 			SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
-					Global.HAS_SETTING_INFO, 0);
+					Global.HAS_SETTING_INFO, 2);
 		}
 	}
 

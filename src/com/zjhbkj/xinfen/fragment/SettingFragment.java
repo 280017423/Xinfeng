@@ -490,12 +490,12 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
 		mTvSetFunctionalSwitch.setText(1 == functionValue % 10 ? "开" : "关");
 		mTvHz.setText("" + CommandUtil.hexStringToInt(mSendComsModel.getCommand2()));
-		int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
-		boolean isTimer = mode / 10 > 0;
 		refreashHzView();
-		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_TIMER_OPENED,
-				isTimer);
-		mCbTimer.setChecked(isTimer);
+//		int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
+//		boolean isTimer = mode / 10 > 0;
+//		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_TIMER_OPENED,
+//				isTimer);
+//		mCbTimer.setChecked(isTimer);
 		send(false);
 	}
 
@@ -515,10 +515,10 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			mBtnSubHz.setEnabled(false);
 			mRgMode.check(R.id.rbtn_sleep);
 		}
-		boolean isLock = mode / 10 > 0;
-		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_LOCK_OPENED,
-				isLock);
-		mCbLock.setChecked(isLock);
+//		boolean isLock = mode / 10 > 0;
+//		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_LOCK_OPENED,
+//				isLock);
+//		mCbLock.setChecked(isLock);
 	}
 
 	private void refreashStartShut(int value) {
