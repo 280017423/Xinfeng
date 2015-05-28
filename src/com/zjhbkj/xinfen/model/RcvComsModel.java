@@ -12,7 +12,7 @@ public class RcvComsModel extends BaseModel {
 	private static final long serialVersionUID = -3053454329426253777L;
 	private String msgHeader; // 报文头 40
 	private String commandNum; // 指令号 DA
-	private String command1; // 指令1
+	private String command1; // 指令1 频率
 	private String command2; // 指令2 甲醛ppm一个字节
 	private String command3; // 指令3 模式1 自动：2 手动：3睡眠：
 	private String command4; // 指令4 模式开关 开：1 关：2

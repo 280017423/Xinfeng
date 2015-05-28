@@ -484,7 +484,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	}
 
 	public void onEventMainThread(RcvComsModel model) {
-		mSendComsModel.setCommand2(model.getCommand2());
+		mSendComsModel.setCommand2(model.getCommand1());
 		mSendComsModel.setCommand3(model.getCommand3());
 		mSendComsModel.setCommand4(model.getCommand4());
 		int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
