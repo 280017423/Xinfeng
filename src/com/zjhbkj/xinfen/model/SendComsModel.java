@@ -190,9 +190,9 @@ public class SendComsModel extends BaseModel {
 				Global.CONFIG_FILE_NAME, Global.CURRENT_DEVICE_ID);
 		// 童锁和定时器逻辑
 		boolean isLockOpened = SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
-				Global.CONFIG_FILE_NAME, Global.IS_LOCK_OPENED);
+				Global.GLOBAL_FILE_NAME_LOCK, deviceName);
 		boolean isTimerOpened = SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
-				Global.CONFIG_FILE_NAME, Global.IS_TIMER_OPENED);
+				Global.GLOBAL_FILE_NAME_TIMER, deviceName);
 		int lockMode = CommandUtil.hexStringToInt(command3);
 		if (isLockOpened) {
 			command3 = Integer.toHexString(lockMode % 10 + 10);

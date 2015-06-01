@@ -100,8 +100,6 @@ public class UDPServer implements Runnable {
 					boolean isValid = rcvComsModel.receiveCommand(data);
 					datagramPacket.setLength(msg.length); // 重设数据包的长度
 					if (isValid) {
-						DBMgr.saveModel(rcvComsModel);
-						EventBus.getDefault().post(rcvComsModel);
 						// 更新模式状态
 						SendComsModel mSendComsModel = DBMgr.getHistoryData(SendComsModel.class, "EA");
 						int count = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
@@ -114,7 +112,9 @@ public class UDPServer implements Runnable {
 								mSendComsModel.setCommand3(rcvComsModel.getCommand3());
 							}
 							mSendComsModel.setCommand1(rcvComsModel.getCommand1());
+							DBMgr.saveModel(rcvComsModel);
 							DBMgr.saveModel(mSendComsModel);
+							EventBus.getDefault().post(rcvComsModel);
 						}
 						if (SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
 								Global.CONFIG_FILE_NAME, Global.HAS_STRAINER_INFO)) {

@@ -11,8 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zjhbkj.xinfen.R;
+import com.zjhbkj.xinfen.app.XinfengApplication;
+import com.zjhbkj.xinfen.commom.Global;
 import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.model.ConfigModel;
+import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 import com.zjhbkj.xinfen.util.StringUtil;
 
 public class ConfigActivity extends Activity implements OnClickListener {
@@ -49,6 +52,11 @@ public class ConfigActivity extends Activity implements OnClickListener {
 				mEdtServerIp.setText(model.getServerIp());
 				mEdtServerPort.setText(model.getServerPort());
 			}
+		} else {
+			mEdtServerIp.setText(SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
+					Global.GLOBAL_FILE_NAME, Global.GLOBAL_SERVER_IP));
+			mEdtServerPort.setText(SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
+					Global.GLOBAL_FILE_NAME, Global.GLOBAL_SERVER_PORT));
 		}
 	}
 
@@ -93,6 +101,10 @@ public class ConfigActivity extends Activity implements OnClickListener {
 		model.setHasSent(0);
 		DBMgr.deleteTableFromDb(ConfigModel.class);
 		DBMgr.saveModel(model);
+		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME, Global.GLOBAL_SERVER_IP,
+				serverIp);
+		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME, Global.GLOBAL_SERVER_PORT,
+				serverPort);
 		Toast.makeText(ConfigActivity.this, "保存成功", Toast.LENGTH_LONG).show();
 	}
 }

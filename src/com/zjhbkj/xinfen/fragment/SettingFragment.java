@@ -65,6 +65,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 
 	private SendComsModel mSendComsModel;
 	private LoadingUpView mLoadingUpView;
+	String mDeviceName;
 	private OnTouchListener mOnTouchListener = new OnTouchListener() {
 
 		@Override
@@ -125,11 +126,11 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			if (R.id.cb_lock == buttonView.getId()) {
-				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
-						Global.IS_LOCK_OPENED, isChecked);
+				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME_LOCK, mDeviceName,
+						isChecked);
 			} else if (R.id.cb_timer == buttonView.getId()) {
-				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
-						Global.IS_TIMER_OPENED, isChecked);
+				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME_TIMER, mDeviceName,
+						isChecked);
 			}
 			send(true);
 		}
@@ -178,15 +179,15 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	}
 
 	private void initVariables() {
+		mDeviceName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+				Global.CURRENT_DEVICE_ID);
 		EventBus.getDefault().register(this);
 		mLoadingUpView = new LoadingUpView(getActivity(), true);
 		// 第一次进来拿到设备发过来的初始数据，初始化设置界面
 		mSendComsModel = DBMgr.getHistoryData(SendComsModel.class, "EA");
 		if (null == mSendComsModel) {
-			String deviceName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
-					Global.CONFIG_FILE_NAME, Global.CURRENT_DEVICE_ID);
 			Integer command15 = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
-					Global.GLOBAL_FILE_NAME, deviceName);
+					Global.GLOBAL_FILE_NAME, mDeviceName);
 			if (-1 == command15) {
 				command15 = 100;
 			}
@@ -260,7 +261,9 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
 		mTvSetFunctionalSwitch.setText(1 == functionValue % 10 ? "开" : "关");
 		mCbTimer.setChecked(SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
-				Global.CONFIG_FILE_NAME, Global.IS_TIMER_OPENED));
+				Global.GLOBAL_FILE_NAME_TIMER, mDeviceName));
+		mCbLock.setChecked(SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
+				Global.GLOBAL_FILE_NAME_LOCK, mDeviceName));
 	}
 
 	private void setListener() {
@@ -295,9 +298,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				break;
 			case R.id.btn_ok:
 				mSendComsModel.setCommand15(Integer.toHexString((Integer) v.getTag()));
-				String deviceName = SharedPreferenceUtil.getStringValueByKey(XinfengApplication.CONTEXT,
-						Global.CONFIG_FILE_NAME, Global.CURRENT_DEVICE_ID);
-				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME, deviceName,
+				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME, mDeviceName,
 						(Integer) v.getTag());
 				mTvSetPm2dot5.setText("" + (Integer) v.getTag());
 				send(true);
@@ -491,11 +492,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mTvSetFunctionalSwitch.setText(1 == functionValue % 10 ? "开" : "关");
 		mTvHz.setText("" + CommandUtil.hexStringToInt(mSendComsModel.getCommand2()));
 		refreashHzView();
-//		int mode = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
-//		boolean isTimer = mode / 10 > 0;
-//		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_TIMER_OPENED,
-//				isTimer);
-//		mCbTimer.setChecked(isTimer);
 		send(false);
 	}
 
@@ -515,10 +511,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			mBtnSubHz.setEnabled(false);
 			mRgMode.check(R.id.rbtn_sleep);
 		}
-//		boolean isLock = mode / 10 > 0;
-//		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_LOCK_OPENED,
-//				isLock);
-//		mCbLock.setChecked(isLock);
 	}
 
 	private void refreashStartShut(int value) {
