@@ -485,12 +485,19 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	}
 
 	public void onEventMainThread(RcvComsModel model) {
-		mSendComsModel.setCommand2(model.getCommand1());
+
 		mSendComsModel.setCommand3(model.getCommand3());
 		mSendComsModel.setCommand4(model.getCommand4());
 		int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
 		mTvSetFunctionalSwitch.setText(1 == functionValue % 10 ? "开" : "关");
 		mTvHz.setText("" + CommandUtil.hexStringToInt(mSendComsModel.getCommand2()));
+		if ("00".equals(model.getCommand1()) || "0".equals(model.getCommand1())) {
+			// 若频率为0就认为是关机
+			refreashStartShut(1);
+			mSendComsModel.setCommand14(Integer.toHexString(1));
+		} else {
+			mSendComsModel.setCommand2(model.getCommand1());
+		}
 		refreashHzView();
 		send(false);
 	}

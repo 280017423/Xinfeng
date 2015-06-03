@@ -3,8 +3,6 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="libs/PDGson-2.2.2.jar"/>
 	<classpathentry kind="lib" path="libs/mframework.jar"/>
 	<classpathentry kind="lib" path="libs/ShareSDK-Core-2.5.9.jar"/>
@@ -18,5 +16,7 @@
 	<classpathentry kind="lib" path="libs/ShareSDK-QZone-2.5.9.jar"/>
 	<classpathentry kind="lib" path="libs/umeng-update-v2.6.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/bugly_1.1.7_release.jar"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
