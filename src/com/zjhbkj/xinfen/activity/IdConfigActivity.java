@@ -15,7 +15,7 @@ import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.model.IdConfigModel;
 import com.zjhbkj.xinfen.util.StringUtil;
 
-public class IdConfigActivity extends Activity implements OnClickListener {
+public class IdConfigActivity extends BaseActivity implements OnClickListener {
 
 	private EditText mEdtId;
 

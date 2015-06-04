@@ -115,7 +115,6 @@
 		<activity
 			android:name="cn.sharesdk.framework.ShareSDKUIShell"
 			android:configChanges="keyboardHidden|orientation|screenSize"
-			android:screenOrientation="portrait"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			android:windowSoftInputMode="stateHidden|adjustResize" >
 			<intent-filter>
@@ -130,7 +129,6 @@
 			android:name=".wxapi.WXEntryActivity"
 			android:configChanges="keyboardHidden|orientation|screenSize"
 			android:exported="true"
-			android:screenOrientation="portrait"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 		<!-- 注册广播 -->
 		<receiver android:name="com.zjhbkj.xinfen.listener.NetWorkChangeBroadcastReceiver" >

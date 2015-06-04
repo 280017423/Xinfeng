@@ -18,7 +18,7 @@ import com.zjhbkj.xinfen.model.ConfigModel;
 import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 import com.zjhbkj.xinfen.util.StringUtil;
 
-public class ConfigActivity extends Activity implements OnClickListener {
+public class ConfigActivity extends BaseActivity implements OnClickListener {
 
 	private EditText mEdtSsid;
 	private EditText mEdtPassword;

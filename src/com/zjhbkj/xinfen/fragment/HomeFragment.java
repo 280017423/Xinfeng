@@ -123,6 +123,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mViewHome = layout.findViewById(R.id.rl_home_tab_layout);
 		int height = UIUtil.getScreenWidth(getActivity()) * 16 / 25;
 		int width = UIUtil.getScreenWidth(getActivity()) * 4 / 5;
+		if (isLandscape()) {
+			height = UIUtil.getScreenHeight(getActivity()) * 16 / 25* 3 / 4;
+			width = UIUtil.getScreenHeight(getActivity()) * 4 / 5* 3 / 4;
+		}
 		UIUtil.setViewWidth(mViewHome, width);
 		UIUtil.setViewHeight(mViewHome, height);
 
@@ -152,14 +156,21 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mPgvPm2dot5In = (ProgressView) layout.findViewById(R.id.pgv_pm_2dot5_in);
 		mPgvPm2dot5Out = (ProgressView) layout.findViewById(R.id.pgv_pm_2dot5_out);
 
-		UIUtil.setViewWidth(mPgvJiaquan, UIUtil.getScreenWidth(getActivity()) / 4);
-		UIUtil.setViewHeight(mPgvJiaquan, UIUtil.getScreenWidth(getActivity()) * 2 / 16);
-		UIUtil.setViewWidth(mPgvCo2, UIUtil.getScreenWidth(getActivity()) / 4);
-		UIUtil.setViewHeight(mPgvCo2, UIUtil.getScreenWidth(getActivity()) * 2 / 16);
-		UIUtil.setViewWidth(mPgvPm2dot5In, UIUtil.getScreenWidth(getActivity()) / 4);
-		UIUtil.setViewHeight(mPgvPm2dot5In, UIUtil.getScreenWidth(getActivity()) * 2 / 16);
-		UIUtil.setViewWidth(mPgvPm2dot5Out, UIUtil.getScreenWidth(getActivity()) / 4);
-		UIUtil.setViewHeight(mPgvPm2dot5Out, UIUtil.getScreenWidth(getActivity()) * 2 / 16);
+		int pgvWidth = UIUtil.getScreenWidth(getActivity()) / 4;
+		int pgvHeight = UIUtil.getScreenWidth(getActivity()) * 2 / 16;
+		if (isLandscape()) {
+			pgvWidth = (UIUtil.getScreenHeight(getActivity()) / 4) * 3 / 4;
+			pgvHeight = (UIUtil.getScreenHeight(getActivity()) * 2 / 16) * 3 / 4;
+		}
+
+		UIUtil.setViewWidth(mPgvJiaquan, pgvWidth);
+		UIUtil.setViewHeight(mPgvJiaquan, pgvHeight);
+		UIUtil.setViewWidth(mPgvCo2, pgvWidth);
+		UIUtil.setViewHeight(mPgvCo2, pgvHeight);
+		UIUtil.setViewWidth(mPgvPm2dot5In, pgvWidth);
+		UIUtil.setViewHeight(mPgvPm2dot5In, pgvHeight);
+		UIUtil.setViewWidth(mPgvPm2dot5Out, pgvWidth);
+		UIUtil.setViewHeight(mPgvPm2dot5Out, pgvHeight);
 
 		mTvFrequency.setPadding(0, height * 9 / 20, 0, 0);
 		mTvHumidity.setPadding(0, height / 4, 0, 0);
