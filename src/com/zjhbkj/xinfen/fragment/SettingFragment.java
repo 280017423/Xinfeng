@@ -83,6 +83,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 									@Override
 									public void run() {
 										changeHz(true);
+										send(true);
 									}
 								});
 							}
@@ -105,6 +106,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 									@Override
 									public void run() {
 										changeHz(false);
+										send(true);
 									}
 								});
 							}
