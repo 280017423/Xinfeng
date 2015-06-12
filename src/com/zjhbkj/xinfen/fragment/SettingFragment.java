@@ -325,7 +325,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 							if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
 								mLoadingUpView.showPopup("正在切换至外网");
 							}
-							TimerUtil.startTimer(TAG, 3 * 3, 1000, new TimerActionListener() {
+							TimerUtil.startTimer(TAG, 3 * 4, 1000, new TimerActionListener() {
 
 								@Override
 								public void doAction() {
@@ -339,6 +339,8 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 										if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
 											mLoadingUpView.dismiss();
 										}
+									}else if (5 == TimerUtil.getTimerTime(TAG)) {
+										send(true);
 									}
 								}
 							});
@@ -431,11 +433,11 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 						if (-1 == itemPosition) {
 							return;
 						}
-						String oldValue = mSendComsModel.getCommand14();
-						String newValue = Integer.toHexString(itemPosition);
-						if (newValue.equalsIgnoreCase(oldValue)) {
-							return;
-						}
+//						String oldValue = mSendComsModel.getCommand4();
+//						String newValue = Integer.toHexString(itemPosition);
+//						if (newValue.equalsIgnoreCase(oldValue)) {
+//							return;
+//						}
 						if (0 == itemPosition) {
 							mSendComsModel.setCommand4(Integer.toHexString(1));
 						} else {
@@ -498,7 +500,9 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 			refreashStartShut(1);
 			mSendComsModel.setCommand14(Integer.toHexString(1));
 		} else {
+			refreashStartShut(0);// 开机
 			mSendComsModel.setCommand2(model.getCommand1());
+			mSendComsModel.setCommand14(Integer.toHexString(0));
 		}
 		refreashHzView();
 		send(false);

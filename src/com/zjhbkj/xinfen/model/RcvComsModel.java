@@ -12,24 +12,24 @@ public class RcvComsModel extends BaseModel {
 	private static final long serialVersionUID = -3053454329426253777L;
 	private String msgHeader; // 报文头 40
 	private String commandNum; // 指令号 DA
-	private String command1; // 指令1 频率
-	private String command2; // 指令2 甲醛ppm一个字节
-	private String command3; // 指令3 模式1 自动：2 手动：3睡眠：
-	private String command4; // 指令4 模式开关 开：1 关：2
-	private String command5; // 指令5 pm2.5室外 低字节
-	private String command6; // 指令6 pm2.5室外 高字节
-	private String command7; // 指令7 pm2.5室内低
-	private String command8; // 指令8 pm2.5室内高
-	private String command9; // 指令9 CO2:ppm 低
-	private String command10; // 指令10 CO2:ppm 高
-	private String command11; // 指令11 室内进风温度
-	private String command12; // 指令12 室内出风温度
-	private String command13; // 指令13 室外进风温度
-	private String command14; // 指令14 室外出风温度
-	private String command15; // 指令15 湿度
-	private String command16; // 指令16 地址字节的最低位
-	private String command17; // 指令17 地址字节的中间位
-	private String command18; // 指令18 地址字节的最高位
+	private String command1 = "0"; // 指令1 频率
+	private String command2 = "0"; // 指令2 甲醛ppm一个字节
+	private String command3 = "0"; // 指令3 模式1 自动：2 手动：3睡眠：
+	private String command4 = "0"; // 指令4 模式开关 开：1 关：2
+	private String command5 = "0"; // 指令5 pm2.5室外 低字节
+	private String command6 = "0"; // 指令6 pm2.5室外 高字节
+	private String command7 = "0"; // 指令7 pm2.5室内低
+	private String command8 = "0"; // 指令8 pm2.5室内高
+	private String command9 = "0"; // 指令9 CO2:ppm 低
+	private String command10 = "0"; // 指令10 CO2:ppm 高
+	private String command11 = "0"; // 指令11 室内进风温度
+	private String command12 = "0"; // 指令12 室内出风温度
+	private String command13 = "0"; // 指令13 室外进风温度
+	private String command14 = "0"; // 指令14 室外出风温度
+	private String command15 = "0"; // 指令15 湿度
+	private String command16 = "0"; // 指令16 地址字节的最低位
+	private String command17 = "0"; // 指令17 地址字节的中间位
+	private String command18 = "0"; // 指令18 地址字节的最高位
 	private String checkSum; // 校验和 数据1+…数据18 和取一个字节
 	private String msgTrailer; // 报文尾 AB
 

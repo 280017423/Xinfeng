@@ -14,15 +14,15 @@ public class StrainerSendModel extends BaseModel {
 	private static final long serialVersionUID = 5745366813639864256L;
 	private String msgHeader = "AA"; // 报文头
 	private String commandNum = "8A"; // 指令号
-	private String command1; // 指令1 初效过滤寿命单位：小时低字节
-	private String command2; // 指令2 初效过滤寿命单位：小时高字节
-	private String command3; // 指令3 静电除尘寿命单位：小时低字节
-	private String command4; // 指令4 静电除尘寿命单位：小时高字节
-	private String command5; // 指令5 高效过滤寿命单位：小时低字节
-	private String command6; // 指令6 高效过滤寿命单位：小时高字节
-	private String command7; // 指令7 当前初效过滤是否过期1：有效
-	private String command8; // 指令8 当前静电除尘是否过期1：有效
-	private String command9; // 指令9 当前高效过滤是否过期1：有效
+	private String command1 = "0"; // 指令1 初效过滤寿命单位：小时低字节
+	private String command2 = "0"; // 指令2 初效过滤寿命单位：小时高字节
+	private String command3 = "0"; // 指令3 静电除尘寿命单位：小时低字节
+	private String command4 = "0"; // 指令4 静电除尘寿命单位：小时高字节
+	private String command5 = "0"; // 指令5 高效过滤寿命单位：小时低字节
+	private String command6 = "0"; // 指令6 高效过滤寿命单位：小时高字节
+	private String command7 = "0"; // 指令7 当前初效过滤是否过期1：有效
+	private String command8 = "0"; // 指令8 当前静电除尘是否过期1：有效
+	private String command9 = "0"; // 指令9 当前高效过滤是否过期1：有效
 	private String command10 = "0"; // 指令10
 	private String command11 = "0"; // 指令11
 	private String command12 = "0"; // 指令12

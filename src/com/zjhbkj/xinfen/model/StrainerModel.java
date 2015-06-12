@@ -13,24 +13,24 @@ public class StrainerModel extends BaseModel {
 	private static final long serialVersionUID = 5745366813639864256L;
 	private String msgHeader; // 报文头
 	private String commandNum; // 指令号
-	private String command1; // 指令1 初效过滤寿命单位：小时低字节
-	private String command2; // 指令2 初效过滤寿命单位：小时高字节
-	private String command3; // 指令3 静电除尘寿命单位：小时低字节
-	private String command4; // 指令4 静电除尘寿命单位：小时高字节
-	private String command5; // 指令5 高效过滤寿命单位：小时低字节
-	private String command6; // 指令6 高效过滤寿命单位：小时高字节
-	private String command7; // 指令7 当前初效过滤是否过期1：有效
-	private String command8; // 指令8 当前静电除尘是否过期1：有效
-	private String command9; // 指令9 当前高效过滤是否过期1：有效
-	private String command10; // 指令10
-	private String command11; // 指令11
-	private String command12; // 指令12
-	private String command13; // 指令13
-	private String command14; // 指令14
-	private String command15; // 指令15
-	private String command16; // 指令16 地址字节的最低位
-	private String command17; // 指令17 地址字节的中间位
-	private String command18; // 指令18 地址字节的最高位
+	private String command1 = "0"; // 指令1 初效过滤寿命单位：小时低字节
+	private String command2 = "0"; // 指令2 初效过滤寿命单位：小时高字节
+	private String command3 = "0"; // 指令3 静电除尘寿命单位：小时低字节
+	private String command4 = "0"; // 指令4 静电除尘寿命单位：小时高字节
+	private String command5 = "0"; // 指令5 高效过滤寿命单位：小时低字节
+	private String command6 = "0"; // 指令6 高效过滤寿命单位：小时高字节
+	private String command7 = "0"; // 指令7 当前初效过滤是否过期1：有效
+	private String command8 = "0"; // 指令8 当前静电除尘是否过期1：有效
+	private String command9 = "0"; // 指令9 当前高效过滤是否过期1：有效
+	private String command10 = "0"; // 指令10
+	private String command11 = "0"; // 指令11
+	private String command12 = "0"; // 指令12
+	private String command13 = "0"; // 指令13
+	private String command14 = "0"; // 指令14
+	private String command15 = "0"; // 指令15
+	private String command16 = "0"; // 指令16 地址字节的最低位
+	private String command17 = "0"; // 指令17 地址字节的中间位
+	private String command18 = "0"; // 指令18 地址字节的最高位
 	private String checkSum; // 校验和 数据1+…数据18 和取一个字节
 	private String msgTrailer = "AB"; // 报文尾 AB
 
