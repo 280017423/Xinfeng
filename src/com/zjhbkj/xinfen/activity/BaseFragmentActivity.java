@@ -3,12 +3,14 @@ package com.zjhbkj.xinfen.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 
 import com.zjhbkj.xinfen.listener.IDialogProtocol;
 import com.zjhbkj.xinfen.util.DialogManager;
+import com.zjhbkj.xinfen.util.UIUtil;
 import com.zjhbkj.xinfen.widget.CustomDialog.Builder;
 
 class BaseFragmentActivity extends FragmentActivity implements IDialogProtocol {
@@ -16,6 +18,15 @@ class BaseFragmentActivity extends FragmentActivity implements IDialogProtocol {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		initDirecte();
+	}
+
+	protected void initDirecte() {
+		if (UIUtil.isTablet(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		} else {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
 	}
 
 	@Override

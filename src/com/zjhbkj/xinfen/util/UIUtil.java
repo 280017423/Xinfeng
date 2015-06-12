@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -38,6 +39,15 @@ public class UIUtil {
 	private static final Object mSync = new Object();
 	private static final int DEFAUTL_COOLING_TIME = 3000;
 	private static final List<String> ACTION_LIST = new ArrayList<String>();
+	
+	/**
+     * 判断当前设备是手机还是平板，代码来自 Google I/O App for Android
+     * @param context
+     * @return 平板返回 True，手机返回 False
+     */
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
 
 	/**
 	 * 设置listview高度，以适应内容

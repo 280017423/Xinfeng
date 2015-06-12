@@ -159,7 +159,7 @@ public class ProgressView extends View {
 		canvas.drawArc(oval, mStartAngle, mSweepAngle, false, mBacPain);
 		canvas.drawArc(oval, mStartAngle, mSweepAngle * mProgress / 100, false, mForPain);
 		if (withText)
-			canvas.drawText(mContent, (getWidth() - textWidth) / 2, (getWidth() - fontTotalHeight) / 2, mTextPain);
+			canvas.drawText(mContent, (getWidth() - textWidth) / 2, getWidth() / 2, mTextPain);
 	}
 
 	@Override

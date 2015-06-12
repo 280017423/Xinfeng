@@ -1,6 +1,7 @@
 package com.zjhbkj.xinfen.fragment;
 
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -75,6 +76,10 @@ public abstract class FragmentBase extends Fragment {
 	 *            dialog ID
 	 */
 	public void onNegativeBtnClick(int id, DialogInterface dialog, int which) {
+	}
+
+	public boolean isLandscape() {
+		return Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation;
 	}
 
 }
