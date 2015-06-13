@@ -3,7 +3,6 @@ package com.zjhbkj.xinfen.activity;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.ImageView;
 
 import com.zjhbkj.xinfen.R;
 
-public class LoadingActivity extends Activity implements OnClickListener {
+public class LoadingActivity extends BaseActivity implements OnClickListener {
 
 	private static final int DISPLAY_TIME = 3000;
 	private ImageView mIvLogo;

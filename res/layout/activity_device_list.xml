@@ -1,74 +1,92 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:background="@drawable/main_bg"
-	android:orientation="vertical" >
-	<include layout="@layout/title_with_back_btn_wrap" />
-	<View
-		android:layout_width="fill_parent"
-		android:layout_height="0.7dp"
-		android:layout_marginTop="15dp"
-		android:background="#e0e0e0" />
-	<RelativeLayout
-		android:layout_width="fill_parent"
-		android:layout_height="48dp"
-		android:background="@drawable/tongyong_button_bg"
-		android:gravity="center_vertical"
-		android:orientation="horizontal"
-		android:paddingLeft="10dp"
-		android:paddingRight="10dp" >
-		<Button
-			android:id="@+id/btn_set_config_info"
-			android:layout_width="60dp"
-			android:layout_height="fill_parent"
-			android:layout_alignParentRight="true"
-			android:layout_gravity="center_vertical"
-			android:layout_margin="5dp"
-			android:background="@drawable/tongyong_button_bg_shape"
-			android:onClick="onClick"
-			android:text="添加"
-			android:textColor="@color/white"
-			android:textSize="@dimen/size_2" />
-		<EditText
-			android:id="@+id/edt_id"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:layout_gravity="center_vertical"
-			android:layout_margin="5dp"
-			android:layout_toLeftOf="@id/btn_set_config_info"
-			android:background="@drawable/tongyong_edt_bg_shape"
-			android:hint="添加设备ID"
-			android:inputType="number"
-			android:maxLength="8"
-			android:paddingLeft="10dp"
-			android:paddingRight="10dp"
-			android:textColor="@color/white"
-			android:textColorHint="@color/defalut_bg"
-			android:textSize="@dimen/size_2" />
-	</RelativeLayout>
-	<View
-		android:layout_width="fill_parent"
-		android:layout_height="0.7dp"
-		android:background="#e0e0e0" />
-	<View
-		android:layout_width="fill_parent"
-		android:layout_height="0.7dp"
-		android:layout_marginTop="15dp"
-		android:background="#e0e0e0" />
-	<ListView
-		android:id="@+id/lv_device_list"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:cacheColorHint="@android:color/transparent"
-		android:clickable="true"
-		android:divider="#e0e0e0"
-		android:dividerHeight="0.7dp"
-		android:fadingEdge="none"
-		android:listSelector="@android:color/transparent"
-		android:scrollbars="none" />
-	<View
-		android:layout_width="fill_parent"
-		android:layout_height="0.7dp"
-		android:background="#e0e0e0" />
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/main_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/title_with_back_btn_wrap" />
+
+    <LinearLayout
+        android:id="@+id/ll_normal_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/main_bg"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:layout_marginTop="15dp"
+            android:background="#e0e0e0" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/tongyong_button_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <Button
+                android:id="@+id/btn_set_config_info"
+                android:layout_width="60dp"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:background="@drawable/tongyong_button_bg_shape"
+                android:onClick="onClick"
+                android:text="添加"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
+
+            <EditText
+                android:id="@+id/edt_id"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:layout_toLeftOf="@id/btn_set_config_info"
+                android:background="@drawable/tongyong_edt_bg_shape"
+                android:hint="添加设备ID"
+                android:inputType="number"
+                android:maxLength="8"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/defalut_bg"
+                android:textSize="@dimen/size_2" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="#e0e0e0" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:layout_marginTop="15dp"
+            android:background="#e0e0e0" />
+
+        <ListView
+            android:id="@+id/lv_device_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:clickable="true"
+            android:divider="#e0e0e0"
+            android:dividerHeight="0.7dp"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.7dp"
+            android:background="#e0e0e0" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -43,7 +43,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	public static final int CODE_GET_TIME = 101;
 	public static final int CODE_GET_START_TIME = 102;
 	public static final int CODE_GET_SHUT_TIME = 103;
-	private TextView mTvReportTime;
 	private TextView mTvHz;
 	private Button mBtnAddHz;
 	private Button mBtnSubHz;
@@ -54,12 +53,12 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	private View mViewSetStartTime;
 	private View mViewSetShutTime;
 	private View mViewSetPm2dot5;
-	private TextView mTvSetFunctionalSwitch;
-	private TextView mTvSetStartShut;
-	private TextView mTvSetWifiMode;
-	private TextView mTvSetPm2dot5;
-	private TextView mTvStartTime;
-	private TextView mTvShutTime;
+	private Button mTvSetFunctionalSwitch;
+	private Button mTvSetStartShut;
+	private Button mTvSetWifiMode;
+	private Button mTvSetPm2dot5;
+	private Button mTvStartTime;
+	private Button mTvShutTime;
 	private CheckBox mCbLock;
 	private CheckBox mCbTimer;
 
@@ -227,22 +226,21 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		TextView tvTitle = (TextView) layout.findViewById(R.id.title_with_back_title_btn_mid);
 		tvTitle.setText(R.string.bottom_tab_setting);
 		mRgMode = (RadioGroup) layout.findViewById(R.id.rg_mode);
-		mTvReportTime = (TextView) layout.findViewById(R.id.tv_report_time);
 		mTvHz = (TextView) layout.findViewById(R.id.tv_hz);
 		mBtnAddHz = (Button) layout.findViewById(R.id.btn_add_hz);
 		mBtnSubHz = (Button) layout.findViewById(R.id.btn_sub_hz);
-		mTvSetPm2dot5 = (TextView) layout.findViewById(R.id.tv_set_pm_2_5);
+		mTvSetPm2dot5 = (Button) layout.findViewById(R.id.tv_set_pm_2_5);
 		mViewSetFunctionalSwitch = layout.findViewById(R.id.rl_set_functional_switch);
 		mViewSetStartShut = layout.findViewById(R.id.rl_set_shut_down_start_up);
 		mViewSetWifiMode = layout.findViewById(R.id.rl_set_wifi_mode);
 		mViewSetPm2dot5 = layout.findViewById(R.id.rl_set_pm2_5);
 		mViewSetStartTime = layout.findViewById(R.id.rl_set_start_up_time);
 		mViewSetShutTime = layout.findViewById(R.id.rl_set_shut_down_time);
-		mTvStartTime = (TextView) layout.findViewById(R.id.tv_set_start_time);
-		mTvShutTime = (TextView) layout.findViewById(R.id.tv_set_shut_time);
-		mTvSetFunctionalSwitch = (TextView) layout.findViewById(R.id.tv_set_functional_switch);
-		mTvSetStartShut = (TextView) layout.findViewById(R.id.tv_set_shut_down_start_up);
-		mTvSetWifiMode = (TextView) layout.findViewById(R.id.tv_set_wifi_mode);
+		mTvStartTime = (Button) layout.findViewById(R.id.tv_set_start_time);
+		mTvShutTime = (Button) layout.findViewById(R.id.tv_set_shut_time);
+		mTvSetFunctionalSwitch = (Button) layout.findViewById(R.id.tv_set_functional_switch);
+		mTvSetStartShut = (Button) layout.findViewById(R.id.tv_set_shut_down_start_up);
+		mTvSetWifiMode = (Button) layout.findViewById(R.id.tv_set_wifi_mode);
 		mCbLock = (CheckBox) layout.findViewById(R.id.cb_lock);
 		mCbTimer = (CheckBox) layout.findViewById(R.id.cb_timer);
 		mCbLock.setOnCheckedChangeListener(mLockListener);
@@ -251,7 +249,6 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 	}
 
 	private void refreashUi() {
-		mTvReportTime.setText(String.format("%ds", CommandUtil.hexStringToInt(mSendComsModel.getCommand1())));
 		mTvHz.setText("" + CommandUtil.hexStringToInt(mSendComsModel.getCommand2()));
 		mTvSetPm2dot5.setText("" + CommandUtil.hexStringToInt(mSendComsModel.getCommand15()));
 		mTvStartTime.setText(CommandUtil.hexStringToInt(mSendComsModel.getCommand11()) + ":"

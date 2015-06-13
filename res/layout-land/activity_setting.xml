@@ -22,7 +22,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="50dp"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
@@ -122,7 +122,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="50dp"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
@@ -220,18 +220,78 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <RadioGroup
+                android:id="@+id/rg_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/rbtn_manual"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shoudong_check_bg"
+                    android:button="@null" />
+
+                <RadioButton
+                    android:id="@+id/rbtn_auto"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/zhineng_check_bg"
+                    android:button="@null"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/rbtn_sleep"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shuimian_check_bg"
+                    android:button="@null" />
+
+                <CheckBox
+                    android:id="@+id/cb_lock"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/lock_bg"
+                    android:button="@null"
+                    android:checked="false"
+                    android:textColor="@color/white" />
+
+                <CheckBox
+                    android:id="@+id/cb_timer"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/timer_bg"
+                    android:button="@null"
+                    android:checked="false"
+                    android:textColor="@color/white" />
+            </RadioGroup>
+
             <RelativeLayout
                 android:id="@+id/rl_set_frequency"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="100dp"
                 android:clickable="false"
                 android:gravity="center_horizontal" >
 
                 <LinearLayout
                     android:id="@+id/ll_set_frequency"
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
+                    android:layout_height="50dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
@@ -239,8 +299,8 @@
 
                     <Button
                         android:id="@+id/btn_sub_hz"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/btn_sub_bg"
                         android:gravity="center"
                         android:textColor="@color/white"
@@ -249,18 +309,18 @@
 
                     <TextView
                         android:id="@+id/tv_hz"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:clickable="false"
                         android:gravity="center"
                         android:text="30"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/size_2" />
+                        android:textSize="@dimen/size_1" />
 
                     <Button
                         android:id="@+id/btn_add_hz"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/btn_add_bg"
                         android:gravity="center"
                         android:textColor="@color/white"
@@ -277,66 +337,6 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>
-
-            <RadioGroup
-                android:id="@+id/rg_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal" >
-
-                <RadioButton
-                    android:id="@+id/rbtn_manual"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:background="@drawable/shoudong_check_bg"
-                    android:button="@null" />
-
-                <RadioButton
-                    android:id="@+id/rbtn_auto"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@drawable/zhineng_check_bg"
-                    android:button="@null"
-                    android:checked="true" />
-
-                <RadioButton
-                    android:id="@+id/rbtn_sleep"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@drawable/shuimian_check_bg"
-                    android:button="@null" />
-            </RadioGroup>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal" >
-
-                <CheckBox
-                    android:id="@+id/cb_lock"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/lock_bg"
-                    android:button="@null"
-                    android:checked="false"
-                    android:textColor="@color/white" />
-
-                <CheckBox
-                    android:id="@+id/cb_timer"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="60dp"
-                    android:background="@drawable/timer_bg"
-                    android:button="@null"
-                    android:checked="false"
-                    android:textColor="@color/white" />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

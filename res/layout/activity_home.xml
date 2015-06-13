@@ -1,286 +1,289 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/main_bg"
-    android:fadingEdge="none"
-    android:fillViewport="true"
-    android:scrollbars="none" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+    <include
+        android:id="@+id/main_title"
+        layout="@layout/title_with_back_btn_wrap" />
 
-        <include
-            android:id="@+id/main_title"
-            layout="@layout/title_with_back_btn_wrap" />
-
-        <TextView
-            android:id="@+id/tv_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/main_title"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:text="智能模式"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_2" />
-
-        <TextView
-            android:id="@+id/tv_offline_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_mode"
-            android:layout_centerHorizontal="true"
-            android:text="123"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_4" />
-
-        <LinearLayout
-            android:id="@+id/ll_pm2dot5_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_mode"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-
-                <com.zjhbkj.xinfen.widget.ProgressView
-                    xmlns:progress="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/pgv_jiaquan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="5dp"
-                    progress:bacColor="#ff0000"
-                    progress:fontSize="@dimen/size_2"
-                    progress:forColor="#ff0000"
-                    progress:startAngle="160" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/pgv_jiaquan"
-                    android:layout_centerHorizontal="true"
-                    android:text="甲醛\r\nppm"
-                    android:textColor="#ffff00"
-                    android:textSize="@dimen/size_2_1" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1" >
-
-                <com.zjhbkj.xinfen.widget.ProgressView
-                    xmlns:progress="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/pgv_co2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="5dp"
-                    progress:bacColor="#ff0000"
-                    progress:fontSize="@dimen/size_2"
-                    progress:forColor="#ff0000"
-                    progress:progress="43"
-                    progress:startAngle="160" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/pgv_co2"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:text="CO₂\r\nppm"
-                    android:textColor="#ffff00"
-                    android:textSize="@dimen/size_2_1" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1" >
-
-                <com.zjhbkj.xinfen.widget.ProgressView
-                    xmlns:progress="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/pgv_pm_2dot5_in"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="5dp"
-                    progress:bacColor="#ff0000"
-                    progress:fontSize="@dimen/size_2"
-                    progress:forColor="#ff0000"
-                    progress:progress="43"
-                    progress:startAngle="160" />
-
-                <TextView
-                    android:id="@+id/tv_pm_2dot5_in_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/pgv_pm_2dot5_in"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:textColor="#ffff00"
-                    android:textSize="@dimen/size_2_1" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1" >
-
-                <com.zjhbkj.xinfen.widget.ProgressView
-                    xmlns:progress="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/pgv_pm_2dot5_out"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="5dp"
-                    progress:bacColor="#ff0000"
-                    progress:fontSize="@dimen/size_2"
-                    progress:forColor="#ff0000"
-                    progress:progress="43"
-                    progress:startAngle="160" />
-
-                <TextView
-                    android:id="@+id/tv_pm_2dot5_out_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/pgv_pm_2dot5_out"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:textColor="#ffff00"
-                    android:textSize="@dimen/size_2_1" />
-            </RelativeLayout>
-        </LinearLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/main_title"
+        android:fadingEdge="none"
+        android:fillViewport="true"
+        android:scrollbars="none" >
 
         <RelativeLayout
-            android:id="@+id/rl_home_tab_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ll_pm2dot5_layout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/home_bg" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/main_bg" >
+
+            <TextView
+                android:id="@+id/tv_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="智能模式"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
+
+            <TextView
+                android:id="@+id/tv_offline_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_mode"
+                android:layout_centerHorizontal="true"
+                android:text="123"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_4" />
+
+            <LinearLayout
+                android:id="@+id/ll_pm2dot5_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_mode"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" >
+
+                    <com.zjhbkj.xinfen.widget.ProgressView
+                        xmlns:progress="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/pgv_jiaquan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="5dp"
+                        progress:bacColor="#FFFFFF"
+                        progress:fontSize="@dimen/size_2"
+                        progress:forColor="#FFFFFF"
+                        progress:startAngle="160" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pgv_jiaquan"
+                        android:layout_centerHorizontal="true"
+                        android:text="甲醛\r\nppm"
+                        android:textColor="#ffff00"
+                        android:textSize="@dimen/size_2_1" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1" >
+
+                    <com.zjhbkj.xinfen.widget.ProgressView
+                        xmlns:progress="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/pgv_co2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="5dp"
+                        progress:bacColor="#FFFFFF"
+                        progress:fontSize="@dimen/size_2"
+                        progress:forColor="#FFFFFF"
+                        progress:startAngle="160" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pgv_co2"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:text="CO₂\r\nppm"
+                        android:textColor="#ffff00"
+                        android:textSize="@dimen/size_2_1" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1" >
+
+                    <com.zjhbkj.xinfen.widget.ProgressView
+                        xmlns:progress="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/pgv_pm_2dot5_in"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="5dp"
+                        progress:bacColor="#FFFFFF"
+                        progress:fontSize="@dimen/size_2"
+                        progress:forColor="#FFFFFF"
+                        progress:startAngle="160" />
+
+                    <TextView
+                        android:id="@+id/tv_pm_2dot5_in_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pgv_pm_2dot5_in"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:textColor="#ffff00"
+                        android:textSize="@dimen/size_2_1" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1" >
+
+                    <com.zjhbkj.xinfen.widget.ProgressView
+                        xmlns:progress="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/pgv_pm_2dot5_out"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="5dp"
+                        progress:bacColor="#FFFFFF"
+                        progress:fontSize="@dimen/size_2"
+                        progress:forColor="#FFFFFF"
+                        progress:startAngle="160" />
+
+                    <TextView
+                        android:id="@+id/tv_pm_2dot5_out_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/pgv_pm_2dot5_out"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:textColor="#ffff00"
+                        android:textSize="@dimen/size_2_1" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_home_tab_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_pm2dot5_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/home_bg" >
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_frequency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/rl_home_tab_layout"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
+
+            <TextView
+                android:id="@+id/tv_humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/rl_home_tab_layout"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
+
+            <TextView
+                android:id="@+id/tv_mode_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_home_tab_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="静电除尘：开"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
+
+            <TextView
+                android:id="@+id/tv_out_out_wind_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/rl_home_tab_layout"
+                android:layout_alignTop="@id/rl_home_tab_layout"
+                android:clickable="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
+
+            <TextView
+                android:id="@+id/tv_in_out_wind_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/rl_home_tab_layout"
+                android:layout_alignTop="@id/rl_home_tab_layout"
+                android:clickable="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
+
+            <TextView
+                android:id="@+id/tv_out_in_wind_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/rl_home_tab_layout"
+                android:layout_alignTop="@id/rl_home_tab_layout"
+                android:clickable="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
+
+            <TextView
+                android:id="@+id/tv_in_in_wind_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/rl_home_tab_layout"
+                android:layout_alignTop="@id/rl_home_tab_layout"
+                android:clickable="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_2" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_mode_switch"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/iv_chuxiao"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/chuxiao_weiguoqi" />
+
+                <ImageView
+                    android:id="@+id/iv_chuchen"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/chuchen_weiguoqi" />
+
+                <ImageView
+                    android:id="@+id/iv_gaoxiao"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/gaoxiao_weiguoqi" />
+            </LinearLayout>
         </RelativeLayout>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/tv_frequency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/rl_home_tab_layout"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_2" />
-
-        <TextView
-            android:id="@+id/tv_humidity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/rl_home_tab_layout"
-            android:layout_centerHorizontal="true"
-            android:clickable="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_2" />
-
-        <TextView
-            android:id="@+id/tv_mode_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/rl_home_tab_layout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="静电除尘：开"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_2" />
-
-        <TextView
-            android:id="@+id/tv_out_out_wind_temp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/rl_home_tab_layout"
-            android:layout_alignTop="@id/rl_home_tab_layout"
-            android:clickable="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_2" />
-
-        <TextView
-            android:id="@+id/tv_in_out_wind_temp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/rl_home_tab_layout"
-            android:layout_alignTop="@id/rl_home_tab_layout"
-            android:clickable="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_2" />
-
-        <TextView
-            android:id="@+id/tv_out_in_wind_temp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@id/rl_home_tab_layout"
-            android:layout_alignTop="@id/rl_home_tab_layout"
-            android:clickable="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_2" />
-
-        <TextView
-            android:id="@+id/tv_in_in_wind_temp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@id/rl_home_tab_layout"
-            android:layout_alignTop="@id/rl_home_tab_layout"
-            android:clickable="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_2" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_mode_switch"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:id="@+id/iv_chuxiao"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/chuxiao_weiguoqi" />
-
-            <ImageView
-                android:id="@+id/iv_chuchen"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/chuchen_weiguoqi" />
-
-            <ImageView
-                android:id="@+id/iv_gaoxiao"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/gaoxiao_weiguoqi" />
-        </LinearLayout>
-    </RelativeLayout>
-
-</ScrollView>
+</RelativeLayout>

@@ -124,16 +124,16 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		int height = UIUtil.getScreenWidth(getActivity()) * 16 / 25;
 		int width = UIUtil.getScreenWidth(getActivity()) * 4 / 5;
 		if (isLandscape()) {
-			height = UIUtil.getScreenHeight(getActivity()) * 16 / 25* 3 / 4;
-			width = UIUtil.getScreenHeight(getActivity()) * 4 / 5* 3 / 4;
+			height = UIUtil.getScreenHeight(getActivity()) * 16 / 25 * 3 / 4;
+			width = UIUtil.getScreenHeight(getActivity()) * 4 / 5 * 3 / 4;
 		}
 		UIUtil.setViewWidth(mViewHome, width);
 		UIUtil.setViewHeight(mViewHome, height);
 
 		mTvInM3 = (TextView) layout.findViewById(R.id.tv_pm_2dot5_in_title);
-		mTvInM3.setText(Html.fromHtml("室内PM2.5\r\nmg/m&sup3;"));
+		mTvInM3.setText("室内PM2.5\r\n" + Html.fromHtml("mg/m&sup3;"));
 		mTvOutM3 = (TextView) layout.findViewById(R.id.tv_pm_2dot5_out_title);
-		mTvOutM3.setText(Html.fromHtml("室外PM2.5\r\nmg/m&sup3;"));
+		mTvOutM3.setText("室外PM2.5\r\n" + Html.fromHtml("mg/m&sup3;"));
 
 		mTvFrequency = (TextView) layout.findViewById(R.id.tv_frequency);
 		mTvOffLineMode = (TextView) layout.findViewById(R.id.tv_offline_mode);

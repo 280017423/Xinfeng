@@ -74,6 +74,11 @@ public class DeviceListActivity extends BaseActivity implements OnClickListener 
 				}
 			}
 		});
+		// if (isLandscape()) {
+		// View normalView = findViewById(R.id.ll_normal_view);
+		// UIUtil.setViewWidth(normalView, UIUtil.getScreenHeight(this));
+		// }
+
 	}
 
 	private void getDeviceList() {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
@@ -20,6 +21,10 @@ class BaseActivity extends Activity implements IDialogProtocol {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initDirecte();
+	}
+	
+	public boolean isLandscape() {
+		return Configuration.ORIENTATION_LANDSCAPE == getResources().getConfiguration().orientation;
 	}
 	
 	protected void initDirecte() {
