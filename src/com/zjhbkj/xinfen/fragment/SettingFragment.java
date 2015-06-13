@@ -339,7 +339,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 										if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
 											mLoadingUpView.dismiss();
 										}
-									}else if (5 == TimerUtil.getTimerTime(TAG)) {
+									} else if (0 == TimerUtil.getTimerTime(TAG) % 3) {
 										send(true);
 									}
 								}
@@ -433,11 +433,11 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 						if (-1 == itemPosition) {
 							return;
 						}
-//						String oldValue = mSendComsModel.getCommand4();
-//						String newValue = Integer.toHexString(itemPosition);
-//						if (newValue.equalsIgnoreCase(oldValue)) {
-//							return;
-//						}
+						// String oldValue = mSendComsModel.getCommand4();
+						// String newValue = Integer.toHexString(itemPosition);
+						// if (newValue.equalsIgnoreCase(oldValue)) {
+						// return;
+						// }
 						if (0 == itemPosition) {
 							mSendComsModel.setCommand4(Integer.toHexString(1));
 						} else {
