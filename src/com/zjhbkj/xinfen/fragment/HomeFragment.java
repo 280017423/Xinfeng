@@ -40,8 +40,6 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	private TextView mTvOutOutTemp;
 	private TextView mTvHumidity;
 	private View mViewHome;
-	private TextView mTvInM3;
-	private TextView mTvOutM3;
 	private TextView mTvRight;
 	private TextView mTvOffLineMode;
 	private RcvComsModel mCurrentModel;
@@ -107,9 +105,8 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 				if (null == mCurrentModel) {
 					return;
 				}
-				String shareInfo = getString(R.string.share_info,
-						mCurrentModel.getDisplayPm2dotOut() + Html.fromHtml("mg/m&sup3;"),
-						mCurrentModel.getDisplayPm2dotIn() + Html.fromHtml("mg/m&sup3;"),
+				String shareInfo = getString(R.string.share_info, mCurrentModel.getDisplayPm2dotOut() + " ppm",
+						mCurrentModel.getDisplayPm2dotIn() + " ppm",
 						"" + CommandUtil.hexStringToInt(mCurrentModel.getCommand13()) + Html.fromHtml("&#8451;"), ""
 								+ CommandUtil.hexStringToInt(mCurrentModel.getCommand11()) + Html.fromHtml("&#8451;"),
 						"" + CommandUtil.hexStringToInt(mCurrentModel.getCommand12()) + Html.fromHtml("&#8451;"), ""
@@ -129,11 +126,6 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		}
 		UIUtil.setViewWidth(mViewHome, width);
 		UIUtil.setViewHeight(mViewHome, height);
-
-		mTvInM3 = (TextView) layout.findViewById(R.id.tv_pm_2dot5_in_title);
-		mTvInM3.setText("室内PM2.5\r\n" + Html.fromHtml("mg/m&sup3;"));
-		mTvOutM3 = (TextView) layout.findViewById(R.id.tv_pm_2dot5_out_title);
-		mTvOutM3.setText("室外PM2.5\r\n" + Html.fromHtml("mg/m&sup3;"));
 
 		mTvFrequency = (TextView) layout.findViewById(R.id.tv_frequency);
 		mTvOffLineMode = (TextView) layout.findViewById(R.id.tv_offline_mode);
@@ -172,8 +164,8 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		UIUtil.setViewWidth(mPgvPm2dot5Out, pgvWidth);
 		UIUtil.setViewHeight(mPgvPm2dot5Out, pgvHeight);
 
-		mTvFrequency.setPadding(0, height * 9 / 20, 0, 0);
-		mTvHumidity.setPadding(0, height / 4, 0, 0);
+		mTvFrequency.setPadding(0, 0, 0, height * 4 / 20);
+		mTvHumidity.setPadding(0, height * 3 / 8, 0, 0);
 
 		mTvOutOutTemp.setPadding(width * 2 / 20, height * 9 / 20, 0, 0);
 		mTvOutInTemp.setPadding(0, height / 4, width / 20, 0);
@@ -225,7 +217,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 				Global.IS_WIFI_MODE);
 		String wifiMode = isWifiMode == 1 ? "外网" : "内网";
 		mCurrentModel = model;
-		mTvFrequency.setText("频率：" + CommandUtil.hexStringToInt(model.getCommand1()) + " hz");
+		mTvFrequency.setText("频率：" + CommandUtil.hexStringToInt(model.getCommand1()) + " Hz");
 		TimerUtil.setTimerTime(TAG, 60);
 		if ("00".equals(model.getDisplayCo2()) || "0".equals(model.getDisplayCo2())) {
 			mTvOffLineMode.setText("（" + mDeviceName + wifiMode + "离线）");

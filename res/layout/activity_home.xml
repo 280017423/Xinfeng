@@ -133,12 +133,12 @@
                         progress:startAngle="160" />
 
                     <TextView
-                        android:id="@+id/tv_pm_2dot5_in_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/pgv_pm_2dot5_in"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
+                        android:text="室内PM2.5\r\nppm"
                         android:textColor="#ffff00"
                         android:textSize="@dimen/size_2_1" />
                 </RelativeLayout>
@@ -164,12 +164,12 @@
                         progress:startAngle="160" />
 
                     <TextView
-                        android:id="@+id/tv_pm_2dot5_out_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/pgv_pm_2dot5_out"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
+                        android:text="室外PM2.5\r\nppm"
                         android:textColor="#ffff00"
                         android:textSize="@dimen/size_2_1" />
                 </RelativeLayout>
@@ -189,7 +189,7 @@
                 android:id="@+id/tv_frequency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/rl_home_tab_layout"
+                android:layout_alignBottom="@id/rl_home_tab_layout"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/size_2" />
