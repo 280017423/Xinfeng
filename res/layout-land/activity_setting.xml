@@ -333,7 +333,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_set_frequency"
                     android:layout_centerHorizontal="true"
-                    android:text="设置频率(hz)"
+                    android:text="设置频率(Hz)"
                     android:textColor="@color/white"
                     android:textSize="@dimen/size_2" />
             </RelativeLayout>

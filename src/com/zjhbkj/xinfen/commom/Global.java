@@ -35,6 +35,7 @@ public class Global {
 	public static String CONFIG_FILE_NAME = "CONFIG_FILE_NAME"; // 配置文件名，登出就删除
 	public static String HAS_STRAINER_INFO = "HAS_STRAINER_INFO"; // 有滤网设置指令
 	public static String HAS_SETTING_INFO = "HAS_SETTING_INFO"; // 有设置指令
+	public static String NO_RECEIVE_MSG = "NO_RECEIVE_MSG"; // 禁止接受消息
 
 	public static String CURRENT_DEVICE_ID = "CURRENT_DEVICE_ID"; // 当前设备ID
 	public static String HAS_TOAST_OUT_OF_DATE = "HAS_TOAST_OUT_OF_DATE"; // 是否已经谈过过期提示

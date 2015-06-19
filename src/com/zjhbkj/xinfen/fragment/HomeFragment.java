@@ -283,6 +283,16 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	public void onEventMainThread(RcvComsModel model) {
 		refreashUi(model);
 	}
+	
+	/**
+	 * 收到指令方法
+	 * 
+	 * @param model
+	 *            指令数据
+	 */
+	public void onEventMainThread(String info) {
+		toast(info);
+	}
 
 	@Override
 	public void onDestroy() {

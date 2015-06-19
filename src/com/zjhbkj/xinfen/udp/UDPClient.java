@@ -31,7 +31,6 @@ public class UDPClient {
 	private DatagramSocket mDatagramSocket;
 	private ClientMsgListener mClientListener;
 	private InetAddress mInetAddress;
-	private boolean onGoinglistner = true;
 
 	private UDPClient(ClientMsgListener clientListener) {
 		mClientListener = clientListener;
@@ -45,7 +44,6 @@ public class UDPClient {
 	}
 
 	public void connectServer() {
-		onGoinglistner = true;
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -76,7 +74,8 @@ public class UDPClient {
 			return;
 		}
 		DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
-		while (onGoinglistner) {
+		while (!SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME,
+				Global.NO_RECEIVE_MSG)) {
 			try {
 				Log.d("aaa", "等待消息来啊.....");
 				mDatagramSocket.receive(datagramPacket);
@@ -143,6 +142,11 @@ public class UDPClient {
 		if (null == mDatagramSocket) {
 			return;
 		}
+		if (SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME,
+				Global.NO_RECEIVE_MSG)) {
+			EvtLog.d("aaa", "我不发送消息了");
+			return;
+		}
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -152,11 +156,13 @@ public class UDPClient {
 				}
 				SendComsModel model = DBMgr.getHistoryData(SendComsModel.class, "EA");
 				if (null != model) {
-					//判断是否第一次
-					int isFirstTime = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_FIRST_TIME);
+					// 判断是否第一次
+					int isFirstTime = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
+							Global.CONFIG_FILE_NAME, Global.IS_FIRST_TIME);
 					if (0 <= isFirstTime) {
 						model.commandNum = "FA";
-						SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_FIRST_TIME, isFirstTime - 1);
+						SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+								Global.IS_FIRST_TIME, isFirstTime - 1);
 					}
 					byte[] commands = CommandUtil.getCommand(model.toString());
 					DatagramPacket dPacket = new DatagramPacket(
@@ -187,12 +193,9 @@ public class UDPClient {
 		}
 	}
 
-	public boolean isConnected() {
-		return null != mDatagramSocket && onGoinglistner;
-	}
-
 	public void stopAcceptMessage() {
-		onGoinglistner = false;
+		SharedPreferenceUtil
+				.saveValue(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME, Global.NO_RECEIVE_MSG, true);
 	}
 
 	public static interface ClientMsgListener {
