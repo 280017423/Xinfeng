@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -47,10 +48,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	private ImageView mIvchuchen;
 	private ImageView mIvGaoxiao;
 
-	private ProgressView mPgvPm2dot5In;
-	private ProgressView mPgvPm2dot5Out;
-	private ProgressView mPgvCo2;
-	private ProgressView mPgvJiaquan;
+	private Button mPgvPm2dot5In;
+	private Button mPgvPm2dot5Out;
+	private Button mPgvCo2;
+	private Button mPgvJiaquan;
 	private String mDeviceName;
 
 	public static final HomeFragment newInstance() {
@@ -143,31 +144,30 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mIvchuchen = (ImageView) layout.findViewById(R.id.iv_chuchen);
 		mIvGaoxiao = (ImageView) layout.findViewById(R.id.iv_gaoxiao);
 
-		mPgvJiaquan = (ProgressView) layout.findViewById(R.id.pgv_jiaquan);
-		mPgvCo2 = (ProgressView) layout.findViewById(R.id.pgv_co2);
-		mPgvPm2dot5In = (ProgressView) layout.findViewById(R.id.pgv_pm_2dot5_in);
-		mPgvPm2dot5Out = (ProgressView) layout.findViewById(R.id.pgv_pm_2dot5_out);
+		mPgvJiaquan = (Button) layout.findViewById(R.id.pgv_jiaquan);
+		mPgvCo2 = (Button) layout.findViewById(R.id.pgv_co2);
+		mPgvPm2dot5In = (Button) layout.findViewById(R.id.pgv_pm_2dot5_in);
+		mPgvPm2dot5Out = (Button) layout.findViewById(R.id.pgv_pm_2dot5_out);
 
 		int pgvWidth = UIUtil.getScreenWidth(getActivity()) / 4;
 		int pgvHeight = UIUtil.getScreenWidth(getActivity()) * 2 / 16;
 		if (isLandscape()) {
 			pgvWidth = (UIUtil.getScreenHeight(getActivity()) / 4) * 3 / 4;
 			pgvHeight = (UIUtil.getScreenHeight(getActivity()) * 2 / 16) * 3 / 4;
+		}else{
+			UIUtil.setViewWidth(mPgvJiaquan, pgvWidth);
+			UIUtil.setViewHeight(mPgvJiaquan, pgvWidth);
+			UIUtil.setViewWidth(mPgvCo2, pgvWidth);
+			UIUtil.setViewHeight(mPgvCo2, pgvWidth);
+			UIUtil.setViewWidth(mPgvPm2dot5In, pgvWidth);
+			UIUtil.setViewHeight(mPgvPm2dot5In, pgvWidth);
+			UIUtil.setViewWidth(mPgvPm2dot5Out, pgvWidth);
+			UIUtil.setViewHeight(mPgvPm2dot5Out, pgvWidth);
 		}
-
-		UIUtil.setViewWidth(mPgvJiaquan, pgvWidth);
-		UIUtil.setViewHeight(mPgvJiaquan, pgvHeight);
-		UIUtil.setViewWidth(mPgvCo2, pgvWidth);
-		UIUtil.setViewHeight(mPgvCo2, pgvHeight);
-		UIUtil.setViewWidth(mPgvPm2dot5In, pgvWidth);
-		UIUtil.setViewHeight(mPgvPm2dot5In, pgvHeight);
-		UIUtil.setViewWidth(mPgvPm2dot5Out, pgvWidth);
-		UIUtil.setViewHeight(mPgvPm2dot5Out, pgvHeight);
-
 		mTvFrequency.setPadding(0, 0, 0, height * 4 / 20);
 		mTvHumidity.setPadding(0, height * 3 / 8, 0, 0);
 
-		mTvOutOutTemp.setPadding(width * 2 / 20, height * 9 / 20, 0, 0);
+		mTvOutOutTemp.setPadding(0, height * 9 / 20, 0, 0);
 		mTvOutInTemp.setPadding(0, height / 4, width / 20, 0);
 		mTvInOutTemp.setPadding(width * 5 / 20, height * 5 / 20, 0, 0);
 		mTvInInTemp.setPadding(0, height * 9 / 20, width * 3 / 20, 0);
@@ -246,10 +246,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 			default:
 				break;
 		}
-		mPgvPm2dot5Out.setContentText(model.getDisplayPm2dotOut());
-		mPgvPm2dot5In.setContentText(model.getDisplayPm2dotIn());
-		mPgvCo2.setContentText(model.getDisplayCo2());
-		mPgvJiaquan.setContentText("" + CommandUtil.hexStringToInt(model.getCommand2()) / 100.0);
+		mPgvPm2dot5Out.setText(model.getDisplayPm2dotOut());
+		mPgvPm2dot5In.setText(model.getDisplayPm2dotIn());
+		mPgvCo2.setText(model.getDisplayCo2());
+		mPgvJiaquan.setText("" + CommandUtil.hexStringToInt(model.getCommand2()) / 100.0);
 		mTvInInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand11()) + Html.fromHtml("&#8451;"));
 		mTvInOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand12()) + Html.fromHtml("&#8451;"));
 		mTvOutInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand13()) + Html.fromHtml("&#8451;"));
