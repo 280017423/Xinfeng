@@ -25,7 +25,7 @@
 				android:layout_marginTop="25dp"
 				android:text="智能模式"
 				android:textColor="@color/white"
-				android:textSize="@dimen/size_big_2" />
+				android:textSize="@dimen/size_big" />
 			<TextView
 				android:id="@+id/tv_offline_mode"
 				android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
 				android:layout_centerHorizontal="true"
 				android:layout_marginTop="15dp"
 				android:textColor="@color/white"
-				android:textSize="@dimen/size_big_2" />
+				android:textSize="@dimen/size_big" />
 			<RelativeLayout
 				android:id="@+id/rl_home_tab_layout"
 				android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
 				android:layout_alignBottom="@id/rl_home_tab_layout"
 				android:layout_centerHorizontal="true"
 				android:textColor="@color/white"
-				android:textSize="@dimen/size_big_2" />
+				android:textSize="@dimen/size_big" />
 			<TextView
 				android:id="@+id/tv_humidity"
 				android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
 				android:layout_centerHorizontal="true"
 				android:clickable="true"
 				android:textColor="@color/white"
-				android:textSize="@dimen/size_big_2" />
+				android:textSize="@dimen/size_big" />
 			<TextView
 				android:id="@+id/tv_mode_switch"
 				android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
 				android:layout_marginTop="10dp"
 				android:text="静电除尘：开"
 				android:textColor="@color/white"
-				android:textSize="@dimen/size_big_2" />
+				android:textSize="@dimen/size_big" />
 			<TextView
 				android:id="@+id/tv_out_out_wind_temp"
 				android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
 				android:layout_alignTop="@id/rl_home_tab_layout"
 				android:clickable="true"
 				android:textColor="@color/white"
-				android:textSize="@dimen/size_big_2" />
+				android:textSize="@dimen/size_big" />
 			<TextView
 				android:id="@+id/tv_in_out_wind_temp"
 				android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
 				android:layout_alignTop="@id/rl_home_tab_layout"
 				android:clickable="true"
 				android:textColor="@color/white"
-				android:textSize="@dimen/size_big_2" />
+				android:textSize="@dimen/size_big" />
 			<TextView
 				android:id="@+id/tv_out_in_wind_temp"
 				android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
 				android:layout_alignTop="@id/rl_home_tab_layout"
 				android:clickable="true"
 				android:textColor="@color/white"
-				android:textSize="@dimen/size_big_2" />
+				android:textSize="@dimen/size_big" />
 			<TextView
 				android:id="@+id/tv_in_in_wind_temp"
 				android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
 				android:layout_alignTop="@id/rl_home_tab_layout"
 				android:clickable="true"
 				android:textColor="@color/white"
-				android:textSize="@dimen/size_big_2" />
+				android:textSize="@dimen/size_big" />
 			<LinearLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -144,15 +144,16 @@
 					android:layout_height="wrap_content" >
 					<Button
 						android:id="@+id/pgv_jiaquan"
-						android:layout_width="120dp"
-						android:layout_height="120dp"
+						android:layout_width="180dp"
+						android:layout_height="180dp"
 						android:layout_alignParentLeft="true"
 						android:background="@drawable/iv_jiaquan"
 						android:paddingLeft="5dp"
 						android:paddingRight="5dp"
 						android:paddingTop="5dp"
 						android:textColor="@color/white"
-						android:textSize="@dimen/size_big_2" />
+						android:textSize="@dimen/size_big1"
+						android:textStyle="bold" />
 				</RelativeLayout>
 				<RelativeLayout
 					android:layout_width="wrap_content"
@@ -160,15 +161,16 @@
 					android:layout_marginTop="100dp" >
 					<Button
 						android:id="@+id/pgv_co2"
-						android:layout_width="120dp"
-						android:layout_height="120dp"
+						android:layout_width="180dp"
+						android:layout_height="180dp"
 						android:layout_alignParentLeft="true"
-						android:background="@drawable/iv_jiaquan"
+						android:background="@drawable/iv_co2"
 						android:paddingLeft="5dp"
 						android:paddingRight="5dp"
 						android:paddingTop="5dp"
 						android:textColor="@color/white"
-						android:textSize="@dimen/size_big_2" />
+						android:textSize="@dimen/size_big1"
+						android:textStyle="bold" />
 				</RelativeLayout>
 			</LinearLayout>
 			<LinearLayout
@@ -183,15 +185,16 @@
 					android:layout_height="wrap_content" >
 					<Button
 						android:id="@+id/pgv_pm_2dot5_in"
-						android:layout_width="120dp"
-						android:layout_height="120dp"
+						android:layout_width="180dp"
+						android:layout_height="180dp"
 						android:layout_alignParentLeft="true"
-						android:background="@drawable/iv_jiaquan"
+						android:background="@drawable/iv_pm_2dot5_in"
 						android:paddingLeft="5dp"
 						android:paddingRight="5dp"
 						android:paddingTop="5dp"
 						android:textColor="@color/white"
-						android:textSize="@dimen/size_big_2" />
+						android:textSize="@dimen/size_big1"
+						android:textStyle="bold" />
 				</RelativeLayout>
 				<RelativeLayout
 					android:layout_width="wrap_content"
@@ -199,15 +202,16 @@
 					android:layout_marginTop="100dp" >
 					<Button
 						android:id="@+id/pgv_pm_2dot5_out"
-						android:layout_width="120dp"
-						android:layout_height="120dp"
+						android:layout_width="180dp"
+						android:layout_height="180dp"
 						android:layout_alignParentLeft="true"
-						android:background="@drawable/iv_jiaquan"
+						android:background="@drawable/iv_pm_2dot5_out"
 						android:paddingLeft="5dp"
 						android:paddingRight="5dp"
 						android:paddingTop="5dp"
 						android:textColor="@color/white"
-						android:textSize="@dimen/size_big_2" />
+						android:textSize="@dimen/size_big1"
+						android:textStyle="bold" />
 				</RelativeLayout>
 			</LinearLayout>
 		</RelativeLayout>
