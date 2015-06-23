@@ -26,6 +26,7 @@ import com.zjhbkj.xinfen.db.DBMgr;
 import com.zjhbkj.xinfen.fragment.HomeFragment;
 import com.zjhbkj.xinfen.fragment.MoreFragment;
 import com.zjhbkj.xinfen.fragment.SettingFragment;
+import com.zjhbkj.xinfen.listener.NetWorkChangeBroadcastReceiver;
 import com.zjhbkj.xinfen.model.RcvComsModel;
 import com.zjhbkj.xinfen.model.SendComsModel;
 import com.zjhbkj.xinfen.udp.UDPClient;
@@ -33,6 +34,7 @@ import com.zjhbkj.xinfen.udp.UDPClient.ClientMsgListener;
 import com.zjhbkj.xinfen.udp.UDPServer;
 import com.zjhbkj.xinfen.util.EvtLog;
 import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
+import com.zjhbkj.xinfen.util.TimerUtil;
 import com.zjhbkj.xinfen.util.WifiApUtil;
 
 public class MainActivity extends BaseFragmentActivity implements OnClickListener {
@@ -57,7 +59,8 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 	}
 
 	private void initVariables() {
-		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME, Global.NO_RECEIVE_MSG, false);
+		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.GLOBAL_FILE_NAME, Global.NO_RECEIVE_MSG,
+				false);
 		// 默认标记为内网
 		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE, 0);
 		SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME, Global.IS_FIRST_TIME, 2);
@@ -234,12 +237,12 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 				mSendComsModel.setCommand3(model.getCommand3());
 				mSendComsModel.setCommand4(model.getCommand4());
 			}
-			
+
 			mSendComsModel.setCommand10(Integer.toHexString(19));
 			mSendComsModel.setCommand11(Integer.toHexString(14));
 			mSendComsModel.setCommand12(Integer.toHexString(30));
 			mSendComsModel.setCommand13(Integer.toHexString(20));
-			
+
 			mSendComsModel.setCommand14(Integer.toHexString(02));
 			mSendComsModel.setCommand15(Integer.toHexString(command15));
 			mSendComsModel.send(false);
@@ -260,6 +263,7 @@ public class MainActivity extends BaseFragmentActivity implements OnClickListene
 
 	@Override
 	protected void onDestroy() {
+		TimerUtil.stopTimer(NetWorkChangeBroadcastReceiver.class.getName());
 		if (null != mUdpServer) {
 			EvtLog.d("aaa", "断开udp");
 			mUdpServer.stopAcceptMessage();

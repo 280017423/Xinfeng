@@ -179,6 +179,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	}
 
 	private void initOffLineTimer() {
+		TimerUtil.stopTimer(TAG);
 		TimerUtil.startTimer(TAG, 60, 1000, new TimerActionListener() {
 
 			@Override
@@ -218,7 +219,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		String wifiMode = isWifiMode == 1 ? "外网" : "内网";
 		mCurrentModel = model;
 		mTvFrequency.setText("频率：" + CommandUtil.hexStringToInt(model.getCommand1()) + " Hz");
-		TimerUtil.setTimerTime(TAG, 60);
+		initOffLineTimer();
 		if ("00".equals(model.getDisplayCo2()) || "0".equals(model.getDisplayCo2())) {
 			mTvOffLineMode.setText("（" + mDeviceName + wifiMode + "离线）");
 		} else {
@@ -255,7 +256,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvOutInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand13()) + Html.fromHtml("&#8451;"));
 		mTvOutOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand14()) + Html.fromHtml("&#8451;"));
 
-		mTvHumidity.setText("湿度：" + CommandUtil.hexStringToInt(model.getCommand15()));
+		mTvHumidity.setText("湿度：" + CommandUtil.hexStringToInt(model.getCommand15())+"%");
 
 		int mode = CommandUtil.hexStringToInt(model.getCommand3());
 		Log.d("ccc", "接受模式:" + mode % 10);
@@ -291,7 +292,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	 *            指令数据
 	 */
 	public void onEventMainThread(String info) {
-		toast(info);
+//		toast(info);
 	}
 
 	@Override

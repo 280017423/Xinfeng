@@ -533,9 +533,13 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				break;
 			case 2:
 				mTvSetWifiMode.setText("内网");
+				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+						Global.IS_WIFI_MODE, 0);
 				break;
 			case 3:
 				mTvSetWifiMode.setText("外网");
+				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+						Global.IS_WIFI_MODE, 1);
 				break;
 
 			default:

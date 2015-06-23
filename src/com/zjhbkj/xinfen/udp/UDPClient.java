@@ -147,13 +147,15 @@ public class UDPClient {
 			EvtLog.d("aaa", "我不发送消息了");
 			return;
 		}
+
+		if (null == mInetAddress || null == mDatagramSocket) {
+			mClientListener.handlerErorMsg("服务器未连接");
+			return;
+		}
 		new Thread(new Runnable() {
+
 			@Override
 			public void run() {
-				if (null == mInetAddress || null == mDatagramSocket) {
-					mClientListener.handlerErorMsg("服务器未连接");
-					return;
-				}
 				SendComsModel model = DBMgr.getHistoryData(SendComsModel.class, "EA");
 				if (null != model) {
 					// 判断是否第一次
