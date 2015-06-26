@@ -256,7 +256,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mTvShutTime.setText(CommandUtil.hexStringToInt(mSendComsModel.getCommand13()) + ":"
 				+ CommandUtil.hexStringToInt(mSendComsModel.getCommand12()));
 		refreashHzView();
-		refreashStartShut(CommandUtil.hexStringToInt(mSendComsModel.getCommand14()));
+		refreashStartShut(CommandUtil.hexStringToInt(mSendComsModel.getCommand14()), true);
 		int functionValue = CommandUtil.hexStringToInt(mSendComsModel.getCommand4());
 		mTvSetFunctionalSwitch.setText(1 == functionValue % 10 ? "开" : "关");
 		mCbTimer.setChecked(SharedPreferenceUtil.getBooleanValueByKey(XinfengApplication.CONTEXT,
@@ -315,7 +315,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 						if (newValue.equalsIgnoreCase(oldValue)) {
 							return;
 						}
-						refreashStartShut(itemPosition + 2);
+						refreashStartShut(itemPosition + 2, false);
 						mSendComsModel.setCommand14(newValue);
 						send(true);
 						if (1 == itemPosition) {
@@ -345,9 +345,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 							if (null != mLoadingUpView && !mLoadingUpView.isShowing()) {
 								mLoadingUpView.showPopup("正在切换至内网");
 							}
-							mSendComsModel.setCommand14(newValue);
-							mSendComsModel.send(true);
-							TimerUtil.startTimer(TAG, 3 * 3, 1000, new TimerActionListener() {
+							TimerUtil.startTimer(TAG, 3 * 4, 1000, new TimerActionListener() {
 
 								@Override
 								public void doAction() {
@@ -396,6 +394,8 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 										if (null != mLoadingUpView && mLoadingUpView.isShowing()) {
 											mLoadingUpView.dismiss();
 										}
+									}else if (0 == TimerUtil.getTimerTime(TAG) % 3) {
+										send(true);
 									}
 								}
 							});
@@ -416,7 +416,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 						if (newValue.equalsIgnoreCase(oldValue)) {
 							return;
 						}
-						refreashStartShut(itemPosition);
+						refreashStartShut(itemPosition, false);
 						mSendComsModel.setCommand14(newValue);
 						send(true);
 					}
@@ -494,10 +494,10 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		mTvHz.setText("" + CommandUtil.hexStringToInt(mSendComsModel.getCommand2()));
 		if ("00".equals(model.getCommand1()) || "0".equals(model.getCommand1())) {
 			// 若频率为0就认为是关机
-			refreashStartShut(1);
+			refreashStartShut(1, false);
 			mSendComsModel.setCommand14(Integer.toHexString(1));
 		} else {
-			refreashStartShut(0);// 开机
+			refreashStartShut(0, false);// 开机
 			mSendComsModel.setCommand2(model.getCommand1());
 			mSendComsModel.setCommand14(Integer.toHexString(0));
 		}
@@ -523,7 +523,7 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 		}
 	}
 
-	private void refreashStartShut(int value) {
+	private void refreashStartShut(int value, boolean isUpdate) {
 		switch (value) {
 			case 0:
 				mTvSetStartShut.setText("开机");
@@ -533,13 +533,17 @@ public class SettingFragment extends FragmentBase implements OnClickListener, On
 				break;
 			case 2:
 				mTvSetWifiMode.setText("内网");
-				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
-						Global.IS_WIFI_MODE, 0);
+				if (isUpdate) {
+					SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+							Global.IS_WIFI_MODE, 0);
+				}
 				break;
 			case 3:
 				mTvSetWifiMode.setText("外网");
-				SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
-						Global.IS_WIFI_MODE, 1);
+				if (isUpdate) {
+					SharedPreferenceUtil.saveValue(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME,
+							Global.IS_WIFI_MODE, 1);
+				}
 				break;
 
 			default:

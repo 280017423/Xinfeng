@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -53,6 +56,8 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	private Button mPgvCo2;
 	private Button mPgvJiaquan;
 	private String mDeviceName;
+	private ImageView mIvFans;
+	private Animation mAnim;
 
 	public static final HomeFragment newInstance() {
 		HomeFragment fragment = new HomeFragment();
@@ -128,6 +133,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		UIUtil.setViewWidth(mViewHome, width);
 		UIUtil.setViewHeight(mViewHome, height);
 
+		mIvFans = (ImageView) layout.findViewById(R.id.iv_fans);
 		mTvFrequency = (TextView) layout.findViewById(R.id.tv_frequency);
 		mTvOffLineMode = (TextView) layout.findViewById(R.id.tv_offline_mode);
 		mTvMode = (TextView) layout.findViewById(R.id.tv_mode);
@@ -154,7 +160,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		if (isLandscape()) {
 			pgvWidth = (UIUtil.getScreenHeight(getActivity()) / 4) * 3 / 4;
 			pgvHeight = (UIUtil.getScreenHeight(getActivity()) * 2 / 16) * 3 / 4;
-		}else{
+		} else {
 			UIUtil.setViewWidth(mPgvJiaquan, pgvWidth);
 			UIUtil.setViewHeight(mPgvJiaquan, pgvWidth);
 			UIUtil.setViewWidth(mPgvCo2, pgvWidth);
@@ -180,11 +186,11 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 
 	private void initOffLineTimer() {
 		TimerUtil.stopTimer(TAG);
-		TimerUtil.startTimer(TAG, 60, 1000, new TimerActionListener() {
+		TimerUtil.startTimer(TAG, 30, 1000, new TimerActionListener() {
 
 			@Override
 			public void doAction() {
-				int isWifiMode = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
+				final int isWifiMode = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
 						Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE);
 				if (0 >= TimerUtil.getTimerTime(TAG) && 1 != isWifiMode) {
 					if (!isAdded()) {
@@ -194,7 +200,9 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 
 						@Override
 						public void run() {
-							mTvOffLineMode.setText("（" + mDeviceName + "离线）");
+							String wifiMode = isWifiMode == 1 ? "外网" : "内网";
+							roate(false);
+							mTvOffLineMode.setText("（" + mDeviceName + wifiMode + "离线）");
 						}
 					});
 					initOffLineTimer();
@@ -221,8 +229,10 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvFrequency.setText("频率：" + CommandUtil.hexStringToInt(model.getCommand1()) + " Hz");
 		initOffLineTimer();
 		if ("00".equals(model.getDisplayCo2()) || "0".equals(model.getDisplayCo2())) {
+			roate(false);
 			mTvOffLineMode.setText("（" + mDeviceName + wifiMode + "离线）");
 		} else {
+			roate(true);
 			mTvOffLineMode.setText("（" + mDeviceName + wifiMode + "在线）");
 		}
 		UIUtil.setUnderLine(mTvFrequency);
@@ -256,7 +266,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		mTvOutInTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand13()) + Html.fromHtml("&#8451;"));
 		mTvOutOutTemp.setText("" + CommandUtil.hexStringToInt(model.getCommand14()) + Html.fromHtml("&#8451;"));
 
-		mTvHumidity.setText("湿度：" + CommandUtil.hexStringToInt(model.getCommand15())+"%");
+		mTvHumidity.setText("湿度：" + CommandUtil.hexStringToInt(model.getCommand15()) + "%");
 
 		int mode = CommandUtil.hexStringToInt(model.getCommand3());
 		Log.d("ccc", "接受模式:" + mode % 10);
@@ -274,6 +284,18 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 				break;
 		}
 	}
+	
+	private void roate(boolean isShow){
+		if (mAnim == null) {
+			mAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.popup_loading);
+		}
+		mAnim.setInterpolator(new LinearInterpolator());
+		if (isShow) {
+			mIvFans.startAnimation(mAnim);
+		}else{
+			mIvFans.clearAnimation();
+		}
+	}
 
 	/**
 	 * 收到指令方法
@@ -284,7 +306,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	public void onEventMainThread(RcvComsModel model) {
 		refreashUi(model);
 	}
-	
+
 	/**
 	 * 收到指令方法
 	 * 
@@ -292,7 +314,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	 *            指令数据
 	 */
 	public void onEventMainThread(String info) {
-//		toast(info);
+		// toast(info);
 	}
 
 	@Override
