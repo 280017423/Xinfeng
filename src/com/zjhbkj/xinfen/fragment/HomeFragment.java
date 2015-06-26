@@ -1,5 +1,6 @@
 package com.zjhbkj.xinfen.fragment;
 
+import android.R.integer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -192,7 +193,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 			public void doAction() {
 				final int isWifiMode = SharedPreferenceUtil.getIntegerValueByKey(XinfengApplication.CONTEXT,
 						Global.CONFIG_FILE_NAME, Global.IS_WIFI_MODE);
-				if (0 >= TimerUtil.getTimerTime(TAG) && 1 != isWifiMode) {
+				if (0 >= TimerUtil.getTimerTime(TAG)) {
 					if (!isAdded()) {
 						return;
 					}
@@ -284,15 +285,19 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 				break;
 		}
 	}
-	
-	private void roate(boolean isShow){
+
+	private void roate(boolean isShow) {
+		roate(isShow, 0);
+	}
+
+	private void roate(boolean isShow, int hz) {
 		if (mAnim == null) {
 			mAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.popup_loading);
 		}
 		mAnim.setInterpolator(new LinearInterpolator());
 		if (isShow) {
 			mIvFans.startAnimation(mAnim);
-		}else{
+		} else {
 			mIvFans.clearAnimation();
 		}
 	}
