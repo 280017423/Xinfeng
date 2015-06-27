@@ -48,7 +48,7 @@
                 android:id="@+id/iv_fans"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_alignLeft="@id/rl_home_tab_layout"
+                android:layout_alignRight="@id/rl_home_tab_layout"
                 android:layout_alignTop="@id/rl_home_tab_layout"
                 android:contentDescription="@null"
                 android:background="@drawable/icon_fans" />

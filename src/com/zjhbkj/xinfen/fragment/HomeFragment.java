@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -58,7 +59,6 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	private Button mPgvJiaquan;
 	private String mDeviceName;
 	private ImageView mIvFans;
-	private Animation mAnim;
 
 	public static final HomeFragment newInstance() {
 		HomeFragment fragment = new HomeFragment();
@@ -233,7 +233,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 			roate(false);
 			mTvOffLineMode.setText("（" + mDeviceName + wifiMode + "离线）");
 		} else {
-			roate(true);
+			roate(true, CommandUtil.hexStringToInt(model.getCommand1()));
 			mTvOffLineMode.setText("（" + mDeviceName + wifiMode + "在线）");
 		}
 		UIUtil.setUnderLine(mTvFrequency);
@@ -291,11 +291,14 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	}
 
 	private void roate(boolean isShow, int hz) {
-		if (mAnim == null) {
-			mAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.popup_loading);
-		}
+		mIvFans.clearAnimation();
+		Animation mAnim = new RotateAnimation(0f, 3600f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		mAnim.setRepeatCount(Animation.INFINITE);
+		mAnim.setFillAfter(true);
 		mAnim.setInterpolator(new LinearInterpolator());
+
 		if (isShow) {
+			mAnim.setDuration(15000 - (hz - 10) * 200);
 			mIvFans.startAnimation(mAnim);
 		} else {
 			mIvFans.clearAnimation();
