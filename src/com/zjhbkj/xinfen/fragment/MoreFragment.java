@@ -91,7 +91,6 @@ public class MoreFragment extends FragmentBase implements OnClickListener {
 				startActivity(new Intent(getActivity(), IdConfigActivity.class));
 				break;
 			case R.id.btn_logout:
-				SharedPreferenceUtil.clearObject(XinfengApplication.CONTEXT, Global.CONFIG_FILE_NAME);
 				DBUtil.clearAllTables();
 				startActivity(new Intent(getActivity(), DeviceListActivity.class));
 				getActivity().finish();

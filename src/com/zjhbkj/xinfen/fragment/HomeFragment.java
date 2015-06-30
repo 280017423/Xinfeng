@@ -8,11 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +30,6 @@ import com.zjhbkj.xinfen.util.SharedPreferenceUtil;
 import com.zjhbkj.xinfen.util.TimerUtil;
 import com.zjhbkj.xinfen.util.TimerUtil.TimerActionListener;
 import com.zjhbkj.xinfen.util.UIUtil;
-import com.zjhbkj.xinfen.widget.ProgressView;
 
 import de.greenrobot.event.EventBus;
 
@@ -59,6 +57,8 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	private Button mPgvJiaquan;
 	private String mDeviceName;
 	private ImageView mIvFans;
+	private TextView mTvFans;
+	private Animation mAnim;
 
 	public static final HomeFragment newInstance() {
 		HomeFragment fragment = new HomeFragment();
@@ -135,6 +135,7 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 		UIUtil.setViewHeight(mViewHome, height);
 
 		mIvFans = (ImageView) layout.findViewById(R.id.iv_fans);
+		mTvFans = (TextView) layout.findViewById(R.id.tv_fans);
 		mTvFrequency = (TextView) layout.findViewById(R.id.tv_frequency);
 		mTvOffLineMode = (TextView) layout.findViewById(R.id.tv_offline_mode);
 		mTvMode = (TextView) layout.findViewById(R.id.tv_mode);
@@ -291,14 +292,17 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	}
 
 	private void roate(boolean isShow, int hz) {
-		mIvFans.clearAnimation();
-		Animation mAnim = new RotateAnimation(0f, 3600f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-		mAnim.setRepeatCount(Animation.INFINITE);
-		mAnim.setFillAfter(true);
-		mAnim.setInterpolator(new LinearInterpolator());
-
+		if (null ==mAnim) {
+			mAnim = new RotateAnimation(
+					0f, 3600f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+			mAnim.setRepeatCount(Animation.INFINITE);
+			mAnim.setFillAfter(true);
+			mAnim.setInterpolator(new LinearInterpolator());
+		}
 		if (isShow) {
 			mAnim.setDuration(15000 - (hz - 10) * 200);
+			String fansValue = "风量\r\n" + (int)(hz * 4.7) + "m³/h";
+			mTvFans.setText(fansValue);
 			mIvFans.startAnimation(mAnim);
 		} else {
 			mIvFans.clearAnimation();

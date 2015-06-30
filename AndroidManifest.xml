@@ -1,139 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.zjhbkj.xinfen"
-	android:versionCode="10000"
-	android:versionName="1.0.0" >
-	<uses-sdk
-		android:minSdkVersion="10"
-		android:targetSdkVersion="22" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
-	<uses-permission android:name="android.permission.GET_TASKS" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    package="com.zjhbkj.xinfen"
+    android:versionCode="10000"
+    android:versionName="1.0.0" >
+
+    <uses-sdk
+        android:minSdkVersion="10"
+        android:targetSdkVersion="22" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- 可选的权限： -->
-    <uses-permission android:name="android.permission.READ_LOGS" /> <!-- 获取logcat日志 -->
-	<application
-		android:name="com.zjhbkj.xinfen.app.XinfengApplication"
-		android:allowBackup="true"
-		android:icon="@drawable/ic_launcher"
-		android:label="@string/app_name"
-		android:theme="@style/ThemeActivity" >
-		<meta-data
-			android:name="db_version"
-			android:value="1" />
-		<meta-data
-			android:name="db_name"
-			android:value="xinfeng.db" />
-		<meta-data
-			android:name="crash_log_path"
-			android:value="/sdcard/xinfeng/crash/" />
-		<meta-data
-			android:name="crash_report_ext"
-			android:value=".log" />
-		<meta-data
-			android:name="image_dir"
-			android:value="xinfeng/com.zjhbkj.xinfen/image" />
-		<meta-data
-			android:name="http_cache_dir"
-			android:value="xinfeng/com.zjhbkj.xinfen/cache" />
-		<meta-data
-			android:name="status_ok_value"
-			android:value="1" />
-		<meta-data
-			android:name="email_log_enable"
-			android:value="true" />
-		<meta-data
-			android:name="error_log_enable"
-			android:value="true" />
-		<meta-data
-			android:name="debug_log_enable"
-			android:value="true" />
-		<meta-data
-			android:name="is_developing"
-			android:value="true" />
-		<meta-data
-			android:name="appSign"
-			android:value="xinfeng" />
-		<meta-data
-			android:name="UMENG_APPKEY"
-			android:value="554cc6c167e58e3ae3003654" />
-		<meta-data
-			android:name="UMENG_CHANNEL"
-			android:value="xinfeng" />
-		<meta-data
-			android:name="direct_line_graphic_url"
-			android:value="http://115.159.71.155:8080/UDPTest/directLineGraphic/" />
-		<activity
-			android:name=".activity.LoadingActivity"
-			android:configChanges="orientation|keyboardHidden"
-			android:label="@string/app_name"
-			android:launchMode="singleTop"
-			android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity
-			android:name=".activity.MainActivity"
-			android:label="@string/app_name" />
-		<activity
-			android:name=".activity.ConfigActivity"
-			android:label="@string/app_name" />
-		<activity
-			android:name=".activity.StrainerConfigActivity"
-			android:label="@string/app_name" />
-		<activity
-			android:name=".activity.IdConfigActivity"
-			android:label="@string/app_name" />
-		<activity
-			android:name=".activity.DeviceListActivity"
-			android:label="@string/app_name" />
-		<activity
-			android:name=".activity.WebActivity"
-			android:label="@string/app_name" />
-		<activity
-			android:name=".activity.AboutActivity"
-			android:label="@string/app_name" />
-		<service
-			android:name="com.umeng.update.net.DownloadingService"
-			android:process=":DownloadingService" >
-		</service>
-		<activity
-			android:name="com.umeng.update.UpdateDialogActivity"
-			android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-		</activity>
-		<activity
-			android:name="cn.sharesdk.framework.ShareSDKUIShell"
-			android:configChanges="keyboardHidden|orientation|screenSize"
-			android:theme="@android:style/Theme.Translucent.NoTitleBar"
-			android:windowSoftInputMode="stateHidden|adjustResize" >
-			<intent-filter>
-				<data android:scheme="tencent1104610286" />
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-		<!-- 微信分享回调 -->
-		<activity
-			android:name=".wxapi.WXEntryActivity"
-			android:configChanges="keyboardHidden|orientation|screenSize"
-			android:exported="true"
-			android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-		<!-- 注册广播 -->
-		<receiver android:name="com.zjhbkj.xinfen.listener.NetWorkChangeBroadcastReceiver" >
-			<intent-filter>
-				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-			</intent-filter>
-		</receiver>
-	</application>
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <!-- 获取logcat日志 -->
+    <application
+        android:name="com.zjhbkj.xinfen.app.XinfengApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/ThemeActivity" >
+        <meta-data
+            android:name="db_version"
+            android:value="1" />
+        <meta-data
+            android:name="db_name"
+            android:value="xinfeng.db" />
+        <meta-data
+            android:name="crash_log_path"
+            android:value="/sdcard/xinfeng/crash/" />
+        <meta-data
+            android:name="crash_report_ext"
+            android:value=".log" />
+        <meta-data
+            android:name="image_dir"
+            android:value="xinfeng/com.zjhbkj.xinfen/image" />
+        <meta-data
+            android:name="http_cache_dir"
+            android:value="xinfeng/com.zjhbkj.xinfen/cache" />
+        <meta-data
+            android:name="status_ok_value"
+            android:value="1" />
+        <meta-data
+            android:name="email_log_enable"
+            android:value="true" />
+        <meta-data
+            android:name="error_log_enable"
+            android:value="false" />
+        <meta-data
+            android:name="debug_log_enable"
+            android:value="false" />
+        <meta-data
+            android:name="is_developing"
+            android:value="false" />
+        <meta-data
+            android:name="appSign"
+            android:value="xinfeng" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="554cc6c167e58e3ae3003654" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="xinfeng" />
+        <meta-data
+            android:name="direct_line_graphic_url"
+            android:value="http://115.159.71.155:8080/UDPTest/directLineGraphic/" />
+
+        <activity
+            android:name=".activity.LoadingActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.ConfigActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.StrainerConfigActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.IdConfigActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.DeviceListActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.WebActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.AboutActivity"
+            android:label="@string/app_name" />
+
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
+
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="cn.sharesdk.framework.ShareSDKUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <data android:scheme="tencent1104610286" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- 微信分享回调 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- 注册广播 -->
+        <receiver android:name="com.zjhbkj.xinfen.listener.NetWorkChangeBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".BootBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
+    </application>
+
 </manifest>

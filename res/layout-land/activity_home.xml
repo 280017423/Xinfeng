@@ -48,10 +48,19 @@
                 android:id="@+id/iv_fans"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:layout_alignRight="@id/rl_home_tab_layout"
+                android:layout_alignLeft="@id/rl_home_tab_layout"
                 android:layout_alignTop="@id/rl_home_tab_layout"
                 android:contentDescription="@null"
                 android:background="@drawable/icon_fans" />
+			<TextView
+				android:id="@+id/tv_fans"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+                android:layout_alignRight="@id/rl_home_tab_layout"
+                android:layout_alignTop="@id/rl_home_tab_layout"
+				android:textColor="@color/white"
+				android:textSize="@dimen/size_big" />
 			<TextView
 				android:id="@+id/tv_frequency"
 				android:layout_width="wrap_content"
