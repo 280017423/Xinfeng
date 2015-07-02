@@ -292,16 +292,15 @@ public class HomeFragment extends FragmentBase implements OnClickListener {
 	}
 
 	private void roate(boolean isShow, int hz) {
-		if (null ==mAnim) {
-			mAnim = new RotateAnimation(
-					0f, 3600f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		if (null == mAnim) {
+			mAnim = new RotateAnimation(0f, 3600f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 			mAnim.setRepeatCount(Animation.INFINITE);
 			mAnim.setFillAfter(true);
 			mAnim.setInterpolator(new LinearInterpolator());
 		}
 		if (isShow) {
 			mAnim.setDuration(15000 - (hz - 10) * 200);
-			String fansValue = "风量\r\n" + (int)(hz * 4.7) + "m³/h";
+			String fansValue = "风量\r\n" + (int) (hz * 4.7) + "m³/h";
 			mTvFans.setText(fansValue);
 			mIvFans.startAnimation(mAnim);
 		} else {
