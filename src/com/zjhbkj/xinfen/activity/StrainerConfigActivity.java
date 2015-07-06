@@ -97,12 +97,10 @@ public class StrainerConfigActivity extends BaseActivity implements OnClickListe
 
 	private void initTitle() {
 		TextView tvTitle = (TextView) findViewById(R.id.title_with_back_title_btn_mid);
-		TextView tvSetting = (TextView) findViewById(R.id.tv_title_with_right);
-		tvSetting.setText("设置");
-		tvSetting.setVisibility(View.GONE);
 		tvTitle.setText(R.string.title_strainer_config);
-		tvSetting.setOnClickListener(this);
-		tvSetting.setBackgroundResource(R.drawable.tongyong_button_bg_shape);
+		TextView tvTitleLeft = (TextView) findViewById(R.id.tv_title_with_back_left);
+		tvTitleLeft.setBackgroundResource(R.drawable.btn_back_bg);
+		findViewById(R.id.title_with_back_title_btn_left).setOnClickListener(this);
 	}
 
 	@Override
@@ -123,6 +121,9 @@ public class StrainerConfigActivity extends BaseActivity implements OnClickListe
 			case R.id.rl_gaoxiao_life:
 				mResetValue = 3;
 				showDialog(RESET_DIALOG);
+				break;
+			case R.id.title_with_back_title_btn_left:
+				finish();
 				break;
 			default:
 				break;

@@ -33,6 +33,11 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 
 		TextView titleTextView = (TextView) findViewById(R.id.title_with_back_title_btn_mid);
 		titleTextView.setText(R.string.about);
+		
+		TextView tvTitleLeft = (TextView) findViewById(R.id.tv_title_with_back_left);
+		tvTitleLeft.setBackgroundResource(R.drawable.btn_back_bg);
+		findViewById(R.id.title_with_back_title_btn_left).setOnClickListener(this);
+		
 		TextView tvVersion = (TextView) findViewById(R.id.tv_version_code);
 		tvVersion.setText(getString(R.string.text_version_code, mVersionName));
 		mIvLogo = findViewById(R.id.iv_logo);
@@ -43,6 +48,9 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+			case R.id.title_with_back_title_btn_left:
+				finish();
+				break;
 			default:
 				break;
 		}

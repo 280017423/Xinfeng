@@ -2,7 +2,6 @@ package com.zjhbkj.xinfen.activity;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +32,11 @@ public class IdConfigActivity extends BaseActivity implements OnClickListener {
 	private void initViews() {
 		TextView tvTitle = (TextView) findViewById(R.id.title_with_back_title_btn_mid);
 		tvTitle.setText(R.string.title_id_config);
+
+		TextView tvTitleLeft = (TextView) findViewById(R.id.tv_title_with_back_left);
+		tvTitleLeft.setBackgroundResource(R.drawable.btn_back_bg);
+		findViewById(R.id.title_with_back_title_btn_left).setOnClickListener(this);
+		
 		mEdtId = (EditText) findViewById(R.id.edt_id);
 		List<IdConfigModel> configModels = DBMgr.getBaseModel(IdConfigModel.class);
 		if (null != configModels && !configModels.isEmpty()) {
@@ -49,7 +53,9 @@ public class IdConfigActivity extends BaseActivity implements OnClickListener {
 			case R.id.btn_set_config_info:
 				checkConfigInfo();
 				break;
-
+			case R.id.title_with_back_title_btn_left:
+				finish();
+				break;
 			default:
 				break;
 		}
